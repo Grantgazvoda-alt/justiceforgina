@@ -1,6 +1,14 @@
 # Justice for Gina
 
-Phase One static website prepared for free deployment on Cloudflare Pages.
+Phase One static website prepared for free deployment on Cloudflare Pages and GitHub Pages.
+
+## Free live deployment
+
+The repository includes a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`. Pushes to `main` publish the static site automatically after GitHub Pages is configured to use GitHub Actions.
+
+Expected free URL:
+
+`https://grantgazvoda-alt.github.io/justiceforgina/`
 
 ## Deploy on Cloudflare Pages
 
@@ -26,3 +34,5 @@ Cloudflare will provide a free `pages.dev` address. A custom domain can be conne
 ## Publishing standards
 
 Keep public statements tied to source records, distinguish pending allegations from established findings, redact unnecessary private data, and do not encourage harassment or confrontation.
+
+Deployment trigger: 2026-07-17T22:41:26Z
