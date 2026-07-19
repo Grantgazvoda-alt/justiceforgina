@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://grantgazvoda-alt.github.io/justiceforgina/sitemap.xml
+Sitemap: https://justiceforgina.org/sitemap.xml
