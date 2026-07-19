@@ -1,0 +1,54 @@
+{
+  "version": 3,
+  "published": "2026-07-19",
+  "records": [
+    {
+      "id": "key-evidence",
+      "title": "Key Evidence — Gina Gazvoda",
+      "category": "case-packet",
+      "status": "public-review",
+      "description": "Curated case-evidence packet assembled for structured review.",
+      "url": "https://drive.google.com/file/d/1SWQ6q0FsSvhHSXLVkuil2mI0NJHJkXpN/view"
+    },
+    {
+      "id": "case-presentation",
+      "title": "Gina Gazvoda Case Presentation",
+      "category": "case-packet",
+      "status": "public-review",
+      "description": "Organized case overview prepared for attorneys, journalists, advocates, and qualified reviewers.",
+      "url": "https://drive.google.com/file/d/1urm8H1ssXVctMahTUHlAG0zqjc9fLdXq/view"
+    },
+    {
+      "id": "case-timeline",
+      "title": "Gina Gazvoda Case Timeline",
+      "category": "timeline",
+      "status": "public-review",
+      "description": "Chronological case material supporting review of events and related records.",
+      "url": "https://drive.google.com/file/d/1OIlIwi6ALz5aR4--1feJJMPpnvlZcoGd/view"
+    },
+    {
+      "id": "signature-report",
+      "title": "Signature Expert Report",
+      "category": "expert-material",
+      "status": "public-review",
+      "description": "Expert analysis concerning signatures relevant to the family’s document concerns.",
+      "url": "https://drive.google.com/file/d/1Ov5NTnpiqCVDF3toUhkibTNPr5Ec-2WX/view"
+    },
+    {
+      "id": "affidavit-v3",
+      "title": "Affidavit V3",
+      "category": "legal-material",
+      "status": "public-review",
+      "description": "Affidavit maintained in the family’s legal and evidentiary archive.",
+      "url": "https://drive.google.com/file/d/1DAznRufZmvykJ4OLbImipEg5RL565uz-/view"
+    },
+    {
+      "id": "medical-archive",
+      "title": "Medical-record archive",
+      "category": "medical",
+      "status": "restricted",
+      "description": "Preserved for authorized legal and expert review; not published because it contains private health information and unrelated identifiers.",
+      "url": null
+    }
+  ]
+}
