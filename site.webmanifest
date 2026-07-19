@@ -1,0 +1,16 @@
+{
+  "name": "Justice for Gina",
+  "short_name": "Justice for Gina",
+  "description": "A family-led public information and evidence-preservation project organizing records for responsible public review.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#080b12",
+  "icons": [],
+  "id": "/",
+  "scope": "/",
+  "categories": [
+    "news",
+    "education"
+  ]
+}
