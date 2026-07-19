@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justiceforgina.org/schemas/evidence-record.schema.json",
+  "title": "Justice for Gina Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "title",
+    "record_type",
+    "source_class",
+    "publication_status",
+    "verification_status",
+    "sensitivity_class",
+    "provenance",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"},
+    "title": {"type": "string", "minLength": 1},
+    "summary": {"type": "string"},
+    "record_type": {
+      "type": "string",
+      "enum": ["official-record", "court-record", "timeline", "affidavit", "expert-report", "medical-record", "correspondence", "media", "family-supplied", "other"]
+    },
+    "event_date": {"type": ["string", "null"], "format": "date"},
+    "source_name": {"type": ["string", "null"]},
+    "source_url": {"type": ["string", "null"], "format": "uri"},
+    "vault_id": {"type": ["string", "null"]},
+    "source_class": {
+      "type": "string",
+      "enum": ["official", "family-supplied", "expert", "media", "third-party", "unknown"]
+    },
+    "publication_status": {
+      "type": "string",
+      "enum": ["public", "restricted-reviewer", "privileged-sealed", "withheld", "pending-review"]
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": ["verified", "partially-verified", "disputed", "unverified", "not-applicable"]
+    },
+    "sensitivity_class": {
+      "type": "string",
+      "enum": ["public", "personal", "medical-redacted", "medical-full", "legal-sensitive", "privileged", "sealed"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["acquired_from", "acquired_at"],
+      "properties": {
+        "acquired_from": {"type": "string"},
+        "acquired_at": {"type": "string", "format": "date-time"},
+        "source_hash": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "related_people": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "related_events": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "related_claims": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "page_citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["page"],
+        "properties": {
+          "page": {"type": "integer", "minimum": 1},
+          "label": {"type": ["string", "null"]},
+          "quote": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "redaction_notes": {"type": ["string", "null"]},
+    "publication_authority": {"type": ["string", "null"]},
+    "revision_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["changed_at", "change_summary"],
+        "properties": {
+          "changed_at": {"type": "string", "format": "date-time"},
+          "change_summary": {"type": "string"},
+          "changed_by_role": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

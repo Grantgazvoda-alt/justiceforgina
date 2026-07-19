@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-site-version="4" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta content="View a structured Justice for Gina evidence record with source class, verification status, provenance, publication authority, relationships, and revision history." name="description"/>
+  <meta content="index, follow" name="robots"/>
+  <meta content="#080b12" name="theme-color"/>
+  <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="site.webmanifest" rel="manifest"/>
+  <title>Evidence Record | Justice for Gina</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="styles.css" rel="stylesheet"/>
+</head>
+<body data-page="record">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="site-status" role="status"><div class="shell status-inner"><span aria-hidden="true" class="status-dot"></span><span><strong>V4 evidence intelligence:</strong> This page describes an indexed record; it does not independently authenticate every statement in the source.</span></div></div>
+  <header class="site-header" id="top"><div class="shell nav-wrap"><a aria-label="Justice for Gina home" class="brand" href="index.html"><span aria-hidden="true" class="brand-mark">G</span><span class="brand-copy"><strong>Justice for Gina</strong><small>Seeking truth through evidence</small></span></a><button aria-controls="primary-nav" aria-expanded="false" class="menu-button" type="button"><span></span><span></span><span></span><span class="sr-only">Open menu</span></button><nav aria-label="Primary navigation" class="primary-nav" id="primary-nav"><a href="index.html">Home</a><a class="active" href="evidence.html">Evidence</a><a href="timeline.html">Timeline</a><a href="press.html">Press</a><a href="support.html">Support</a><a href="standards.html">Standards</a><a class="nav-support" href="https://www.gofundme.com/f/justice-for-gina-exposing-murder-fraud-coverup" rel="noopener noreferrer" target="_blank">GoFundMe</a></nav></div></header>
+  <main id="main">
+    <section class="hero hero-subpage"><div aria-hidden="true" class="hero-grid-lines"></div><div aria-hidden="true" class="hero-glow hero-glow-one"></div><div class="shell reveal visible"><p class="eyebrow">STRUCTURED EVIDENCE RECORD · V4</p><h1 id="record-title">Loading evidence record…</h1><p class="hero-lede" id="record-summary">The record metadata is loading from the public evidence index.</p></div></section>
+    <section class="section shell">
+      <div id="record-error" class="source-note" hidden><strong>Record unavailable:</strong> The requested public record could not be found. Return to the <a href="evidence.html">evidence archive</a>.</div>
+      <div id="record-content" hidden>
+        <div class="facts-grid">
+          <article class="fact-card"><span>Record ID</span><strong id="record-id"></strong></article>
+          <article class="fact-card"><span>Record type</span><strong id="record-type"></strong></article>
+          <article class="fact-card"><span>Source class</span><strong id="source-class"></strong></article>
+          <article class="fact-card"><span>Verification</span><strong id="verification-status"></strong></article>
+          <article class="fact-card"><span>Publication</span><strong id="publication-status"></strong></article>
+          <article class="fact-card"><span>Sensitivity</span><strong id="sensitivity-class"></strong></article>
+        </div>
+        <div class="standards-grid" style="margin-top:2rem">
+          <article class="standard-card"><p class="eyebrow">PROVENANCE</p><h3 id="source-name"></h3><p id="provenance-notes"></p><p><strong>Acquired:</strong> <span id="acquired-at"></span></p></article>
+          <article class="standard-card"><p class="eyebrow">PUBLICATION AUTHORITY</p><h3>Controlled publication decision</h3><p id="publication-authority"></p><p id="redaction-notes"></p></article>
+          <article class="standard-card"><p class="eyebrow">RELATIONSHIPS</p><h3>Connected people and events</h3><p><strong>People:</strong> <span id="related-people"></span></p><p><strong>Events:</strong> <span id="related-events"></span></p></article>
+          <article class="standard-card"><p class="eyebrow">REVISION HISTORY</p><h3>Public change record</h3><div id="revision-history"></div></article>
+        </div>
+        <div class="source-note" style="margin-top:2rem"><strong>Page citations:</strong> <span id="page-citations"></span></div>
+        <div class="hero-actions"><a class="button primary" id="source-link" href="#" rel="noopener noreferrer" target="_blank">Open source material</a><a class="button secondary" href="evidence.html">Return to evidence archive</a></div>
+      </div>
+      <noscript><div class="source-note"><strong>JavaScript required:</strong> Use the evidence archive to open the original source material.</div></noscript>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-grid"><div><a class="brand footer-brand" href="index.html"><span aria-hidden="true" class="brand-mark">G</span><span class="brand-copy"><strong>Justice for Gina</strong><small>Seeking truth through evidence</small></span></a><p>A family-led public information and evidence-preservation project.</p></div><div><strong>Explore</strong><a href="evidence.html">Evidence archive</a><a href="timeline.html">Case timeline</a><a href="press.html">Press room</a><a href="support.html">Support</a><a href="standards.html">Publication standards</a></div><div><strong>Important</strong><p>Pending allegations are not findings of guilt. Readers should consult original records and qualified professionals.</p></div></div><div class="shell footer-bottom"><span>© <span id="year"></span> Justice for Gina</span><span>Structured evidence intelligence · V4</span></div></footer>
+  <script defer src="script.js"></script>
+  <script defer src="record.js"></script>
+</body>
+</html>
