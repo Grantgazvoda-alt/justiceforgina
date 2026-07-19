@@ -1,0 +1,217 @@
+{
+  "version": 4,
+  "published_at": "2026-07-19T06:58:00Z",
+  "publication_note": "This dataset indexes selected public-review materials. Inclusion does not establish authenticity, guilt, causation, or a final legal conclusion.",
+  "records": [
+    {
+      "record_id": "key-evidence-gina-gazvoda",
+      "title": "Key Evidence — Gina Gazvoda",
+      "summary": "Curated case-evidence packet assembled for structured review by attorneys, journalists, advocates, and qualified reviewers.",
+      "record_type": "family-supplied",
+      "event_date": null,
+      "source_name": "Gazvoda family working archive",
+      "source_url": "https://drive.google.com/file/d/1SWQ6q0FsSvhHSXLVkuil2mI0NJHJkXpN/view",
+      "vault_id": null,
+      "source_class": "family-supplied",
+      "publication_status": "public",
+      "verification_status": "partially-verified",
+      "sensitivity_class": "public",
+      "provenance": {
+        "acquired_from": "Gazvoda family working archive",
+        "acquired_at": "2026-07-17T00:00:00Z",
+        "source_hash": null,
+        "notes": "Public-review packet; individual assertions must be checked against their underlying records."
+      },
+      "related_people": ["Gina Gazvoda"],
+      "related_events": ["gina-death-2021", "public-archive-launch-2026"],
+      "related_claims": [],
+      "page_citations": [],
+      "redaction_notes": "Public packet remains subject to continuing privacy and source review.",
+      "publication_authority": "Executor-authorized public index; source context required.",
+      "revision_history": [
+        {
+          "changed_at": "2026-07-19T06:58:00Z",
+          "change_summary": "Migrated into the V4 structured evidence index.",
+          "changed_by_role": "Archive and Evidence team"
+        }
+      ],
+      "created_at": "2026-07-17T00:00:00Z",
+      "updated_at": "2026-07-19T06:58:00Z"
+    },
+    {
+      "record_id": "gina-case-presentation",
+      "title": "Gina Gazvoda Case Presentation",
+      "summary": "Organized case overview prepared for professional and independent review.",
+      "record_type": "family-supplied",
+      "event_date": null,
+      "source_name": "Gazvoda family working archive",
+      "source_url": "https://drive.google.com/file/d/1urm8H1ssXVctMahTUHlAG0zqjc9fLdXq/view",
+      "vault_id": null,
+      "source_class": "family-supplied",
+      "publication_status": "public",
+      "verification_status": "partially-verified",
+      "sensitivity_class": "public",
+      "provenance": {
+        "acquired_from": "Gazvoda family working archive",
+        "acquired_at": "2026-07-17T00:00:00Z",
+        "source_hash": null,
+        "notes": "Family presentation; distinguish its statements from official findings."
+      },
+      "related_people": ["Gina Gazvoda"],
+      "related_events": ["gina-death-2021", "public-archive-launch-2026"],
+      "related_claims": [],
+      "page_citations": [],
+      "redaction_notes": "Public version remains subject to continuing privacy review.",
+      "publication_authority": "Executor-authorized public index; family-supplied source clearly labeled.",
+      "revision_history": [
+        {
+          "changed_at": "2026-07-19T06:58:00Z",
+          "change_summary": "Migrated into the V4 structured evidence index.",
+          "changed_by_role": "Archive and Evidence team"
+        }
+      ],
+      "created_at": "2026-07-17T00:00:00Z",
+      "updated_at": "2026-07-19T06:58:00Z"
+    },
+    {
+      "record_id": "gina-case-timeline",
+      "title": "Gina Gazvoda Case Timeline",
+      "summary": "Chronological case material supporting review of events and related records.",
+      "record_type": "timeline",
+      "event_date": null,
+      "source_name": "Gazvoda family working archive",
+      "source_url": "https://drive.google.com/file/d/1OIlIwi6ALz5aR4--1feJJMPpnvlZcoGd/view",
+      "vault_id": null,
+      "source_class": "family-supplied",
+      "publication_status": "public",
+      "verification_status": "partially-verified",
+      "sensitivity_class": "public",
+      "provenance": {
+        "acquired_from": "Gazvoda family working archive",
+        "acquired_at": "2026-07-17T00:00:00Z",
+        "source_hash": null,
+        "notes": "Timeline entries should be checked against cited underlying sources."
+      },
+      "related_people": ["Gina Gazvoda"],
+      "related_events": ["gina-death-2021", "forgery-offense-date-2022", "arrest-2026"],
+      "related_claims": [],
+      "page_citations": [],
+      "redaction_notes": "Public timeline remains subject to source-by-source review.",
+      "publication_authority": "Executor-authorized public index; chronology is not a judicial finding.",
+      "revision_history": [
+        {
+          "changed_at": "2026-07-19T06:58:00Z",
+          "change_summary": "Migrated into the V4 structured evidence index.",
+          "changed_by_role": "Archive and Evidence team"
+        }
+      ],
+      "created_at": "2026-07-17T00:00:00Z",
+      "updated_at": "2026-07-19T06:58:00Z"
+    },
+    {
+      "record_id": "signature-expert-report",
+      "title": "Signature Expert Report",
+      "summary": "Expert analysis concerning signatures relevant to the family's document concerns.",
+      "record_type": "expert-report",
+      "event_date": null,
+      "source_name": "Expert report supplied by the Gazvoda family",
+      "source_url": "https://drive.google.com/file/d/1Ov5NTnpiqCVDF3toUhkibTNPr5Ec-2WX/view",
+      "vault_id": null,
+      "source_class": "expert",
+      "publication_status": "public",
+      "verification_status": "partially-verified",
+      "sensitivity_class": "public",
+      "provenance": {
+        "acquired_from": "Gazvoda family working archive",
+        "acquired_at": "2026-07-17T00:00:00Z",
+        "source_hash": null,
+        "notes": "Expert conclusions must be read within the report's stated scope, methodology, and limitations."
+      },
+      "related_people": ["Gina Gazvoda"],
+      "related_events": ["forgery-offense-date-2022", "arrest-2026"],
+      "related_claims": [],
+      "page_citations": [],
+      "redaction_notes": "Public version remains subject to continuing source and privacy review.",
+      "publication_authority": "Executor-authorized public index; expert opinion is not a court finding.",
+      "revision_history": [
+        {
+          "changed_at": "2026-07-19T06:58:00Z",
+          "change_summary": "Migrated into the V4 structured evidence index.",
+          "changed_by_role": "Archive and Evidence team"
+        }
+      ],
+      "created_at": "2026-07-17T00:00:00Z",
+      "updated_at": "2026-07-19T06:58:00Z"
+    },
+    {
+      "record_id": "affidavit-v3",
+      "title": "Affidavit V3",
+      "summary": "Affidavit maintained within the family's legal and evidentiary archive.",
+      "record_type": "affidavit",
+      "event_date": null,
+      "source_name": "Gazvoda family legal archive",
+      "source_url": "https://drive.google.com/file/d/1DAznRufZmvykJ4OLbImipEg5RL565uz-/view",
+      "vault_id": null,
+      "source_class": "family-supplied",
+      "publication_status": "public",
+      "verification_status": "partially-verified",
+      "sensitivity_class": "legal-sensitive",
+      "provenance": {
+        "acquired_from": "Gazvoda family legal archive",
+        "acquired_at": "2026-07-17T00:00:00Z",
+        "source_hash": null,
+        "notes": "An affidavit records a declarant's statements and is not itself a final judicial finding."
+      },
+      "related_people": ["Gina Gazvoda"],
+      "related_events": ["public-archive-launch-2026"],
+      "related_claims": [],
+      "page_citations": [],
+      "redaction_notes": "Public copy remains subject to legal and privacy review.",
+      "publication_authority": "Executor-authorized public index; affidavit status clearly labeled.",
+      "revision_history": [
+        {
+          "changed_at": "2026-07-19T06:58:00Z",
+          "change_summary": "Migrated into the V4 structured evidence index.",
+          "changed_by_role": "Archive and Evidence team"
+        }
+      ],
+      "created_at": "2026-07-17T00:00:00Z",
+      "updated_at": "2026-07-19T06:58:00Z"
+    },
+    {
+      "record_id": "medical-record-archive",
+      "title": "Medical-record archive",
+      "summary": "Full medical records are preserved outside the public repository for authorized legal and expert review.",
+      "record_type": "medical-record",
+      "event_date": null,
+      "source_name": "Restricted estate medical archive",
+      "source_url": null,
+      "vault_id": "restricted-medical-archive",
+      "source_class": "official",
+      "publication_status": "restricted-reviewer",
+      "verification_status": "not-applicable",
+      "sensitivity_class": "medical-full",
+      "provenance": {
+        "acquired_from": "Estate-authorized medical sources",
+        "acquired_at": "2026-07-19T00:00:00Z",
+        "source_hash": null,
+        "notes": "Source files are intentionally excluded from the public Git repository."
+      },
+      "related_people": ["Gina Gazvoda"],
+      "related_events": ["gina-death-2021"],
+      "related_claims": [],
+      "page_citations": [],
+      "redaction_notes": "Full records remain restricted. Any future public excerpt requires relevance review, executor authorization, third-party redaction, and publication logging.",
+      "publication_authority": "Executor-controlled restricted archive; no blanket public publication authorization recorded in this dataset.",
+      "revision_history": [
+        {
+          "changed_at": "2026-07-19T06:58:00Z",
+          "change_summary": "Added a metadata-only restricted record; no medical source file was published.",
+          "changed_by_role": "Archive, Evidence, and Security team"
+        }
+      ],
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T06:58:00Z"
+    }
+  ]
+}
