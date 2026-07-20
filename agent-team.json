@@ -1,0 +1,121 @@
+{
+  "project": "Justice for Gina",
+  "version": "1.0.0",
+  "governance": {
+    "founderAuthority": "Grant Gazvoda retains final editorial and publication authority.",
+    "defaultClaimStates": ["DOCUMENTED", "CORROBORATED", "ATTRIBUTED", "DISPUTED", "INFERENCE", "OPEN_QUESTION", "EDITORIAL"],
+    "publicationGate": ["fact_check_complete", "rights_review_complete", "privacy_review_complete", "executive_producer_approved"],
+    "attorneyReviewTriggers": ["sealed_or_privileged_material", "private_medical_information", "recording_consent_unclear", "copyright_permission_unclear", "high_risk_disputed_accusation"]
+  },
+  "sharedObjects": {
+    "evidenceItem": ["id", "title", "source", "date", "category", "publicStatus", "verificationStatus", "originalPreserved", "rightsStatus", "relatedEpisodes", "notes"],
+    "claim": ["id", "episodeId", "sceneId", "text", "claimState", "evidenceIds", "attribution", "reviewStatus", "attorneyReview"],
+    "episode": ["id", "title", "status", "primaryQuestion", "sceneIds", "evidenceIds", "interviewIds", "rightsStatus", "factCheckStatus", "approvalStatus"],
+    "interview": ["id", "person", "relationship", "topics", "consentStatus", "recordingPermission", "transcript", "evidenceIds", "riskNotes"]
+  },
+  "workflow": [
+    "lead_investigator",
+    "archivist",
+    "fact_checker",
+    "script_editor",
+    "legal_review",
+    "documentary_director",
+    "audio_producer",
+    "community_manager",
+    "project_manager",
+    "executive_producer"
+  ],
+  "agents": [
+    {
+      "id": "executive_producer",
+      "name": "Executive Producer",
+      "icon": "🎙",
+      "mission": "Control final editorial decisions, approve production flow, and enforce publication gates.",
+      "inputs": ["episode_packet", "fact_check_report", "rights_report", "risk_report", "production_status"],
+      "outputs": ["approval_decision", "revision_order", "publication_hold"],
+      "canPublish": true
+    },
+    {
+      "id": "lead_investigator",
+      "name": "Lead Investigator",
+      "icon": "🕵️",
+      "mission": "Build timelines, connect people and records, identify contradictions, and create prioritized research leads.",
+      "inputs": ["evidence_items", "interviews", "public_records", "open_questions"],
+      "outputs": ["timeline_entries", "relationship_links", "research_gaps", "lead_queue"],
+      "canPublish": false
+    },
+    {
+      "id": "archivist",
+      "name": "Archivist",
+      "icon": "📚",
+      "mission": "Preserve originals, assign evidence IDs, normalize metadata, and maintain the master evidence index.",
+      "inputs": ["new_files", "records", "communications", "media"],
+      "outputs": ["evidence_records", "archive_manifest", "duplicate_report", "chain_of_custody_notes"],
+      "canPublish": false
+    },
+    {
+      "id": "fact_checker",
+      "name": "Fact Checker",
+      "icon": "🧾",
+      "mission": "Review every factual statement against evidence and label unsupported, disputed, or overstated language.",
+      "inputs": ["script_claims", "evidence_index", "timeline", "interview_transcripts"],
+      "outputs": ["claim_matrix", "fact_check_report", "required_corrections", "source_citations"],
+      "canPublish": false
+    },
+    {
+      "id": "legal_review",
+      "name": "Legal Review",
+      "icon": "⚖️",
+      "mission": "Flag privacy, recording-consent, copyright, confidentiality, sealing, privilege, and publication risks for attorney review.",
+      "inputs": ["script", "media_assets", "consent_records", "rights_log", "claim_matrix"],
+      "outputs": ["risk_flags", "attorney_review_queue", "redaction_requests", "rights_holds"],
+      "canPublish": false,
+      "disclaimer": "This agent identifies issues and does not replace licensed legal counsel."
+    },
+    {
+      "id": "script_editor",
+      "name": "Script Editor",
+      "icon": "✍️",
+      "mission": "Improve pacing, clarity, emotional structure, transitions, and attribution without changing evidentiary meaning.",
+      "inputs": ["episode_outline", "draft_script", "claim_matrix", "editorial_notes"],
+      "outputs": ["revised_script", "scene_map", "transition_notes", "runtime_estimate"],
+      "canPublish": false
+    },
+    {
+      "id": "documentary_director",
+      "name": "Documentary Director",
+      "icon": "🎬",
+      "mission": "Plan graphics, B-roll, maps, timelines, document reveals, captions, and visual continuity.",
+      "inputs": ["revised_script", "evidence_assets", "timeline", "brand_assets"],
+      "outputs": ["shot_list", "visual_cue_sheet", "graphics_brief", "asset_gap_list"],
+      "canPublish": false
+    },
+    {
+      "id": "audio_producer",
+      "name": "Audio Producer",
+      "icon": "🎧",
+      "mission": "Prepare narration, interview clips, music, ambient sound, transitions, loudness, and final audio assembly notes.",
+      "inputs": ["recording_script", "interview_audio", "music_assets", "rights_log"],
+      "outputs": ["audio_cue_sheet", "clip_log", "recording_notes", "mix_checklist"],
+      "canPublish": false
+    },
+    {
+      "id": "community_manager",
+      "name": "Community Manager",
+      "icon": "📱",
+      "mission": "Organize audience questions, corrections, source submissions, interview leads, and responsible public updates.",
+      "inputs": ["public_messages", "tips", "correction_requests", "episode_release"],
+      "outputs": ["tip_queue", "response_drafts", "correction_log", "follow_up_leads"],
+      "canPublish": false
+    },
+    {
+      "id": "project_manager",
+      "name": "Project Manager",
+      "icon": "📊",
+      "mission": "Track episode status, dependencies, deadlines, ownership, blockers, and completion of publication gates.",
+      "inputs": ["agent_outputs", "episode_status", "deadlines", "blockers"],
+      "outputs": ["production_board", "next_action", "blocker_report", "release_readiness"],
+      "canPublish": false
+    }
+  ]
+}
