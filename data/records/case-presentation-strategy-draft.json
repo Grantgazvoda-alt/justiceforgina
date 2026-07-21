@@ -1,0 +1,90 @@
+{
+  "record_id": "case-presentation-strategy-draft",
+  "title": "Family Case Strategy Working Draft",
+  "summary": "Source-status record for a family-created strategy document organizing anticipated defenses, family arguments, evidence needs, and unresolved theories.",
+  "record_type": "family-advocacy-strategy-draft",
+  "event_date": null,
+  "source_name": "Gazvoda family working archive",
+  "source_url": "documents/case-presentation/",
+  "source_class": "family-created-draft",
+  "publication_status": "public-summary",
+  "verification_status": "draft-source-reviewed",
+  "sensitivity_class": "legal-medical-private",
+  "subject_areas": [
+    "Funeral, autopsy, and cremation concerns",
+    "Probate and estate disputes",
+    "Potential wrongful-death theory"
+  ],
+  "document_structure": [
+    {
+      "section_type": "anticipated-defense",
+      "definition": "Alternative explanations the family believed opposing parties might offer."
+    },
+    {
+      "section_type": "family-argument",
+      "definition": "Advocacy positions and counterarguments proposed by the family."
+    },
+    {
+      "section_type": "evidence-needed",
+      "definition": "Records, witnesses, professionals, and source material the draft identifies as necessary to test the theory."
+    },
+    {
+      "section_type": "internal-strategy-note",
+      "definition": "Recommendations about what to emphasize, avoid, investigate, or obtain; these notes are not evidence."
+    }
+  ],
+  "direct_source_findings": [
+    "The document repeatedly separates anticipated defenses from the family's arguments.",
+    "The document contains rhetorical questions, statements of personal opinion, suspected motives, and proposed legal theories.",
+    "The document acknowledges that substantial medical, police, EMS, funeral, probate, witness, and expert evidence would be needed.",
+    "The document includes internal recommendations about claims that may be weak, premature, or better omitted.",
+    "The document is not written as an official investigative report, expert report, court ruling, or final legal memorandum."
+  ],
+  "evidence_layer_rules": [
+    {
+      "layer": "official-or-court-record",
+      "rule": "Summarize from the original agency or court record and preserve its legal scope."
+    },
+    {
+      "layer": "retained-expert-opinion",
+      "rule": "Attribute to the expert and identify scope, methods, opinion level, and limitations."
+    },
+    {
+      "layer": "family-or-witness-account",
+      "rule": "Identify the speaker and distinguish firsthand recollection from attributed or hearsay content."
+    },
+    {
+      "layer": "theory-or-inference",
+      "rule": "Do not present as established without lawful investigation, qualified analysis, and relevant judicial findings."
+    }
+  ],
+  "scope_limitations": [
+    "The presentation does not independently verify its allegations or authenticate its referenced records.",
+    "The presentation does not determine Gina Gazvoda's cause or manner of death.",
+    "The presentation does not establish criminal guilt, motive, negligence, or civil liability.",
+    "Statements concerning legal rights and duties require complete facts, current law, and qualified counsel.",
+    "The private working draft contains sensitive family, medical, legal, and third-party material and is not publicly hosted."
+  ],
+  "provenance": {
+    "acquired_from": "Gazvoda family working archive",
+    "acquired_at": "2026-07-21T10:05:00Z",
+    "review_method": "Direct text review of the archived DOCX strategy document",
+    "document_created_time": "2023-09-15T13:28:53.264Z",
+    "document_modified_time": "2023-07-30T15:55:51.000Z",
+    "notes": "The public page describes the document's structure and verification requirements without republishing inflammatory or private allegations."
+  },
+  "related_people": ["Gina Gazvoda", "Grant Gazvoda", "Garrison Gazvoda"],
+  "related_events": ["family-case-strategy-draft", "source-verification-review-2026"],
+  "page_citations": ["Gina Gazvoda Case Presentation working document, full text reviewed"],
+  "redaction_notes": "The public summary excludes addresses, personal contact details, signatures, medical detail, speculative accusations, private financial information, and unnecessary third-party identifiers.",
+  "publication_authority": "Family-authorized source-status summary; not represented as evidence, a legal conclusion, or a court record.",
+  "revision_history": [
+    {
+      "changed_at": "2026-07-21T10:10:00Z",
+      "change_summary": "Corrected the public presentation from a generic family case page to a source-reviewed strategy-working-draft status.",
+      "changed_by_role": "Archive and Legal Integrity team"
+    }
+  ],
+  "created_at": "2026-07-21T10:10:00Z",
+  "updated_at": "2026-07-21T10:10:00Z"
+}
