@@ -1,217 +1,211 @@
 {
   "version": 6,
-  "published_at": "2026-07-21T05:40:00Z",
-  "publication_note": "This dataset separates verified records, family allegations, expert material, and restricted sources. Inclusion does not establish authenticity, causation, guilt, or a final legal conclusion.",
+  "published_at": "2026-07-21T11:10:00Z",
+  "publication_note": "This index separates official records, retained-expert opinions, mixed-source packets, family-created drafts, working analyses, attributed allegations, and restricted sources. Inclusion does not establish causation, guilt, authenticity, or a final legal conclusion beyond the stated source scope.",
   "records": [
     {
-      "record_id": "key-evidence-gina-gazvoda",
-      "title": "Key Evidence — Gina Gazvoda",
-      "summary": "Curated case-evidence packet assembled for structured review by attorneys, journalists, advocates, experts, and independent reviewers.",
-      "record_type": "family-supplied",
+      "record_id": "dispatch-response-timeline",
+      "title": "November 21, 2021 Dispatch Response Timeline",
+      "summary": "Privacy-protected summary of Waterbury Police call classification and police-unit response timestamps.",
+      "record_type": "official-dispatch-record",
+      "event_date": "2021-11-21",
+      "source_name": "Waterbury Police Department",
+      "source_url": "documents/dispatch-response-timeline/",
+      "structured_record_url": "data/records/dispatch-response-timeline.json",
+      "source_class": "official-agency",
+      "publication_status": "public-summary",
+      "verification_status": "verified-official",
+      "sensitivity_class": "public-privacy-protected",
+      "scope_limitations": [
+        "Does not establish when Gina Gazvoda died",
+        "Does not establish cause or manner of death",
+        "Does not determine what occurred before the emergency call",
+        "Does not establish criminal responsibility"
+      ],
+      "redaction_notes": "Exact address, phone information, responder identifiers, internal unit labels, and unrelated administrative fields are omitted.",
+      "publication_authority": "Agency-generated record; privacy-protected local summary.",
+      "updated_at": "2026-07-21T11:10:00Z"
+    },
+    {
+      "record_id": "probate-decrees-april-2026",
+      "title": "April 2026 Probate Court Decrees",
+      "summary": "Two signed Waterbury Probate Court decrees concerning a will contest and administration of the Estate of Gina Marie Gazvoda.",
+      "record_type": "court-decree",
+      "event_date": "2026-04-22",
+      "source_name": "Waterbury Probate Court",
+      "source_url": "documents/probate-decrees-april-2026/",
+      "structured_record_url": "data/records/probate-decrees-april-2026.json",
+      "source_class": "official-court",
+      "publication_status": "public-summary",
+      "verification_status": "verified-official",
+      "sensitivity_class": "public-legal-sensitive",
+      "scope_limitations": [
+        "Concerns a will contest and estate administration",
+        "Does not determine Gina Gazvoda's cause or manner of death",
+        "Does not determine criminal responsibility for her death"
+      ],
+      "redaction_notes": "Addresses, signatures, and service-recipient details are omitted.",
+      "publication_authority": "Court-generated signed decrees; privacy-protected local summary.",
+      "updated_at": "2026-07-21T11:10:00Z"
+    },
+    {
+      "record_id": "official-response-comparison",
+      "title": "Police and EMS Narrative Comparison",
+      "summary": "The police narrative records a work account while the EMS narrative records a fishing account concerning the reporting witness's absence that day.",
+      "record_type": "official-record-comparison",
+      "event_date": "2021-11-21",
+      "source_name": "Waterbury Police Department and Trinity Health of New England EMS",
+      "source_url": "documents/official-response-comparison/",
+      "source_class": "official-agency-comparison",
+      "publication_status": "public-summary",
+      "verification_status": "verified-source-discrepancy",
+      "sensitivity_class": "public-privacy-protected",
+      "scope_limitations": [
+        "Documents that two agency narratives contain different explanations",
+        "Does not determine why the narratives differ",
+        "Does not determine whether either narrative is complete",
+        "Does not independently prove a lie, crime, motive, or guilt"
+      ],
+      "redaction_notes": "Exact addresses, birth dates, signatures, private contact information, responder identifiers, and nonessential medical detail are omitted.",
+      "publication_authority": "Official-record comparison; privacy-protected local summary.",
+      "updated_at": "2026-07-21T11:10:00Z"
+    },
+    {
+      "record_id": "key-evidence-packet-inventory",
+      "title": "Key Evidence Packet Inventory",
+      "summary": "Provenance map for a 24-page family-assembled packet containing probate, police, EMS, funeral, death-related, and medical-office material.",
+      "record_type": "mixed-source-evidence-packet",
       "event_date": null,
       "source_name": "Gazvoda family working archive",
       "source_url": "documents/key-evidence/",
-      "vault_id": null,
-      "source_class": "family-supplied",
-      "publication_status": "public",
-      "verification_status": "partially-verified",
-      "sensitivity_class": "public",
-      "provenance": {
-        "acquired_from": "Gazvoda family working archive",
-        "acquired_at": "2026-07-17T00:00:00Z",
-        "source_hash": null,
-        "notes": "The packet combines multiple source types. Family summaries and allegations must be distinguished from official records and expert material."
-      },
-      "related_people": ["Gina Gazvoda"],
-      "related_events": ["gina-death-2021", "public-archive-launch-2026"],
-      "related_claims": [],
-      "page_citations": [],
-      "redaction_notes": "Public packet remains subject to continuing privacy and source review.",
-      "publication_authority": "Family-authorized public index; source context required.",
-      "revision_history": [
-        {
-          "changed_at": "2026-07-21T05:40:00Z",
-          "change_summary": "Added a stable V6 local viewer route with original-source fallback.",
-          "changed_by_role": "Archive and Evidence team"
-        }
+      "structured_record_url": "data/records/key-evidence-packet-inventory.json",
+      "source_class": "family-assembled-mixed-source-packet",
+      "publication_status": "public-inventory",
+      "verification_status": "packet-source-reviewed",
+      "sensitivity_class": "restricted-original-public-map",
+      "scope_limitations": [
+        "The packet is a compilation rather than one official record",
+        "Inclusion does not establish authenticity, accuracy, completeness, or legal significance",
+        "Each component must be evaluated according to its own source and context",
+        "The original packet is not publicly hosted because it contains personal identifiers and medical information"
       ],
-      "created_at": "2026-07-17T00:00:00Z",
-      "updated_at": "2026-07-21T05:40:00Z"
+      "redaction_notes": "The public inventory omits addresses, contact information, signatures, patient-care details, private-party identifiers, and unnecessary administrative data.",
+      "publication_authority": "Family-authorized packet inventory and provenance map; original remains restricted.",
+      "updated_at": "2026-07-21T11:10:00Z"
     },
     {
-      "record_id": "gina-case-presentation",
-      "title": "Gina Gazvoda Case Presentation",
-      "summary": "The Gazvoda family's organized theory, arguments, anticipated defenses, and areas it believes require further investigation.",
-      "record_type": "family-position",
+      "record_id": "case-presentation-strategy-draft",
+      "title": "Family Case Strategy Working Draft",
+      "summary": "Source-status record for a family-created advocacy outline organizing anticipated defenses, family arguments, evidence needs, internal recommendations, and unresolved theories.",
+      "record_type": "family-advocacy-strategy-draft",
       "event_date": null,
       "source_name": "Gazvoda family working archive",
       "source_url": "documents/case-presentation/",
-      "vault_id": null,
-      "source_class": "family-supplied",
-      "publication_status": "public",
-      "verification_status": "attributed-allegation",
-      "sensitivity_class": "public-legal-sensitive",
-      "provenance": {
-        "acquired_from": "Gazvoda family working archive",
-        "acquired_at": "2026-07-17T00:00:00Z",
-        "source_hash": null,
-        "notes": "This is the family's presentation and theory. It is not a court finding or official investigative conclusion."
-      },
-      "related_people": ["Gina Gazvoda", "Grant Gazvoda", "Garrison Gazvoda", "Nicholas Forte"],
-      "related_events": ["gina-death-2021", "public-archive-launch-2026"],
-      "related_claims": ["family-belief-potential-homicide-review"],
-      "page_citations": [],
-      "redaction_notes": "Public version remains subject to continuing privacy and legal review.",
-      "publication_authority": "Family-authorized attributed position; not presented as a finding of guilt.",
-      "revision_history": [
-        {
-          "changed_at": "2026-07-21T05:40:00Z",
-          "change_summary": "Classified as an attributed family position and added a stable V6 viewer route.",
-          "changed_by_role": "Evidence and Legal Integrity team"
-        }
+      "structured_record_url": "data/records/case-presentation-strategy-draft.json",
+      "source_class": "family-created-draft",
+      "publication_status": "public-summary",
+      "verification_status": "draft-source-reviewed",
+      "sensitivity_class": "legal-medical-private",
+      "scope_limitations": [
+        "Not an investigative report, expert report, court ruling, or final legal memorandum",
+        "Does not independently authenticate referenced records or verify allegations",
+        "Does not determine cause or manner of death",
+        "Does not establish criminal guilt, negligence, civil liability, or motive"
       ],
-      "created_at": "2026-07-17T00:00:00Z",
-      "updated_at": "2026-07-21T05:40:00Z"
+      "redaction_notes": "The public summary excludes private medical detail, addresses, financial information, inflammatory allegations, and unnecessary third-party identifiers.",
+      "publication_authority": "Family-authorized source-status summary; not represented as proof or a legal conclusion.",
+      "updated_at": "2026-07-21T11:10:00Z"
     },
     {
-      "record_id": "gina-case-timeline",
-      "title": "Gina Gazvoda Case Timeline",
-      "summary": "Working chronology combining records, witness statements, family accounts, calculations, and unresolved timing questions.",
-      "record_type": "timeline",
-      "event_date": null,
+      "record_id": "case-timeline-working-analysis",
+      "title": "Family Timeline Working Analysis",
+      "summary": "Source-status analysis of a family-created chronology containing official timestamps, record-dependent phone claims, attributed recollections, estimates, assumptions, and family inferences.",
+      "record_type": "family-created-chronology",
+      "event_date": "2021-11-21",
       "source_name": "Gazvoda family working archive",
       "source_url": "documents/case-timeline/",
-      "vault_id": null,
-      "source_class": "family-supplied",
-      "publication_status": "public",
-      "verification_status": "partially-verified",
-      "sensitivity_class": "public",
-      "provenance": {
-        "acquired_from": "Gazvoda family working archive",
-        "acquired_at": "2026-07-17T00:00:00Z",
-        "source_hash": null,
-        "notes": "Timeline entries should be checked against cited underlying sources; estimates and recollections are not forensic findings."
-      },
-      "related_people": ["Gina Gazvoda"],
-      "related_events": ["gina-death-2021", "forgery-offense-date-2022", "arrest-2026"],
-      "related_claims": [],
-      "page_citations": [],
-      "redaction_notes": "Public timeline remains subject to source-by-source review.",
-      "publication_authority": "Family-authorized chronology; not a judicial finding.",
-      "revision_history": [
-        {
-          "changed_at": "2026-07-21T05:40:00Z",
-          "change_summary": "Added a stable V6 local viewer route and explicit timeline limitations.",
-          "changed_by_role": "Archive and Evidence team"
-        }
+      "structured_record_url": "data/records/case-timeline-working-analysis.json",
+      "source_class": "family-created-working-analysis",
+      "publication_status": "public-summary",
+      "verification_status": "source-reviewed-working-analysis",
+      "sensitivity_class": "public-legal-sensitive",
+      "scope_limitations": [
+        "Not a forensic or law-enforcement reconstruction",
+        "Does not independently prove travel, location, phone activity, or arrival order",
+        "Official agency records control official response timestamps",
+        "Does not determine when Gina died, cause or manner of death, or criminal responsibility"
       ],
-      "created_at": "2026-07-17T00:00:00Z",
-      "updated_at": "2026-07-21T05:40:00Z"
+      "redaction_notes": "Exact addresses, private contact details, unnecessary third-party identifiers, and inflammatory or speculative accusations are omitted.",
+      "publication_authority": "Family-authorized source-status analysis; official records control official timestamps.",
+      "updated_at": "2026-07-21T11:10:00Z"
     },
     {
-      "record_id": "signature-expert-report",
-      "title": "Signature Expert Report",
-      "summary": "Expert analysis concerning signatures relevant to disputed estate and beneficiary documents.",
-      "record_type": "expert-report",
+      "record_id": "signature-expert-reports",
+      "title": "Handwriting and Document Examination Reports",
+      "summary": "Source-controlled summary of retained forensic document examination reports dated June 20, 2024 and April 26, 2026.",
+      "record_type": "expert-report-series",
       "event_date": null,
-      "source_name": "Expert report supplied by the Gazvoda family",
+      "source_name": "Grace Warmbier",
       "source_url": "documents/signature-report/",
-      "vault_id": null,
-      "source_class": "expert",
-      "publication_status": "public",
-      "verification_status": "partially-verified",
-      "sensitivity_class": "public",
-      "provenance": {
-        "acquired_from": "Gazvoda family working archive",
-        "acquired_at": "2026-07-17T00:00:00Z",
-        "source_hash": null,
-        "notes": "Expert conclusions must be read within the report's scope, methodology, assumptions, and limitations."
-      },
-      "related_people": ["Gina Gazvoda"],
-      "related_events": ["forgery-offense-date-2022", "arrest-2026"],
-      "related_claims": [],
-      "page_citations": [],
-      "redaction_notes": "Public version remains subject to continuing source and privacy review.",
-      "publication_authority": "Family-authorized public index; expert opinion is not a court finding or proof of homicide.",
-      "revision_history": [
-        {
-          "changed_at": "2026-07-21T05:40:00Z",
-          "change_summary": "Added a stable V6 local viewer route and explicit scope limitation.",
-          "changed_by_role": "Evidence and Legal Integrity team"
-        }
+      "structured_record_url": "data/records/signature-expert-reports.json",
+      "source_class": "retained-expert",
+      "publication_status": "public-summary",
+      "verification_status": "source-reviewed",
+      "sensitivity_class": "public-legal-sensitive",
+      "scope_limitations": [
+        "Retained-expert opinions rather than court findings",
+        "Full reports were based on submitted materials and identify limitations involving copies and exemplars",
+        "Do not determine cause or manner of death",
+        "Do not establish criminal guilt or motive"
       ],
-      "created_at": "2026-07-17T00:00:00Z",
-      "updated_at": "2026-07-21T05:40:00Z"
+      "redaction_notes": "The public summary excludes addresses, signatures, private financial and medical records, and full comparison exhibits.",
+      "publication_authority": "Family-authorized expert-material summary with explicit attribution and limitations.",
+      "updated_at": "2026-07-21T11:10:00Z"
     },
     {
-      "record_id": "affidavit-v3",
-      "title": "Affidavit V3",
-      "summary": "Sworn family and witness statements addressing events before and after Gina Gazvoda's death and related document concerns.",
-      "record_type": "affidavit",
+      "record_id": "affidavit-v3-draft",
+      "title": "Draft Affidavit Working Document",
+      "summary": "Source-status record for a family-created working draft containing proposed declarant accounts, attributed statements, record-dependent assertions, editorial instructions, and unresolved verification items.",
+      "record_type": "draft-affidavit-working-document",
       "event_date": null,
-      "source_name": "Gazvoda family legal archive",
+      "source_name": "Gazvoda family legal working archive",
       "source_url": "documents/affidavit-v3/",
-      "vault_id": null,
-      "source_class": "family-supplied",
-      "publication_status": "public",
-      "verification_status": "partially-verified",
-      "sensitivity_class": "legal-sensitive",
-      "provenance": {
-        "acquired_from": "Gazvoda family legal archive",
-        "acquired_at": "2026-07-17T00:00:00Z",
-        "source_hash": null,
-        "notes": "An affidavit records sworn statements and allegations by its declarants; it is not itself a final judicial finding."
-      },
-      "related_people": ["Gina Gazvoda", "Grant Gazvoda", "Garrison Gazvoda"],
-      "related_events": ["gina-death-2021", "public-archive-launch-2026"],
-      "related_claims": [],
-      "page_citations": [],
-      "redaction_notes": "Public copy remains subject to legal and privacy review.",
-      "publication_authority": "Family-authorized public index; affidavit status clearly labeled.",
-      "revision_history": [
-        {
-          "changed_at": "2026-07-21T05:40:00Z",
-          "change_summary": "Added a stable V6 local viewer route and stronger attribution notice.",
-          "changed_by_role": "Evidence and Legal Integrity team"
-        }
+      "structured_record_url": "data/records/affidavit-v3-draft.json",
+      "source_class": "family-created-draft",
+      "publication_status": "public-summary",
+      "verification_status": "draft-source-reviewed",
+      "sensitivity_class": "legal-medical-private",
+      "scope_limitations": [
+        "Not represented as a clean final, signed, notarized, filed, or judicially accepted affidavit",
+        "Does not independently verify every statement it contains",
+        "Does not determine cause or manner of death",
+        "Does not establish criminal guilt or motive"
       ],
-      "created_at": "2026-07-17T00:00:00Z",
-      "updated_at": "2026-07-21T05:40:00Z"
+      "redaction_notes": "The public summary excludes personal contact information, signatures, detailed medical and financial information, inflammatory allegations, and unnecessary third-party identifiers.",
+      "publication_authority": "Family-authorized source-status summary; not represented as a final affidavit or court record.",
+      "updated_at": "2026-07-21T11:10:00Z"
     },
     {
       "record_id": "medical-record-archive",
       "title": "Medical-record archive",
       "summary": "Full medical records are preserved outside the public repository for authorized legal and expert review.",
-      "record_type": "medical-record",
+      "record_type": "medical-record-archive",
       "event_date": null,
       "source_name": "Restricted estate medical archive",
       "source_url": null,
-      "vault_id": "restricted-medical-archive",
-      "source_class": "official",
+      "structured_record_url": null,
+      "source_class": "official-and-provider-records",
       "publication_status": "restricted-reviewer",
-      "verification_status": "not-applicable",
+      "verification_status": "restricted-source-preserved",
       "sensitivity_class": "medical-full",
-      "provenance": {
-        "acquired_from": "Estate-authorized medical sources",
-        "acquired_at": "2026-07-19T00:00:00Z",
-        "source_hash": null,
-        "notes": "Source files are intentionally excluded from the public Git repository."
-      },
-      "related_people": ["Gina Gazvoda"],
-      "related_events": ["gina-death-2021"],
-      "related_claims": [],
-      "page_citations": [],
-      "redaction_notes": "Full records remain restricted. Any future public excerpt requires relevance review, authority, third-party redaction, and publication logging.",
-      "publication_authority": "Family-controlled restricted archive; no blanket public publication authorization recorded.",
-      "revision_history": [
-        {
-          "changed_at": "2026-07-21T05:40:00Z",
-          "change_summary": "Retained metadata-only restricted status in V6; no medical source file was published.",
-          "changed_by_role": "Archive, Evidence, and Security team"
-        }
+      "scope_limitations": [
+        "Source files are excluded from the public repository",
+        "No blanket public publication authorization is recorded",
+        "Any derivative requires relevance, authority, privacy, third-party, and redaction review"
       ],
-      "created_at": "2026-07-19T00:00:00Z",
-      "updated_at": "2026-07-21T05:40:00Z"
+      "redaction_notes": "Full records remain restricted; no public source file or private Drive link is exposed.",
+      "publication_authority": "Family-controlled restricted archive.",
+      "updated_at": "2026-07-21T11:10:00Z"
     }
   ]
 }
