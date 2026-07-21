@@ -1,0 +1,54 @@
+{
+  "record_id": "dispatch-response-timeline",
+  "title": "November 21, 2021 Dispatch Response Timeline",
+  "summary": "Privacy-protected summary of the Waterbury Police call classification and unit-response timestamps recorded for Gina Gazvoda on November 21, 2021.",
+  "record_type": "official-dispatch-record",
+  "event_date": "2021-11-21",
+  "source_name": "Waterbury Police Department",
+  "source_url": "documents/dispatch-response-timeline/",
+  "source_class": "official-agency",
+  "publication_status": "public-summary",
+  "verification_status": "verified-official",
+  "sensitivity_class": "public-privacy-protected",
+  "case_reference": {
+    "agency": "Waterbury Police Department",
+    "cfs_number": "2100123760",
+    "record_type": "Call Summary Report"
+  },
+  "verified_timestamps": [
+    {"time": "19:06", "event": "Call remark recorded: female not awake, not breathing; CPR started"},
+    {"time": "19:07", "event": "Call type escalated in dispatch system"},
+    {"time": "19:08", "event": "First police unit dispatched and en route"},
+    {"time": "19:13", "event": "First police unit arrival recorded"},
+    {"time": "19:15", "event": "Second police unit dispatched and en route"},
+    {"time": "19:20", "event": "Second police unit arrival recorded"},
+    {"time": "20:22", "event": "Third police unit dispatched and en route"},
+    {"time": "20:43", "event": "Third police unit arrival recorded"}
+  ],
+  "scope_limitations": [
+    "Does not establish the time or cause of Gina Gazvoda's death",
+    "Does not determine the accuracy of every caller statement",
+    "Does not determine whether criminal conduct occurred",
+    "Does not describe events before the emergency call beyond the call remarks recorded"
+  ],
+  "provenance": {
+    "acquired_from": "Gazvoda family evidence archive",
+    "acquired_at": "2026-07-21T09:20:00Z",
+    "review_method": "Direct review of a two-page agency-generated Call Summary Report",
+    "notes": "The public page omits exact address, telephone information, responder identifiers, internal unit labels, and unrelated administrative fields."
+  },
+  "related_people": ["Gina Gazvoda"],
+  "related_events": ["emergency-call-2021", "police-response-2021"],
+  "page_citations": ["Waterbury Police Call Summary Report, CFS 2100123760, pages 1-2"],
+  "redaction_notes": "Exact premise address, phone information, responder identifiers, unit labels, and unrelated administrative fields are omitted.",
+  "publication_authority": "Agency-generated record; privacy-protected public summary.",
+  "revision_history": [
+    {
+      "changed_at": "2026-07-21T09:22:00Z",
+      "change_summary": "Created structured record and local public route.",
+      "changed_by_role": "Archive and Evidence team"
+    }
+  ],
+  "created_at": "2026-07-21T09:22:00Z",
+  "updated_at": "2026-07-21T09:22:00Z"
+}
