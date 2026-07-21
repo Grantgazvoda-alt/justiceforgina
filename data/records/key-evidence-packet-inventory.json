@@ -1,0 +1,95 @@
+{
+  "record_id": "key-evidence-packet-inventory",
+  "title": "Key Evidence Gina Gazvoda Packet Inventory",
+  "summary": "Structured inventory and provenance map for a 24-page family-assembled packet containing mixed probate, police, EMS, funeral, death-related, and medical-office records.",
+  "record_type": "mixed-source-evidence-packet",
+  "event_date": null,
+  "source_name": "Gazvoda family working archive",
+  "source_url": "documents/key-evidence/",
+  "source_class": "family-assembled-mixed-source-packet",
+  "publication_status": "public-inventory",
+  "verification_status": "packet-source-reviewed",
+  "sensitivity_class": "restricted-original-public-map",
+  "packet_metadata": {
+    "title": "Key Evidence Gina Gazvoda.pdf",
+    "page_count": 24,
+    "file_size_bytes": 10213812,
+    "creator": "Adobe Scan for iOS 25.02.18",
+    "created_time": "2025-06-12T15:36:39.329Z",
+    "modified_time": "2025-06-16T16:13:11.253Z"
+  },
+  "identified_source_groups": [
+    {
+      "group": "probate-docket-and-petition-material",
+      "description": "Waterbury Probate Court case-index material and petition-related forms concerning Estate case 21-01204, including material related to admission of a July 28, 2019 will.",
+      "source_rule": "Separate signed court decrees from party-filed petitions, notices, confidential docket entries, and administrative forms."
+    },
+    {
+      "group": "police-and-dispatch-records",
+      "description": "Waterbury Police records concerning the emergency call, dispatch, response, and incident narrative.",
+      "source_rule": "Publish only privacy-protected summaries that omit exact address, phone information, responder identifiers, and unrelated administrative fields."
+    },
+    {
+      "group": "ems-patient-care-records",
+      "description": "Trinity Health of New England EMS patient-care records containing response details and medical information.",
+      "source_rule": "Restrict the full record and publish only narrowly necessary, source-attributed facts."
+    },
+    {
+      "group": "funeral-death-and-medical-office-forms",
+      "description": "Funeral-home, death-related, and medical-office paperwork containing procedural information, private identifiers, signatures, and medical detail.",
+      "source_rule": "Require record-specific authentication, relevance review, and redaction before any public derivative."
+    }
+  ],
+  "privacy_risks": [
+    "Residential addresses and contact details",
+    "Telephone fragments and service-recipient information",
+    "Medical and patient-care information",
+    "Handwritten signatures and identity-misuse risk",
+    "Private-party names and administrative details not necessary for public understanding"
+  ],
+  "provenance_workflow": [
+    "Identify the generating organization or person for each page.",
+    "Separate the source record from family interpretation, expert opinion, legal argument, and unresolved inference.",
+    "Verify dates, case numbers, page sequence, authorship, and context.",
+    "Redact unnecessary identifiers and sensitive information.",
+    "Publish a local derivative that states what the source establishes and what remains unknown."
+  ],
+  "current_public_derivatives": [
+    "documents/dispatch-response-timeline/",
+    "documents/official-response-comparison/",
+    "documents/probate-decrees-april-2026/",
+    "evidence.html"
+  ],
+  "scope_limitations": [
+    "The packet is a compilation and is not itself one official record.",
+    "Inclusion of a page in the packet does not establish authenticity, accuracy, completeness, or legal significance.",
+    "The packet does not independently prove homicide, criminal guilt, motive, negligence, or civil liability.",
+    "The full packet is not suitable for unrestricted public hosting because it contains personal identifiers and medical information.",
+    "Each page must be evaluated according to its own source, purpose, context, and verification status."
+  ],
+  "provenance": {
+    "acquired_from": "Gazvoda family working archive",
+    "acquired_at": "2026-07-21T10:25:00Z",
+    "review_method": "Direct text and document-structure review of the 24-page PDF packet",
+    "notes": "The public page inventories source groups and links to privacy-protected local derivatives without hosting the private source packet."
+  },
+  "related_people": ["Gina Gazvoda"],
+  "related_events": ["evidence-packet-compilation", "source-separation-review-2026"],
+  "page_citations": [
+    "Key Evidence Gina Gazvoda packet, pages 1-24 reviewed",
+    "Probate material begins in the opening packet pages",
+    "Waterbury Police material appears in the middle packet section",
+    "Trinity Health of New England EMS material appears in the later packet section"
+  ],
+  "redaction_notes": "The public inventory omits addresses, contact information, signatures, patient-care details, private-party identifiers, and other data not necessary to describe the packet's structure.",
+  "publication_authority": "Family-authorized packet inventory and provenance map; the original packet remains restricted.",
+  "revision_history": [
+    {
+      "changed_at": "2026-07-21T10:30:00Z",
+      "change_summary": "Replaced the generic key-evidence route with a source-reviewed packet inventory and provenance map.",
+      "changed_by_role": "Archive and Legal Integrity team"
+    }
+  ],
+  "created_at": "2026-07-21T10:30:00Z",
+  "updated_at": "2026-07-21T10:30:00Z"
+}
