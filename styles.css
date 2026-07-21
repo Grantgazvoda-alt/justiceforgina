@@ -2,3 +2,65 @@
 @import url('css/v3-2.css');
 @import url('css/v3-3.css');
 @import url('css/v3-4.css');
+
+/* Justice for Gina V6 additions */
+.allegation-notice {
+  display: grid;
+  gap: .45rem;
+  margin: 1.35rem 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255, 191, 71, .45);
+  border-left: 4px solid #ffbf47;
+  border-radius: 14px;
+  background: rgba(255, 191, 71, .08);
+  color: rgba(255,255,255,.9);
+}
+.allegation-notice strong {
+  color: #ffd88a;
+  letter-spacing: .01em;
+}
+.allegation-notice span {
+  line-height: 1.65;
+}
+.v6-hero .hero-lede {
+  max-width: 66rem;
+}
+.document-library-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.document-viewer-shell {
+  margin-top: 1.5rem;
+  min-height: 72vh;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  background: #111722;
+  box-shadow: 0 22px 80px rgba(0,0,0,.35);
+}
+.document-viewer-shell iframe {
+  display: block;
+  width: 100%;
+  min-height: 72vh;
+  border: 0;
+  background: #fff;
+}
+.viewer-fallback {
+  margin-top: 1rem;
+  text-align: center;
+}
+.viewer-fallback a {
+  font-weight: 700;
+}
+.primary-nav a[href="documents/"],
+.primary-nav a[href="./"] {
+  white-space: nowrap;
+}
+@media (max-width: 760px) {
+  .document-viewer-shell,
+  .document-viewer-shell iframe {
+    min-height: 66vh;
+  }
+  .allegation-notice {
+    padding: .9rem;
+  }
+}
