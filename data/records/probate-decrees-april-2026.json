@@ -1,0 +1,53 @@
+{
+  "record_id": "probate-decrees-april-2026",
+  "title": "April 2026 Probate Court Decrees",
+  "summary": "Two signed Waterbury Probate Court decrees concerning a will contest and administration of the Estate of Gina Marie Gazvoda.",
+  "record_type": "court-decree",
+  "event_date": "2026-04-22",
+  "source_name": "Waterbury Probate Court",
+  "source_url": "documents/probate-decrees-april-2026/",
+  "source_class": "official-court",
+  "publication_status": "public-summary",
+  "verification_status": "verified-official",
+  "sensitivity_class": "public-legal-sensitive",
+  "case_reference": {
+    "court": "Waterbury Probate Court",
+    "district": "PD20",
+    "estate": "Estate of Gina Marie Gazvoda",
+    "case_number": "21-01204",
+    "decree_date": "2026-04-22"
+  },
+  "provenance": {
+    "acquired_from": "Gazvoda family evidence archive",
+    "acquired_at": "2026-07-21T08:58:00Z",
+    "review_method": "Direct visual review of two signed PC-160 decree scans",
+    "notes": "The public page paraphrases the operative findings and orders. The archived scans contain addresses and signatures that are not republished."
+  },
+  "operative_scope": [
+    "Will contest decree concerning the July 28, 2019 will",
+    "Removal and appointment of successor fiduciary decree",
+    "Final financial report and inventory deadlines"
+  ],
+  "scope_limitations": [
+    "Does not determine Gina Gazvoda's cause or manner of death",
+    "Does not determine criminal responsibility for her death",
+    "Does not extend beyond the will contest and estate-administration rulings stated in the decrees"
+  ],
+  "related_people": ["Gina Marie Gazvoda"],
+  "related_events": ["will-contest-decree-2026", "estate-fiduciary-change-2026"],
+  "page_citations": [
+    "Will Contest Decree, PC-160, page 1 of 1",
+    "Removal and Appointment of Successor Decree, PC-160, page 1 of 1"
+  ],
+  "redaction_notes": "Residential and professional addresses, signatures, and service-recipient details are omitted from the public summary.",
+  "publication_authority": "Court-generated record; privacy-protected public summary.",
+  "revision_history": [
+    {
+      "changed_at": "2026-07-21T09:02:00Z",
+      "change_summary": "Created structured record and local public route.",
+      "changed_by_role": "Archive and Evidence team"
+    }
+  ],
+  "created_at": "2026-07-21T09:02:00Z",
+  "updated_at": "2026-07-21T09:02:00Z"
+}
