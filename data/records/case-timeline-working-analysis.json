@@ -1,0 +1,95 @@
+{
+  "record_id": "case-timeline-working-analysis",
+  "title": "Family Timeline Working Analysis",
+  "summary": "Source-status analysis of a family-created November 21, 2021 chronology that combines official timestamps, record-dependent claims, attributed recollections, travel estimates, assumptions, and family inferences.",
+  "record_type": "family-created-chronology",
+  "event_date": "2021-11-21",
+  "source_name": "Gazvoda family working archive",
+  "source_url": "documents/case-timeline/",
+  "source_class": "family-created-working-analysis",
+  "publication_status": "public-summary",
+  "verification_status": "source-reviewed-working-analysis",
+  "sensitivity_class": "public-legal-sensitive",
+  "source_layers": [
+    {
+      "layer": "official-agency-timestamp",
+      "description": "Times taken directly from police, dispatch, or EMS records.",
+      "publication_rule": "Use the agency-generated record as controlling where the family draft differs."
+    },
+    {
+      "layer": "record-dependent-communication-claim",
+      "description": "Specific call, message, image, or device-timestamp assertions.",
+      "publication_rule": "Treat as unverified until the underlying carrier, device, screenshot, or authenticated export is reviewed."
+    },
+    {
+      "layer": "attributed-witness-recollection",
+      "description": "A family member's or witness's reported memory of a call, statement, observation, or arrival sequence.",
+      "publication_rule": "Attribute to the speaker and seek corroboration; do not convert recollection into independently verified fact."
+    },
+    {
+      "layer": "travel-estimate-or-assumption",
+      "description": "No-traffic map estimates, assumed preparation time, and calculated possible arrival windows.",
+      "publication_rule": "Label as illustrative assumptions, not historical location or traffic evidence."
+    },
+    {
+      "layer": "family-inference",
+      "description": "The family's conclusion that reported accounts or arrival sequences appear inconsistent.",
+      "publication_rule": "Present only as attributed family inference and a request for investigation."
+    }
+  ],
+  "verified_official_anchors": [
+    {"time": "19:06", "event": "Call remark recorded in Waterbury Police call-summary record"},
+    {"time": "19:07", "event": "Call classification escalated in dispatch system"},
+    {"time": "19:08", "event": "First police unit dispatched and en route"},
+    {"time": "19:13", "event": "First police-unit arrival recorded"}
+  ],
+  "direct_source_findings": [
+    "The working chronology states specific times for reported travel, communications, emergency response, notifications, and witness arrivals.",
+    "The chronology combines claimed phone-record information with statements attributed to several family members and other witnesses.",
+    "Travel-time calculations were based on no-traffic Google Maps estimates taken around 1:00 a.m.",
+    "The chronology expressly uses assumed preparation time before travel.",
+    "The concluding section argues that reported accounts do not fit together; that conclusion is the family's inference rather than an official finding.",
+    "Some emergency-response times in the family draft do not align exactly with the reviewed official dispatch record."
+  ],
+  "claim_testing_requirements": [
+    "Authenticated carrier and device records for calls and messages",
+    "Original images and metadata where available",
+    "Historical location, toll, marina, receipt, or traffic records where lawfully available",
+    "Separate dated witness interviews in each witness's own words",
+    "Comparison with police, dispatch, EMS, and other contemporaneous agency records",
+    "Authority-led reconstruction using complete source material"
+  ],
+  "scope_limitations": [
+    "The chronology is not a forensic or law-enforcement reconstruction.",
+    "The chronology does not independently prove any person's departure time, return time, route, location, or purpose of travel.",
+    "The chronology does not independently verify reported phone activity or arrival order.",
+    "The chronology does not determine when Gina Gazvoda died or establish cause or manner of death.",
+    "The chronology does not establish criminal guilt, motive, negligence, or civil liability.",
+    "Official agency records supersede the family draft for official response timestamps."
+  ],
+  "provenance": {
+    "acquired_from": "Gazvoda family working archive",
+    "acquired_at": "2026-07-21T10:45:00Z",
+    "review_method": "Direct text review of the archived DOCX chronology and comparison with the published official dispatch derivative",
+    "document_created_time": "2023-09-15T13:28:52.566Z",
+    "document_modified_time": "2023-07-28T14:06:33.000Z",
+    "notes": "The public page maps evidence quality without republishing private addresses, contact information, or inflammatory conclusions."
+  },
+  "related_people": ["Gina Gazvoda"],
+  "related_events": ["november-21-2021-working-chronology", "timeline-source-review-2026"],
+  "page_citations": [
+    "Gina Gazvoda Case Timeline November 21st working document, full text reviewed",
+    "Waterbury Police Call Summary Report, CFS 2100123760, pages 1-2, used for official response anchors"
+  ],
+  "redaction_notes": "The public analysis omits exact addresses, private contact details, unnecessary third-party identifiers, and inflammatory or speculative accusations.",
+  "publication_authority": "Family-authorized source-status analysis; official agency records control official response timestamps.",
+  "revision_history": [
+    {
+      "changed_at": "2026-07-21T10:50:00Z",
+      "change_summary": "Replaced the generic timeline wrapper with a source-quality analysis and structured record.",
+      "changed_by_role": "Archive and Legal Integrity team"
+    }
+  ],
+  "created_at": "2026-07-21T10:50:00Z",
+  "updated_at": "2026-07-21T10:50:00Z"
+}
