@@ -1,0 +1,40 @@
+{
+  "record_id": "911-call-public-release-cfs-21-123760",
+  "title": "911 Call — CFS 21-123760 — Public MP3 Release",
+  "summary": "Family-authorized public MP3 derivative of the preserved official-source 911 WAV, published for listening and statement-to-record review.",
+  "record_type": "media",
+  "event_date": "2021-11-21",
+  "source_name": "Official public-safety audio supplied in the Waterbury Police and EMS archive",
+  "source_url": "https://drive.google.com/file/d/1z0rr5KPby27swXoMVVl3n_Gj03v8ClK7/view",
+  "vault_id": "cfs-21-123760-original-wav",
+  "source_class": "official",
+  "publication_status": "public",
+  "verification_status": "verified",
+  "sensitivity_class": "public",
+  "provenance": {
+    "acquired_from": "Preserved official-source WAV associated with CFS 21-123760",
+    "acquired_at": "2026-07-23T03:12:00Z",
+    "source_hash": "a98baed2f8bdcfec124ccfff9630cba5e4ee62b0da5937ed210563cfa3eaa87f",
+    "notes": "Public MP3 derivative: mono, 8 kHz, approximately 09:16 including encoding padding. Original WAV SHA-256 remains 9b293fc87765cff780cd8f369e7096b47b6112c6c1168b259cb19ca70f5cd8c0 and remains the preservation master."
+  },
+  "related_people": ["Gina Gazvoda"],
+  "related_events": ["gina-death-2021", "public-audio-release-2026"],
+  "related_claims": [],
+  "page_citations": [],
+  "redaction_notes": "The family/archive owner expressly authorized public release on July 22, 2026. A timestamped transcript remains pending. Public playback does not verify statements or establish deception, guilt, or cause of death.",
+  "publication_authority": "Family/archive owner authorization recorded July 22, 2026.",
+  "revision_history": [
+    {
+      "changed_at": "2026-07-23T03:12:00Z",
+      "change_summary": "Generated, hashed, and uploaded the public MP3 derivative under inherited anyone-with-link reader access.",
+      "changed_by_role": "Archive, Evidence, and Security team"
+    },
+    {
+      "changed_at": "2026-07-23T03:24:00Z",
+      "change_summary": "Added the playable public-release page and structured provenance record.",
+      "changed_by_role": "Archive and Web team"
+    }
+  ],
+  "created_at": "2026-07-23T03:12:00Z",
+  "updated_at": "2026-07-23T03:24:00Z"
+}
