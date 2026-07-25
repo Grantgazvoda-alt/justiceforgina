@@ -1,0 +1,171 @@
+:root {
+  --gina-hero-photo: url("https://drive.google.com/thumbnail?id=1cUIkNIvoV-PLQio1tyy6DdmhmPEcHCdY&sz=w2000");
+  --gina-family-photo: url("https://drive.google.com/thumbnail?id=1MzD91RT6aB2Y93eKTYtDO4_ne67T8frc&sz=w1400");
+}
+
+/* Replace the abstract grid treatment with a real family-photo composition. */
+.hero {
+  background-color: #080b12;
+  background-image:
+    linear-gradient(90deg, rgba(5, 7, 12, 0.98) 0%, rgba(5, 8, 14, 0.91) 35%, rgba(7, 10, 17, 0.58) 67%, rgba(7, 10, 17, 0.78) 100%),
+    linear-gradient(180deg, rgba(8, 11, 18, 0.18) 0%, rgba(8, 11, 18, 0.42) 67%, #080b12 100%),
+    var(--gina-hero-photo);
+  background-position: center 42%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 30%;
+  background: linear-gradient(to bottom, transparent, #080b12);
+  pointer-events: none;
+}
+.hero-grid-lines { display: none; }
+.hero-glow { opacity: 0.45; }
+.hero-home { min-height: 760px; display: flex; align-items: center; }
+.hero-home .hero-grid,
+.hero-subpage .shell { position: relative; z-index: 1; }
+.hero-copy { text-shadow: 0 3px 24px rgba(0, 0, 0, 0.58); }
+.hero-lede { color: #e0e5ec; }
+.hero-subpage { background-position: center 38%; }
+.case-brief {
+  background: linear-gradient(160deg, rgba(9, 13, 22, 0.90), rgba(9, 13, 22, 0.72));
+  border-color: rgba(240, 209, 142, 0.26);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.55);
+}
+
+/* Turn the former lettermark into a genuine family photograph. */
+.memorial-section {
+  background:
+    radial-gradient(circle at 14% 10%, rgba(216, 173, 95, 0.18), transparent 34%),
+    linear-gradient(135deg, #f8f2e7, #e6d8bf);
+}
+.memorial-mark {
+  min-height: 570px;
+  place-items: stretch;
+  border: 1px solid rgba(126, 95, 42, 0.30);
+  border-radius: 1.55rem;
+  background-image:
+    linear-gradient(180deg, rgba(8, 11, 18, 0.02), rgba(8, 11, 18, 0.18)),
+    var(--gina-family-photo);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 28px 70px rgba(63, 42, 17, 0.24);
+}
+.memorial-mark::before {
+  inset: 0;
+  border: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, transparent 64%, rgba(7, 9, 14, 0.46));
+}
+.memorial-mark span,
+.memorial-mark div { display: none; }
+
+/* Image-led remembrance section. */
+.campaign-gallery-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(216, 173, 95, 0.13), transparent 28%),
+    radial-gradient(circle at 15% 80%, rgba(91, 126, 165, 0.12), transparent 30%),
+    #080b12;
+}
+.campaign-gallery-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.20;
+  background-image: var(--gina-hero-photo);
+  background-position: center;
+  background-size: cover;
+  filter: blur(12px) saturate(0.75);
+  transform: scale(1.05);
+}
+.campaign-gallery-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 11, 18, 0.86);
+}
+.campaign-gallery-section > .shell { position: relative; z-index: 1; }
+.campaign-gallery {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(0, 1.14fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.campaign-gallery figure { margin: 0; }
+.campaign-poster-card,
+.family-photo-card {
+  overflow: hidden;
+  border: 1px solid rgba(240, 209, 142, 0.23);
+  border-radius: 1.35rem;
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.46);
+}
+.campaign-poster-card img,
+.family-photo-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.campaign-poster-card figcaption,
+.family-photo-card figcaption {
+  padding: 0.9rem 1rem 1rem;
+  color: #aab5c6;
+  font-size: 0.78rem;
+}
+.campaign-gallery-side { display: grid; gap: 1.25rem; }
+.family-photo-card img {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center;
+}
+.memory-note {
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  border: 1px solid rgba(216, 173, 95, 0.22);
+  border-radius: 1.25rem;
+  background: linear-gradient(145deg, rgba(216, 173, 95, 0.09), rgba(255, 255, 255, 0.025));
+}
+.memory-note h3 {
+  margin: 0 0 0.75rem;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  line-height: 1.08;
+}
+.memory-note p { margin-bottom: 0; color: var(--muted); }
+
+@media (max-width: 980px) {
+  .hero-home { min-height: auto; }
+  .hero { background-position: 64% center; }
+  .campaign-gallery { grid-template-columns: 1fr; }
+  .campaign-poster-card { width: min(100%, 560px); margin-inline: auto; }
+  .campaign-gallery-side { grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1.18fr); align-items: stretch; }
+  .memory-note { display: flex; flex-direction: column; justify-content: center; }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    background-position: 68% center;
+    background-image:
+      linear-gradient(90deg, rgba(5, 7, 12, 0.97), rgba(5, 8, 14, 0.80)),
+      linear-gradient(180deg, rgba(8, 11, 18, 0.12), #080b12 100%),
+      var(--gina-hero-photo);
+  }
+  .hero-home { padding-top: 6.6rem; }
+  .case-brief { background: rgba(8, 12, 20, 0.91); }
+  .memorial-mark { min-height: 500px; }
+  .campaign-gallery-side { grid-template-columns: 1fr; }
+  .family-photo-card { width: min(100%, 520px); margin-inline: auto; }
+}
+
+@media print {
+  .hero { background-image: none !important; }
+  .campaign-gallery-section::before,
+  .campaign-gallery-section::after { display: none; }
+}
