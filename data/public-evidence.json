@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "published_at": "2026-07-19T06:58:00Z",
+  "published_at": "2026-07-25T01:55:00Z",
   "publication_note": "This dataset indexes selected public-review materials. Inclusion does not establish authenticity, guilt, causation, or a final legal conclusion.",
   "records": [
     {
@@ -177,6 +177,41 @@
       ],
       "created_at": "2026-07-17T00:00:00Z",
       "updated_at": "2026-07-19T06:58:00Z"
+    },
+    {
+      "record_id": "dph-ocme-complaint-submission-2026-07-23",
+      "title": "DPH & OCME Complaint Submission Set — July 23, 2026",
+      "summary": "Four-volume submission set preserving the complaint and core evidence, OCME records, 828 Urgent Care records, and Yale medical records for controlled agency, legal, and expert review.",
+      "record_type": "medical-record",
+      "event_date": "2026-07-23",
+      "source_name": "Gazvoda family restricted DPH/OCME submission archive",
+      "source_url": null,
+      "vault_id": "dph-ocme-complaint-submission-2026-07-23",
+      "source_class": "family-supplied",
+      "publication_status": "restricted-reviewer",
+      "verification_status": "partially-verified",
+      "sensitivity_class": "medical-full",
+      "provenance": {
+        "acquired_from": "Gazvoda family working archive",
+        "acquired_at": "2026-07-23T07:46:01Z",
+        "source_hash": null,
+        "notes": "The four source PDFs are organized in a restricted Drive folder. No medical source file or direct source link is published in the public repository."
+      },
+      "related_people": ["Gina Gazvoda"],
+      "related_events": ["dph-ocme-submission-2026"],
+      "related_claims": [],
+      "page_citations": [],
+      "redaction_notes": "The source set contains medical and personal information. Any future public excerpt requires relevance review, executor authorization, third-party redaction, and a publication-decision log.",
+      "publication_authority": "Metadata-only public index entry. The raw four-volume set remains restricted and is not approved for public release.",
+      "revision_history": [
+        {
+          "changed_at": "2026-07-25T01:55:00Z",
+          "change_summary": "Added metadata for the organized four-volume DPH/OCME submission set; no source PDFs were published.",
+          "changed_by_role": "Archive, Evidence, and Security team"
+        }
+      ],
+      "created_at": "2026-07-23T07:46:01Z",
+      "updated_at": "2026-07-25T01:55:00Z"
     },
     {
       "record_id": "medical-record-archive",
