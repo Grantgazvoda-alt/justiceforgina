@@ -1,0 +1,140 @@
+name: Prelaunch QA
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-site-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify required launch files
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            index.html
+            evidence.html
+            timeline.html
+            press.html
+            support.html
+            funding.html
+            standards.html
+            911-call-analysis.html
+            police-response-review.html
+            records-request-status.html
+            record.html
+            styles.css
+            script.js
+            sitemap.xml
+            robots.txt
+            CNAME
+            _headers
+          )
+          for file in "${required[@]}"; do
+            test -s "$file" || { echo "Missing or empty: $file"; exit 1; }
+          done
+
+      - name: Validate public-domain references and critical safeguards
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '^justiceforgina.org$' CNAME
+          grep -q 'https://justiceforgina.org/' sitemap.xml
+          grep -q 'Sitemap: https://justiceforgina.org/sitemap.xml' robots.txt
+          grep -q "frame-ancestors 'none'" _headers
+          grep -q "media-src 'self' https://drive.google.com" _headers
+          grep -q 'presumed innocent' index.html
+          grep -q 'does not establish deception, guilt, or cause of death' 911-call-analysis.html
+          grep -q 'Fund the work, not an accusation' funding.html
+
+      - name: Check local HTML references
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlparse
+          import re
+          import sys
+
+          root = Path('.')
+          html_files = sorted(root.glob('*.html'))
+          failures = []
+
+          class Parser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.links = []
+                  self.targets = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  if tag in {'a', 'link', 'script', 'img', 'source'}:
+                      value = attrs.get('href') or attrs.get('src')
+                      if value:
+                          self.links.append((tag, value))
+                  if tag == 'a' and attrs.get('target') == '_blank':
+                      rel = set((attrs.get('rel') or '').split())
+                      if 'noopener' not in rel:
+                          self.targets.append(attrs.get('href', ''))
+
+          for html_file in html_files:
+              parser = Parser()
+              parser.feed(html_file.read_text(encoding='utf-8'))
+              for href in parser.targets:
+                  failures.append(f'{html_file}: target=_blank missing noopener: {href}')
+              for tag, value in parser.links:
+                  if value.startswith(('#', 'mailto:', 'tel:', 'data:', 'javascript:')):
+                      continue
+                  parsed = urlparse(value)
+                  if parsed.scheme or parsed.netloc:
+                      continue
+                  path = value.split('#', 1)[0].split('?', 1)[0]
+                  if not path:
+                      continue
+                  target = (html_file.parent / path).resolve()
+                  try:
+                      target.relative_to(root.resolve())
+                  except ValueError:
+                      failures.append(f'{html_file}: reference escapes repository: {value}')
+                      continue
+                  if not target.exists():
+                      failures.append(f'{html_file}: missing local reference: {value}')
+
+          if failures:
+              print('\n'.join(failures))
+              sys.exit(1)
+          print(f'Checked {len(html_files)} HTML files with no broken local references.')
+          PY
+
+      - name: Check sitemap coverage for primary public pages
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import sys
+
+          sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
+          pages = [
+              'evidence.html',
+              '911-call-analysis.html',
+              'police-response-review.html',
+              'records-request-status.html',
+              'timeline.html',
+              'press.html',
+              'support.html',
+              'funding.html',
+              'standards.html',
+          ]
+          missing = [p for p in pages if f'https://justiceforgina.org/{p}' not in sitemap]
+          if missing:
+              print('Missing sitemap entries:', ', '.join(missing))
+              sys.exit(1)
+          print('Primary public pages are included in the sitemap.')
+          PY
