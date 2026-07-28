@@ -50,9 +50,9 @@ jobs:
           grep -q 'Sitemap: https://justiceforgina.org/sitemap.xml' robots.txt
           grep -q "frame-ancestors 'none'" _headers
           grep -q "media-src 'self' https://drive.google.com" _headers
-          grep -q 'presumed innocent' index.html
-          grep -q 'does not establish deception, guilt, or cause of death' 911-call-analysis.html
-          grep -q 'Fund the work, not an accusation' funding.html
+          grep -qi 'presumed innocent' index.html
+          grep -qi 'does not establish deception, guilt, or cause of death' 911-call-analysis.html
+          grep -qi 'fund the work, not an accusation' funding.html
 
       - name: Check local HTML references
         shell: bash
@@ -61,7 +61,6 @@ jobs:
           from html.parser import HTMLParser
           from pathlib import Path
           from urllib.parse import urlparse
-          import re
           import sys
 
           root = Path('.')
