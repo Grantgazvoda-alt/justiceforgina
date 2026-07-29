@@ -50,7 +50,8 @@ Launch a source-controlled public case command center that makes the current rec
 - Pull request: `#13 — Launch Justice for Gina V8 public command center`.
 - Stable fallback remains on `main`.
 - V8 remains isolated on `release/v8-public-command-center`.
-- Automated QA workflow is installed and this status update intentionally retriggers the pull-request checks.
+- The V8 QA workflow is installed on `main` through merged operations PR `#14`.
+- This commit triggers the enforceable pull-request validation against the default-branch workflow.
 - Manual factual and publication review remains required before merge.
 
 ## Rollback point
