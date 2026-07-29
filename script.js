@@ -1,7 +1,33 @@
 (() => {
-  const menuButton = document.querySelector('.menu-button');
-  const nav = document.querySelector('.primary-nav');
+  document.documentElement.dataset.siteVersion = '8';
+  document.body.classList.add('v8-active');
 
+  // Upgrade shared navigation without rewriting every preserved public page.
+  const nav = document.querySelector('.primary-nav');
+  if (nav && !nav.querySelector('a[href="case-status.html"]')) {
+    const home = nav.querySelector('a[href="index.html"]');
+    const caseLink = document.createElement('a');
+    caseLink.href = 'case-status.html';
+    caseLink.textContent = 'Case Status';
+    if (document.body.dataset.page === 'case-status') {
+      caseLink.classList.add('active');
+      caseLink.setAttribute('aria-current', 'page');
+    }
+    if (home?.nextSibling) nav.insertBefore(caseLink, home.nextSibling);
+    else nav.prepend(caseLink);
+  }
+
+  document.querySelectorAll('.brand-copy small').forEach((node) => {
+    if (/seeking truth through evidence/i.test(node.textContent || '')) node.textContent = 'Follow the record';
+  });
+  document.querySelectorAll('.footer-bottom span').forEach((node) => {
+    if (/V4|V5|V6|V7/.test(node.textContent || '')) node.textContent = (node.textContent || '').replace(/V[4-7]/g, 'V8');
+  });
+  document.querySelectorAll('.eyebrow').forEach((node) => {
+    if (/EVIDENCE INTELLIGENCE\s*·\s*V4/i.test(node.textContent || '')) node.textContent = 'EVIDENCE INTELLIGENCE · V8';
+  });
+
+  const menuButton = document.querySelector('.menu-button');
   const closeMenu = () => {
     if (!menuButton || !nav) return;
     nav.classList.remove('open');
