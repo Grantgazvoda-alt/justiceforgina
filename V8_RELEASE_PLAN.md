@@ -45,6 +45,14 @@ Launch a source-controlled public case command center that makes the current rec
 6. Allow the existing GitHub Pages workflow to deploy `main`.
 7. Verify the root domain and critical public routes; retain the previous commit as the rollback point.
 
+## Current release status
+
+- Pull request: `#13 — Launch Justice for Gina V8 public command center`.
+- Stable fallback remains on `main`.
+- V8 remains isolated on `release/v8-public-command-center`.
+- Automated QA workflow is installed and this status update intentionally retriggers the pull-request checks.
+- Manual factual and publication review remains required before merge.
+
 ## Rollback point
 
 The fallback deployment-trigger commit on `main` is `9b012aed87a7d576aa052d33a5f4ae541cb17a63`. If V8 creates a production failure, restore `main` to the last verified public commit and investigate on the release branch.
