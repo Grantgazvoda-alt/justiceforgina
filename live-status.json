@@ -1,7 +1,11 @@
 {
   "site": "Justice for Gina",
-  "mode": "stable-fallback",
-  "release": "last-known-good-public-build",
-  "updated": "2026-07-29T14:49:00Z",
-  "note": "V8 remains isolated on its release branch until launch checks pass."
+  "mode": "production",
+  "release": "v8-public-command-center",
+  "source_commit": "f26164e8e89837920044032af38ba46b375b5979",
+  "status_commit": "70e4bf714383a8ad4dcafa387558ca3a2a4f72e2",
+  "updated": "2026-07-29T17:36:00Z",
+  "deployment": "github-pages-triggered",
+  "verification": "public-domain-route-check-pending",
+  "rollback_commit": "9b012aed87a7d576aa052d33a5f4ae541cb17a63"
 }
