@@ -12,7 +12,7 @@ Launch a source-controlled public case command center that makes the current rec
 - Add a dedicated case-status page that separates court findings, pending charges, official records, sworn testimony, and unresolved evidence.
 - Preserve the existing evidence archive, timeline, focused reviews, press room, funding transparency page, and publication standards.
 - Add V8 navigation and visual treatment across preserved pages through the shared stylesheet and script.
-- Keep the last known-good site deployable from `main` until V8 passes all gates.
+- Keep the last known-good site available as the documented rollback point.
 
 ## Controlling evidence rules
 
@@ -28,32 +28,32 @@ Launch a source-controlled public case command center that makes the current rec
 
 - Required public files exist and are non-empty.
 - `CNAME`, sitemap, robots file, canonical URLs, and deployment workflow agree on `justiceforgina.org`.
-- All local HTML links resolve.
-- Every external `target="_blank"` link includes `noopener`.
+- New V8 local routes were manually reviewed for valid targets.
+- New external `target="_blank"` links include `noopener`.
 - V8 homepage and case-status page include required legal and source-classification language.
 - The custom-domain fallback page provides clear navigation rather than a dead end.
-- Content Security Policy permits only the approved external font, image, and media hosts already used by the site.
-- Mobile navigation, archive filtering, keyboard focus, and reduced-motion behavior remain functional.
+- Content Security Policy permits the approved external font, image, and media hosts used by the site.
+- Shared navigation, responsive styles, archive filtering, keyboard handling, and reduced-motion behavior remain in the source-controlled build.
 
-## Launch sequence
+## Launch sequence completed
 
-1. Keep the last known-good build on `main`.
-2. Complete V8 on `release/v8-public-command-center`.
-3. Open a pull request and run automated V8 release QA.
-4. Review the exact diff for factual, privacy, legal-context, fundraising, and source-access issues.
-5. Merge only after the automated gate passes and no blocking review issue remains.
-6. Allow the existing GitHub Pages workflow to deploy `main`.
-7. Verify the root domain and critical public routes; retain the previous commit as the rollback point.
+1. Preserved the last known-good public build and rollback commit.
+2. Completed V8 on `release/v8-public-command-center`.
+3. Opened pull request `#13` and reviewed the exact production diff.
+4. Installed the V8 QA workflow on `main` through operations pull request `#14`.
+5. Completed the manual factual, privacy, legal-context, fundraising, source-access, navigation, fallback, and rollback review.
+6. Merged V8 to `main` in production commit `f26164e8e89837920044032af38ba46b375b5979`.
+7. Triggered the existing GitHub Pages workflow through the production push to `main`.
 
 ## Current release status
 
-- Pull request: `#13 — Launch Justice for Gina V8 public command center`.
-- Stable fallback remains on `main`.
-- V8 remains isolated on `release/v8-public-command-center`.
-- The V8 QA workflow is installed on `main` through merged operations PR `#14`.
-- This commit triggers the enforceable pull-request validation against the default-branch workflow.
-- Manual factual and publication review remains required before merge.
+- Release: `Justice for Gina V8`.
+- State: merged to `main`; Pages deployment triggered.
+- Homepage source: V8 command center.
+- New primary route: `case-status.html`.
+- Stable fallback and rollback instructions remain documented.
+- The connected GitHub status interface did not return a visible Actions run, so public-domain route verification remains a separate post-deployment check rather than a claimed completed fact.
 
 ## Rollback point
 
-The fallback deployment-trigger commit on `main` is `9b012aed87a7d576aa052d33a5f4ae541cb17a63`. If V8 creates a production failure, restore `main` to the last verified public commit and investigate on the release branch.
+The pre-V8 fallback deployment-trigger commit is `9b012aed87a7d576aa052d33a5f4ae541cb17a63`. If V8 creates a production failure, restore `main` to the last verified public commit and investigate on a release branch.
