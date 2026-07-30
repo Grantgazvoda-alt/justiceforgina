@@ -1,8 +1,9 @@
-name: V8 Release QA
+name: V9 Integration Release QA
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -15,81 +16,39 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Verify required public files
-        shell: bash
-        run: |
-          set -euo pipefail
-          required=(
-            index.html
-            gina-gazvoda.html
-            case-status.html
-            evidence.html
-            timeline.html
-            press.html
-            support.html
-            funding.html
-            standards.html
-            911-call-analysis.html
-            police-response-review.html
-            panwar-pronouncement-review.html
-            records-request-status.html
-            record.html
-            404.html
-            styles.css
-            css/v8-command-center.css
-            script.js
-            sitemap.xml
-            robots.txt
-            site.webmanifest
-            CNAME
-            _headers
-            V8_RELEASE_PLAN.md
-            SEO_EXPOSURE_RUNBOOK.md
-            8f6c2eaf70bd4d9fa3940aaab0d428c7.txt
-            .github/workflows/indexnow-submit.yml
-          )
-          for file in "${required[@]}"; do
-            test -s "$file" || { echo "Missing or empty: $file"; exit 1; }
-          done
+      - name: Run V9 deterministic QA
+        run: python3 scripts/v9_qa.py
 
-      - name: Verify domain, sitemap, identity, and V8 safeguards
-        shell: bash
-        run: |
-          set -euo pipefail
-          grep -q '^justiceforgina.org$' CNAME
-          grep -q '^8f6c2eaf70bd4d9fa3940aaab0d428c7$' 8f6c2eaf70bd4d9fa3940aaab0d428c7.txt
-          grep -q 'Sitemap: https://justiceforgina.org/sitemap.xml' robots.txt
-          grep -q 'https://justiceforgina.org/gina-gazvoda.html' sitemap.xml
-          grep -q 'https://justiceforgina.org/case-status.html' sitemap.xml
-          grep -q "frame-ancestors 'none'" _headers
-          grep -q "media-src 'self' https://drive.google.com" _headers
-          grep -q 'data-site-version="8"' index.html
-          grep -q 'data-site-version="8"' gina-gazvoda.html
-          grep -q 'data-site-version="8"' case-status.html
-          grep -q 'data-site-version="8"' 404.html
-          grep -qi 'Grant Gazvoda' index.html
-          grep -qi 'Grant Gazvoda' gina-gazvoda.html
-          grep -qi '#JusticeForGina' index.html
-          grep -qi '#JusticeForGina' gina-gazvoda.html
-          grep -qi 'TikTok @c5corvetteguy' press.html
-          grep -qi 'presumed innocent' index.html
-          grep -qi 'presumed innocent' case-status.html
-          grep -qi 'does not mean every desired external record has been obtained' case-status.html
-          grep -qi 'not presented as final criminal conclusions' index.html
-          grep -qi 'restricted records, private information, and unreviewed allegations are not exposed' 404.html
-
-      - name: Validate JavaScript, JSON, XML, and JSON-LD
+      - name: Validate JavaScript and integrated identity controls
         shell: bash
         run: |
           set -euo pipefail
           node --check script.js
+          grep -q '^justiceforgina.org$' CNAME
+          grep -q '^8f6c2eaf70bd4d9fa3940aaab0d428c7$' 8f6c2eaf70bd4d9fa3940aaab0d428c7.txt
+          grep -q 'Sitemap: https://justiceforgina.org/sitemap.xml' robots.txt
+          grep -q 'https://justiceforgina.org/gina-gazvoda.html' sitemap.xml
+          grep -q 'https://justiceforgina.org/documents/' sitemap.xml
+          grep -qi 'Grant Gazvoda' index.html
+          grep -qi '#JusticeForGina' index.html
+          grep -qi 'TikTok @c5corvetteguy' press.html
+          test -s .github/workflows/indexnow-submit.yml
+          test -s .github/workflows/site-health-check.yml
+          test -s DNS_RECOVERY.md
+          test -s SEO_EXPOSURE_RUNBOOK.md
+
+      - name: Validate JSON-LD, manifest, and sitemap
+        shell: bash
+        run: |
           python3 - <<'PY'
           from html.parser import HTMLParser
           from pathlib import Path
           import json
           import xml.etree.ElementTree as ET
 
-          json.loads(Path('site.webmanifest').read_text(encoding='utf-8'))
+          manifest = json.loads(Path('site.webmanifest').read_text(encoding='utf-8'))
+          if manifest.get('start_url') != './' or manifest.get('id') != './' or manifest.get('scope') != './':
+              raise SystemExit('Manifest must preserve project-path-compatible relative settings.')
           ET.parse('sitemap.xml')
 
           class JsonLdParser(HTMLParser):
@@ -116,91 +75,5 @@ jobs:
                   raise SystemExit(f'{page}: missing JSON-LD')
               for payload in parser.buffers:
                   json.loads(payload)
-          print('JavaScript, JSON, XML, and JSON-LD validation passed.')
-          PY
-
-      - name: Check local references and external-link protections
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from html.parser import HTMLParser
-          from pathlib import Path
-          from urllib.parse import urlparse
-          import sys
-
-          root = Path('.').resolve()
-          failures = []
-          html_files = sorted(Path('.').glob('*.html'))
-
-          class Parser(HTMLParser):
-              def __init__(self):
-                  super().__init__()
-                  self.links = []
-                  self.blank_links = []
-              def handle_starttag(self, tag, attrs):
-                  attrs = dict(attrs)
-                  value = attrs.get('href') or attrs.get('src')
-                  if tag in {'a', 'link', 'script', 'img', 'source'} and value:
-                      self.links.append((tag, value))
-                  if tag == 'a' and attrs.get('target') == '_blank':
-                      rel = set((attrs.get('rel') or '').split())
-                      if 'noopener' not in rel:
-                          self.blank_links.append(attrs.get('href', ''))
-
-          for html_file in html_files:
-              parser = Parser()
-              parser.feed(html_file.read_text(encoding='utf-8'))
-              for href in parser.blank_links:
-                  failures.append(f'{html_file}: target=_blank missing noopener: {href}')
-              for tag, value in parser.links:
-                  if value.startswith(('#', 'mailto:', 'tel:', 'data:', 'javascript:')):
-                      continue
-                  parsed = urlparse(value)
-                  if parsed.scheme or parsed.netloc:
-                      continue
-                  path = value.split('#', 1)[0].split('?', 1)[0]
-                  if not path:
-                      continue
-                  target = (html_file.parent / path).resolve()
-                  try:
-                      target.relative_to(root)
-                  except ValueError:
-                      failures.append(f'{html_file}: reference escapes repository: {value}')
-                      continue
-                  if not target.exists():
-                      failures.append(f'{html_file}: missing local reference: {value}')
-
-          if failures:
-              print('\n'.join(failures))
-              sys.exit(1)
-          print(f'Checked {len(html_files)} HTML files with no broken local references or unsafe blank-target links.')
-          PY
-
-      - name: Check sitemap coverage
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import sys
-
-          sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
-          pages = [
-              'gina-gazvoda.html',
-              'case-status.html',
-              'evidence.html',
-              '911-call-analysis.html',
-              'panwar-pronouncement-review.html',
-              'police-response-review.html',
-              'records-request-status.html',
-              'timeline.html',
-              'press.html',
-              'support.html',
-              'funding.html',
-              'standards.html',
-          ]
-          missing = [p for p in pages if f'https://justiceforgina.org/{p}' not in sitemap]
-          if missing:
-              print('Missing sitemap entries:', ', '.join(missing))
-              sys.exit(1)
-          print('V8 primary public pages are represented in the sitemap.')
+          print('Integrated JavaScript, identity, JSON-LD, manifest, and sitemap checks passed.')
           PY

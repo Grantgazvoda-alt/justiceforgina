@@ -1,46 +1,51 @@
 (() => {
-  document.documentElement.dataset.siteVersion = '8';
-  document.body.classList.add('v8-active');
+  document.documentElement.dataset.siteVersion = '9';
+  document.body.classList.add('v9-active');
 
-  // Upgrade shared navigation without rewriting every preserved public page.
   const nav = document.querySelector('.primary-nav');
-  if (nav && !nav.querySelector('a[href="case-status.html"]')) {
-    const home = nav.querySelector('a[href="index.html"]');
-    const caseLink = document.createElement('a');
-    caseLink.href = 'case-status.html';
-    caseLink.textContent = 'Case Status';
-    if (document.body.dataset.page === 'case-status') {
-      caseLink.classList.add('active');
-      caseLink.setAttribute('aria-current', 'page');
-    }
-    if (home?.nextSibling) nav.insertBefore(caseLink, home.nextSibling);
-    else nav.prepend(caseLink);
-  }
+  const links = () => (nav ? Array.from(nav.querySelectorAll('a')) : []);
+  const hasRoute = (route) => links().some((link) => {
+    const href = link.getAttribute('href') || '';
+    return href.split(/[?#]/)[0].endsWith(route);
+  });
+  const home = links().find((link) => {
+    const href = link.getAttribute('href') || '';
+    return href.split(/[?#]/)[0].endsWith('index.html');
+  });
+  const homeHref = home?.getAttribute('href') || 'index.html';
+  const prefix = homeHref.slice(0, Math.max(0, homeHref.length - 'index.html'.length));
 
-  if (nav && !nav.querySelector('a[href="gina-gazvoda.html"]')) {
-    const home = nav.querySelector('a[href="index.html"]');
-    const ginaLink = document.createElement('a');
-    ginaLink.href = 'gina-gazvoda.html';
-    ginaLink.textContent = 'Gina';
-    if (document.body.dataset.page === 'gina') {
-      ginaLink.classList.add('active');
-      ginaLink.setAttribute('aria-current', 'page');
+  const insertRoute = (route, label, page, afterRoute) => {
+    if (!nav || hasRoute(route)) return;
+    const link = document.createElement('a');
+    link.href = `${prefix}${route}`;
+    link.textContent = label;
+    if (document.body.dataset.page === page) {
+      link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
     }
-    if (home?.nextSibling) nav.insertBefore(ginaLink, home.nextSibling);
-    else nav.prepend(ginaLink);
-  }
+    const after = links().find((candidate) => {
+      const href = candidate.getAttribute('href') || '';
+      return href.split(/[?#]/)[0].endsWith(afterRoute);
+    });
+    if (after?.nextSibling) nav.insertBefore(link, after.nextSibling);
+    else nav.prepend(link);
+  };
+
+  insertRoute('gina-gazvoda.html', 'Gina', 'gina', 'index.html');
+  insertRoute('case-status.html', 'Case Status', 'case-status', hasRoute('gina-gazvoda.html') ? 'gina-gazvoda.html' : 'index.html');
 
   document.querySelectorAll('.brand-copy small').forEach((node) => {
     if (/seeking truth through evidence/i.test(node.textContent || '')) node.textContent = 'Follow the record';
   });
   document.querySelectorAll('.footer-bottom span').forEach((node) => {
-    if (/V4|V5|V6|V7/.test(node.textContent || '')) node.textContent = (node.textContent || '').replace(/V[4-7]/g, 'V8');
+    if (/V[4-8]/.test(node.textContent || '')) node.textContent = (node.textContent || '').replace(/V[4-8]/g, 'V9');
   });
   document.querySelectorAll('.eyebrow').forEach((node) => {
-    if (/EVIDENCE INTELLIGENCE\s*·\s*V4/i.test(node.textContent || '')) node.textContent = 'EVIDENCE INTELLIGENCE · V8';
+    if (/EVIDENCE INTELLIGENCE\s*·\s*V[4-8]/i.test(node.textContent || '')) node.textContent = 'EVIDENCE INTELLIGENCE · V9';
+    if (/EVIDENCE-LINKED CHRONOLOGY\s*·\s*V[4-8]/i.test(node.textContent || '')) node.textContent = 'SOURCE-CONTROLLED CHRONOLOGY · V9';
   });
 
-  // Keep publisher and official social identity visible across preserved legacy pages.
   const footerGrid = document.querySelector('.footer-grid');
   if (footerGrid) {
     const identityColumn = footerGrid.firstElementChild;
@@ -50,7 +55,6 @@
       publisher.innerHTML = '<strong>Publisher:</strong> Grant Gazvoda';
       identityColumn.append(publisher);
     }
-
     const socialColumn = footerGrid.lastElementChild;
     if (socialColumn && !socialColumn.querySelector('a[href="https://www.tiktok.com/tag/justiceforgina"]')) {
       const social = document.createElement('p');
@@ -67,7 +71,6 @@
     footerBottom.append(publisherLine);
   }
 
-  // Add a shared identity graph to legacy pages that do not already define it.
   const schemaScripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
   const hasPublisherSchema = schemaScripts.some((node) => /#grant-gazvoda/.test(node.textContent || ''));
   if (!hasPublisherSchema) {
@@ -120,7 +123,6 @@
       menuButton.setAttribute('aria-expanded', String(isOpen));
       document.body.classList.toggle('menu-open', isOpen);
     });
-
     nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
@@ -155,7 +157,6 @@
   const archiveItems = Array.from(document.querySelectorAll('.archive-item'));
   const resultCount = document.getElementById('archive-count');
   const noResults = document.getElementById('archive-no-results');
-
   const normalize = (value) => value.trim().toLowerCase();
   const filterArchive = () => {
     if (!archiveItems.length) return;
@@ -163,7 +164,6 @@
     const category = categorySelect?.value || 'all';
     const status = statusSelect?.value || 'all';
     let visible = 0;
-
     archiveItems.forEach((item) => {
       const haystack = normalize(item.textContent || '');
       const categoryMatch = category === 'all' || item.dataset.category === category;
@@ -173,11 +173,9 @@
       item.hidden = !show;
       if (show) visible += 1;
     });
-
     if (resultCount) resultCount.textContent = `${visible} ${visible === 1 ? 'record' : 'records'} shown`;
     if (noResults) noResults.classList.toggle('visible', visible === 0);
   };
-
   [searchInput, categorySelect, statusSelect].forEach((control) => {
     if (!control) return;
     control.addEventListener(control.tagName === 'INPUT' ? 'input' : 'change', filterArchive);
