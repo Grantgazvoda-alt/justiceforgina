@@ -16,6 +16,18 @@
     return Number.isNaN(date.getTime()) ? value : date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
   };
 
+  const fillList = (id, values, fallback) => {
+    const list = document.getElementById(id);
+    if (!list) return;
+    list.replaceChildren();
+    const items = Array.isArray(values) && values.length ? values : [fallback];
+    items.forEach((value) => {
+      const item = document.createElement('li');
+      item.textContent = value;
+      list.appendChild(item);
+    });
+  };
+
   const showError = () => {
     if (errorBox) errorBox.hidden = false;
     if (content) content.hidden = true;
@@ -40,7 +52,7 @@
         return;
       }
 
-      document.title = `${record.title} | Justice for Gina`;
+      document.title = `${record.title} | Justice for Gina V9`;
       setText('record-title', record.title);
       setText('record-summary', record.summary);
       setText('record-id', record.record_id);
@@ -49,19 +61,25 @@
       setText('verification-status', humanize(record.verification_status));
       setText('publication-status', humanize(record.publication_status));
       setText('sensitivity-class', humanize(record.sensitivity_class));
+      setText('record-source-chip', humanize(record.source_class));
+      setText('record-verification-chip', humanize(record.verification_status));
       setText('source-name', record.source_name);
       setText('provenance-notes', record.provenance?.notes);
       setText('acquired-at', formatDate(record.provenance?.acquired_at));
-      setText('publication-authority', record.publication_authority);
-      setText('redaction-notes', record.redaction_notes);
-      setText('related-people', record.related_people?.join(', '), 'None listed');
+      setText('publication-authority', record.publication_authority, 'Public-safe metadata and summary under the V9 evidence controls.');
+      setText('redaction-notes', record.redaction_notes, 'Restricted originals and unnecessary private identifiers remain outside the public repository.');
+      setText('related-claims', record.related_claims?.map(humanize).join(', '), 'None listed');
       setText('related-events', record.related_events?.map(humanize).join(', '), 'None listed');
+
+      fillList('record-establishes', record.establishes, 'No affirmative proposition is listed.');
+      fillList('record-does-not-establish', record.does_not_establish, 'No additional limit is listed.');
+      fillList('records-needed', record.records_needed, 'No additional record is listed.');
 
       const citations = document.getElementById('page-citations');
       if (citations) {
         citations.textContent = record.page_citations?.length
           ? record.page_citations.map((citation) => `Page ${citation.page}${citation.label ? ` — ${citation.label}` : ''}`).join('; ')
-          : 'No page-level citations have been published for this record yet.';
+          : 'No page-level citations have been published for this summary yet; consult the linked public module and controlled source archive.';
       }
 
       const revisionHistory = document.getElementById('revision-history');
@@ -77,9 +95,20 @@
 
       const sourceLink = document.getElementById('source-link');
       if (sourceLink) {
-        if (record.source_url && record.publication_status === 'public') {
-          sourceLink.href = record.source_url;
+        const destination = record.route || record.source_url;
+        if (destination && !['withheld', 'restricted-reviewer'].includes(record.publication_status)) {
+          sourceLink.href = destination;
           sourceLink.hidden = false;
+          const isExternal = /^https?:\/\//i.test(destination);
+          if (isExternal) {
+            sourceLink.target = '_blank';
+            sourceLink.rel = 'noopener noreferrer';
+            sourceLink.textContent = 'Open approved source';
+          } else {
+            sourceLink.removeAttribute('target');
+            sourceLink.removeAttribute('rel');
+            sourceLink.textContent = 'Open public summary';
+          }
         } else {
           sourceLink.hidden = true;
         }

@@ -1,0 +1,85 @@
+{
+  "version": 9,
+  "catalog_date": "2026-07-30",
+  "status": "controlled-metadata",
+  "communication_count": 3,
+  "publication_note": "This catalog records official agency communications and their narrow proof value. Raw messages and attachments may contain private contact information, addresses, program materials, family assertions, or time-sensitive case information and are not automatically approved for public release.",
+  "communications": [
+    {
+      "communication_id": "ova-docket-guidance-2026-07-22",
+      "gmail_message_id": "19f8b6a3caa396b6",
+      "received_at": "2026-07-22T20:00:19Z",
+      "sender_organization": "Connecticut Office of the Victim Advocate",
+      "subject": "Re: Request for Connecticut victim-rights guidance and independent-review referrals",
+      "source_class": "official-agency-communication-plus-dated-docket-reproduction",
+      "attachments": [],
+      "establishes": [
+        "OVA communicated victim-rights and case-tracking guidance to the family",
+        "The email reproduced Judicial Branch pending-case detail stated to be accurate as of July 22, 2026 at 5:13 a.m.",
+        "The reproduced snapshot listed docket U04W-CR26-0519807-S, the two forgery-related charges, not-guilty pleas, pre-trial activity, and an August 24, 2026 court-date field",
+        "OVA recommended the pending-case lookup and VINE notification system and provided Waterbury State's Attorney contact guidance"
+      ],
+      "does_not_establish": [
+        "Current docket status after the July 22 source timestamp",
+        "Guilt or conviction",
+        "A connection between the pending charges and Gina's cause of death",
+        "That an additional death investigation or additional charges existed"
+      ],
+      "publication_status": "metadata-and-public-safe-summary",
+      "public_route": "documents/criminal-docket-status/",
+      "next_action": "Obtain a fresh official pending-case result immediately before release and preserve the retrieval timestamp."
+    },
+    {
+      "communication_id": "ovs-compensation-screening-2026-07-23",
+      "gmail_message_id": "19f8f04c40b7328f",
+      "received_at": "2026-07-23T12:47:49Z",
+      "sender_organization": "Connecticut Judicial Branch Office of Victim Services — Compensation Unit",
+      "subject": "RE: Request for victim-compensation guidance and support — Gina Gazvoda family",
+      "source_class": "official-agency-program-eligibility-communication",
+      "attachments": [
+        "Victim Compensation Program Benefits.pdf",
+        "Rights Of Crime Victims In Connecticut.pdf",
+        "Has Your Life Been Affected By Crime.pdf",
+        "Compensation For Crime Benefits.pdf",
+        "VS028 - 3yr Waiver.pdf",
+        "SB Application.pdf"
+      ],
+      "establishes": [
+        "The OVS compensation unit stated that its program relies on police information to determine claim eligibility",
+        "Based on information then available, the sender did not believe the claim would be eligible because Gina's death had not been ruled a homicide",
+        "The sender stated that the family could apply and could seek review of a denial",
+        "The agency supplied application, waiver, rights, and program-benefit materials"
+      ],
+      "does_not_establish": [
+        "An independent OVS cause-of-death investigation or finding",
+        "That homicide was competently excluded",
+        "That a compensation application was filed, denied, reviewed, or finally adjudicated",
+        "The adequacy of police, medical, OCME, or prosecutorial investigation"
+      ],
+      "publication_status": "metadata-and-public-safe-summary",
+      "public_route": "documents/agency-response-status/",
+      "next_action": "Preserve the message and attachments; record any actual application, denial, review request, or later eligibility change as separate events."
+    },
+    {
+      "communication_id": "dcj-routing-2026-07-27",
+      "gmail_message_id": "19fa4d9330d2fc84",
+      "received_at": "2026-07-27T18:32:02Z",
+      "sender_organization": "Connecticut Division of Criminal Justice",
+      "subject": "Re: Request for written confirmation of homicide investigation status — Gina Marie Gazvoda",
+      "source_class": "official-agency-routing-communication",
+      "attachments": [],
+      "establishes": [
+        "The Division of Criminal Justice stated that the family's email had been forwarded to State's Attorney Maureen Platt of the Waterbury Judicial District"
+      ],
+      "does_not_establish": [
+        "That a homicide investigation was active",
+        "That any person was classified as a suspect, subject, or person of interest",
+        "That the pending forgery case was connected to Gina's death",
+        "That the State's Attorney accepted, opened, completed, or ruled on a review"
+      ],
+      "publication_status": "metadata-and-public-safe-summary",
+      "public_route": "documents/agency-response-status/",
+      "next_action": "Preserve any substantive response from the Waterbury State's Attorney as a new official communication and do not treat routing as a merits decision."
+    }
+  ]
+}
