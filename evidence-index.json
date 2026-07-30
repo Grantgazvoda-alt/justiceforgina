@@ -4,7 +4,7 @@
   "status": "controlled-draft",
   "canonical_dataset": "data/public-evidence.json",
   "document_catalog": "data/v9-document-catalog.json",
-  "claim_register": "data/v8-public-claim-register.json",
+  "claim_register": "data/v9-public-claim-register.json",
   "schema": "data/evidence-record.schema.json",
   "record_viewer": "record.html?id={record_id}",
   "document_library": "documents/",
