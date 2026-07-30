@@ -22,7 +22,7 @@ jobs:
       - name: Run V9 privacy allowlist QA
         run: python3 scripts/v9_privacy_qa.py
 
-      - name: Validate JavaScript and integrated identity controls
+      - name: Validate JavaScript, identity, and Pages deployment controls
         shell: bash
         run: |
           set -euo pipefail
@@ -37,6 +37,13 @@ jobs:
           grep -qi 'TikTok @c5corvetteguy' press.html
           test -s .github/workflows/indexnow-submit.yml
           test -s .github/workflows/site-health-check.yml
+          test -s .github/workflows/deploy-pages.yml
+          grep -q 'actions/upload-pages-artifact@v3' .github/workflows/deploy-pages.yml
+          grep -q 'actions/deploy-pages@v4' .github/workflows/deploy-pages.yml
+          if grep -q 'enablement:[[:space:]]*true' .github/workflows/deploy-pages.yml; then
+            echo 'deploy-pages.yml must deploy to the existing Pages site without enablement: true'
+            exit 1
+          fi
           test -s DNS_RECOVERY.md
           test -s SEO_EXPOSURE_RUNBOOK.md
 
@@ -78,5 +85,5 @@ jobs:
                   raise SystemExit(f'{page}: missing JSON-LD')
               for payload in parser.buffers:
                   json.loads(payload)
-          print('Integrated JavaScript, identity, JSON-LD, manifest, and sitemap checks passed.')
+          print('Integrated JavaScript, identity, JSON-LD, manifest, sitemap, and Pages deployment checks passed.')
           PY
