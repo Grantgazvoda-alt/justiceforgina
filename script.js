@@ -1,13 +1,25 @@
 (() => {
-  document.documentElement.dataset.siteVersion = '8';
-  document.body.classList.add('v8-active');
+  document.documentElement.dataset.siteVersion = '9';
+  document.body.classList.add('v9-active');
 
-  // Upgrade shared navigation without rewriting every preserved public page.
   const nav = document.querySelector('.primary-nav');
-  if (nav && !nav.querySelector('a[href="case-status.html"]')) {
-    const home = nav.querySelector('a[href="index.html"]');
+  const hasCaseStatusLink = nav
+    ? Array.from(nav.querySelectorAll('a')).some((link) => {
+        const href = link.getAttribute('href') || '';
+        return href.split(/[?#]/)[0].endsWith('case-status.html');
+      })
+    : false;
+
+  // Upgrade preserved top-level pages without adding broken duplicate links to nested routes.
+  if (nav && !hasCaseStatusLink) {
+    const home = Array.from(nav.querySelectorAll('a')).find((link) => {
+      const href = link.getAttribute('href') || '';
+      return href.split(/[?#]/)[0].endsWith('index.html');
+    });
+    const homeHref = home?.getAttribute('href') || 'index.html';
+    const prefix = homeHref.slice(0, Math.max(0, homeHref.length - 'index.html'.length));
     const caseLink = document.createElement('a');
-    caseLink.href = 'case-status.html';
+    caseLink.href = `${prefix}case-status.html`;
     caseLink.textContent = 'Case Status';
     if (document.body.dataset.page === 'case-status') {
       caseLink.classList.add('active');
@@ -21,10 +33,11 @@
     if (/seeking truth through evidence/i.test(node.textContent || '')) node.textContent = 'Follow the record';
   });
   document.querySelectorAll('.footer-bottom span').forEach((node) => {
-    if (/V4|V5|V6|V7/.test(node.textContent || '')) node.textContent = (node.textContent || '').replace(/V[4-7]/g, 'V8');
+    if (/V[4-8]/.test(node.textContent || '')) node.textContent = (node.textContent || '').replace(/V[4-8]/g, 'V9');
   });
   document.querySelectorAll('.eyebrow').forEach((node) => {
-    if (/EVIDENCE INTELLIGENCE\s*·\s*V4/i.test(node.textContent || '')) node.textContent = 'EVIDENCE INTELLIGENCE · V8';
+    if (/EVIDENCE INTELLIGENCE\s*·\s*V[4-8]/i.test(node.textContent || '')) node.textContent = 'EVIDENCE INTELLIGENCE · V9';
+    if (/EVIDENCE-LINKED CHRONOLOGY\s*·\s*V[4-8]/i.test(node.textContent || '')) node.textContent = 'SOURCE-CONTROLLED CHRONOLOGY · V9';
   });
 
   const menuButton = document.querySelector('.menu-button');
