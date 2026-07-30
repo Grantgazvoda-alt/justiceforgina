@@ -17,6 +17,19 @@
     else nav.prepend(caseLink);
   }
 
+  if (nav && !nav.querySelector('a[href="gina-gazvoda.html"]')) {
+    const home = nav.querySelector('a[href="index.html"]');
+    const ginaLink = document.createElement('a');
+    ginaLink.href = 'gina-gazvoda.html';
+    ginaLink.textContent = 'Gina';
+    if (document.body.dataset.page === 'gina') {
+      ginaLink.classList.add('active');
+      ginaLink.setAttribute('aria-current', 'page');
+    }
+    if (home?.nextSibling) nav.insertBefore(ginaLink, home.nextSibling);
+    else nav.prepend(ginaLink);
+  }
+
   document.querySelectorAll('.brand-copy small').forEach((node) => {
     if (/seeking truth through evidence/i.test(node.textContent || '')) node.textContent = 'Follow the record';
   });
@@ -26,6 +39,72 @@
   document.querySelectorAll('.eyebrow').forEach((node) => {
     if (/EVIDENCE INTELLIGENCE\s*·\s*V4/i.test(node.textContent || '')) node.textContent = 'EVIDENCE INTELLIGENCE · V8';
   });
+
+  // Keep publisher and official social identity visible across preserved legacy pages.
+  const footerGrid = document.querySelector('.footer-grid');
+  if (footerGrid) {
+    const identityColumn = footerGrid.firstElementChild;
+    if (identityColumn && !/Publisher:\s*Grant Gazvoda/i.test(identityColumn.textContent || '')) {
+      const publisher = document.createElement('p');
+      publisher.className = 'publisher-credit';
+      publisher.innerHTML = '<strong>Publisher:</strong> Grant Gazvoda';
+      identityColumn.append(publisher);
+    }
+
+    const socialColumn = footerGrid.lastElementChild;
+    if (socialColumn && !socialColumn.querySelector('a[href="https://www.tiktok.com/tag/justiceforgina"]')) {
+      const social = document.createElement('p');
+      social.className = 'publisher-social';
+      social.innerHTML = '<a href="https://www.tiktok.com/@c5corvetteguy" rel="noopener noreferrer" target="_blank">TikTok @c5corvetteguy</a><br/><a href="https://www.tiktok.com/tag/justiceforgina" rel="noopener noreferrer" target="_blank">#JusticeForGina</a>';
+      socialColumn.append(social);
+    }
+  }
+
+  const footerBottom = document.querySelector('.footer-bottom');
+  if (footerBottom && !/Published by Grant Gazvoda/i.test(footerBottom.textContent || '')) {
+    const publisherLine = document.createElement('span');
+    publisherLine.textContent = 'Published by Grant Gazvoda · #JusticeForGina';
+    footerBottom.append(publisherLine);
+  }
+
+  // Add a shared identity graph to legacy pages that do not already define it.
+  const schemaScripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+  const hasPublisherSchema = schemaScripts.some((node) => /#grant-gazvoda/.test(node.textContent || ''));
+  if (!hasPublisherSchema) {
+    const identitySchema = document.createElement('script');
+    identitySchema.type = 'application/ld+json';
+    identitySchema.dataset.siteIdentitySchema = 'true';
+    identitySchema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': 'https://justiceforgina.org/#website',
+          name: 'Justice for Gina',
+          alternateName: ['#JusticeForGina', 'Gina Marie Gazvoda public record project'],
+          url: 'https://justiceforgina.org/',
+          publisher: { '@id': 'https://justiceforgina.org/#grant-gazvoda' },
+          about: { '@id': 'https://justiceforgina.org/#gina-gazvoda' },
+          sameAs: ['https://www.tiktok.com/@c5corvetteguy', 'https://www.tiktok.com/tag/justiceforgina']
+        },
+        {
+          '@type': 'Person',
+          '@id': 'https://justiceforgina.org/#grant-gazvoda',
+          name: 'Grant Gazvoda',
+          jobTitle: 'Publisher',
+          sameAs: ['https://www.tiktok.com/@c5corvetteguy']
+        },
+        {
+          '@type': 'Person',
+          '@id': 'https://justiceforgina.org/#gina-gazvoda',
+          name: 'Gina Marie Gazvoda',
+          alternateName: 'Gina Gazvoda',
+          url: 'https://justiceforgina.org/gina-gazvoda.html'
+        }
+      ]
+    });
+    document.head.append(identitySchema);
+  }
 
   const menuButton = document.querySelector('.menu-button');
   const closeMenu = () => {
