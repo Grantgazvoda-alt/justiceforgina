@@ -8,7 +8,7 @@
 
 ## Governing rule
 
-A secondary docket mirror, search result, family copy, draft pleading, or filename is not substituted for the current official Connecticut Judicial Branch docket or a signed court order. Public status language must remain limited to records that have been source-locked.
+A secondary docket mirror, search result, family copy, draft pleading, agency reproduction, or filename is not substituted for the current official Connecticut Judicial Branch docket or a signed court order. Public status language must remain limited to source-locked records and must preserve the source timestamp.
 
 ## Civil docket — source-locked status
 
@@ -56,11 +56,33 @@ The amended-complaint copies are classified as party pleadings or drafts until f
 
 Until those sources are obtained, the public site should state only the November 3, 2025 order's verified scope and should say that later docket activity requires official confirmation.
 
-## Criminal docket
+## Criminal docket — source-locked dated snapshot
 
-The current project record identifies pending forgery-related charges and not-guilty pleas. Pending charges are allegations, not convictions, and are separate from cause-of-death analysis.
+Gmail message ID `19f8b6a3caa396b6` is an Office of the Victim Advocate email received July 22, 2026 at 20:00:19 UTC. The agency message reproduces Connecticut Judicial Branch pending-case detail and states that the case information was accurate as of **July 22, 2026 at 5:13 a.m.**
 
-Connecticut Judicial Branch guidance states that criminal case information may change daily and that the online pending-case lookup should be checked for current status. Criminal case documents are generally obtained through the clerk rather than posted online.
+The reproduced snapshot records:
+
+- defendant name: Nicholas Anthony Forte Jr.;
+- docket: `U04W-CR26-0519807-S`;
+- arresting agency: Waterbury local police;
+- arrest date: July 7, 2026;
+- court: Waterbury GA 4;
+- activity: pre-trial;
+- Forgery in the Second Degree and Conspiracy to Commit Forgery in the Second Degree charges;
+- not-guilty pleas;
+- a $20,000 case bond shown as posted through 7% cash;
+- release from custody; and
+- an August 24, 2026 at 10:00 a.m. next-court-date field.
+
+These are historical fields from the July 22 snapshot. They do not establish that the charges, plea, bond, release, activity, or next-event information remained unchanged afterward.
+
+The same agency email recommends using the Connecticut pending-case lookup and VINE notification system to track changes. It also states that pending non-injury or non-death charges generally require direct communication with the state's attorney's office for status information.
+
+## Inbox recency check
+
+A July 30 Gmail search for the criminal docket number, defendant name, and historical August 24 date located no newer docket notice after the July 22 OVA snapshot. A separate search for the civil docket after July 28 located no newer civil court email.
+
+The absence of a newer inbox message is not proof that either docket remained unchanged. It establishes only that no later matching notice was found in the connected mailbox search.
 
 ## Criminal records required immediately before release
 
@@ -71,7 +93,7 @@ Connecticut Judicial Branch guidance states that criminal case information may c
 5. Next event or disposition.
 6. Charging documents and court orders where lawfully available.
 
-The V9 release must retain a refresh timestamp and the presumption-of-innocence notice.
+The V9 release must retain a refresh timestamp and the presumption-of-innocence notice. The July 22 snapshot may be reported only as dated historical status.
 
 ## Tool limitation recorded
 
@@ -81,5 +103,6 @@ The official Connecticut case-lookup endpoints were not reliably accessible thro
 
 - Civil docket gate: **open — official post-order verification required**.
 - Criminal docket gate: **open — same-day official refresh required**.
-- No public claim was expanded from the secondary docket lead.
-- No filing, clerk contact, witness contact, or external communication occurred.
+- Public criminal status is limited to the July 22, 2026 time-stamped snapshot.
+- No public claim was expanded from the secondary civil-docket lead.
+- No filing, clerk contact, witness contact, agency contact, or external communication occurred during this verification pass.
