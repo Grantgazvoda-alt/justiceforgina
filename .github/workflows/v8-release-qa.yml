@@ -25,11 +25,13 @@ jobs:
       - name: Run V9 agency communications catalog QA
         run: python3 scripts/v9_agency_catalog_qa.py
 
-      - name: Validate JavaScript, identity, and Pages deployment controls
+      - name: Validate JavaScript, identity, navigation, and Pages deployment controls
         shell: bash
         run: |
           set -euo pipefail
           node --check script.js
+          grep -q 'if (!menuButton && nav' script.js
+          grep -q 'restoreFocus' script.js
           grep -q '^justiceforgina.org$' CNAME
           grep -q '^8f6c2eaf70bd4d9fa3940aaab0d428c7$' 8f6c2eaf70bd4d9fa3940aaab0d428c7.txt
           grep -q 'Sitemap: https://justiceforgina.org/sitemap.xml' robots.txt
@@ -89,5 +91,5 @@ jobs:
                   raise SystemExit(f'{page}: missing JSON-LD')
               for payload in parser.buffers:
                   json.loads(payload)
-          print('Integrated JavaScript, identity, JSON-LD, manifest, sitemap, Pages deployment, and agency catalog checks passed.')
+          print('Integrated JavaScript, navigation, identity, JSON-LD, manifest, sitemap, Pages deployment, and agency catalog checks passed.')
           PY
