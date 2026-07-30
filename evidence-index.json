@@ -2,6 +2,8 @@
   "version": 9,
   "target_release": "2026-08-02",
   "status": "controlled-draft",
+  "record_count": 21,
+  "claim_count": 25,
   "canonical_dataset": "data/public-evidence.json",
   "document_catalog": "data/v9-document-catalog.json",
   "claim_register": "data/v9-public-claim-register.json",
