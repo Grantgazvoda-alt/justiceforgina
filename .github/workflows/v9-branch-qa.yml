@@ -30,9 +30,10 @@ jobs:
         run: |
           set -euo pipefail
           test -s .github/workflows/deploy-pages.yml
+          grep -q 'actions/configure-pages@v5' .github/workflows/deploy-pages.yml
           grep -q 'actions/upload-pages-artifact@v3' .github/workflows/deploy-pages.yml
           grep -q 'actions/deploy-pages@v4' .github/workflows/deploy-pages.yml
           if grep -q 'enablement:[[:space:]]*true' .github/workflows/deploy-pages.yml; then
-            echo 'deploy-pages.yml must not attempt Pages enablement'
+            echo 'deploy-pages.yml must configure the existing Pages site without enablement: true'
             exit 1
           fi
