@@ -105,13 +105,16 @@ def check_required_files() -> None:
         "standards.html", "911-call-analysis.html", "police-response-review.html",
         "panwar-pronouncement-review.html", "records-request-status.html",
         "record.html", "record.js", "404.html", "styles.css",
-        "css/v8-command-center.css", "script.js", "sitemap.xml", "robots.txt",
-        "site.webmanifest", "_headers", "evidence-index.json",
-        "data/public-evidence.json", "data/v9-document-catalog.json",
-        "data/v9-public-claim-register.json", "data/v9-intake-catalog-2026-07-30.json",
-        "V9_RELEASE_PLAN.md", "V9_WORK_LOG.md", "V9_QA_LOG.md",
-        "V9_EVIDENCE_COMPLETION_ADDENDUM_2026-07-30.md", "documents/index.html",
-        "documents/funeral-home-summary-judgment/index.html",
+        "css/v3-1.css", "css/v3-4.css", "css/v8-command-center.css", "script.js",
+        "sitemap.xml", "robots.txt", "site.webmanifest", "_headers",
+        "evidence-index.json", "data/public-evidence.json",
+        "data/v9-document-catalog.json", "data/v9-public-claim-register.json",
+        "data/v9-intake-catalog-2026-07-30.json", "V9_RELEASE_PLAN.md",
+        "V9_WORK_LOG.md", "V9_QA_LOG.md",
+        "V9_EVIDENCE_COMPLETION_ADDENDUM_2026-07-30.md",
+        "V9_DOCKET_VERIFICATION_MEMO_2026-07-30.md",
+        "V9_ACCESSIBILITY_AND_BROWSER_QA_2026-07-30.md",
+        "documents/index.html", "documents/funeral-home-summary-judgment/index.html",
         "documents/cremation-request-form-status/index.html",
     ]
     for relative in required:
@@ -126,14 +129,26 @@ def check_release_markers() -> None:
         "sitemap.xml": "https://justiceforgina.org/documents/funeral-home-summary-judgment/",
         "_headers": "frame-ancestors 'none'",
         "site.webmanifest": '"start_url": "./"',
-        "index.html": 'data-site-version="9"',
+        "index.html": "Twenty-one structured records",
         "case-status.html": "Twenty-one structured records",
         "evidence.html": "21 controlled records",
         "timeline.html": "twenty-one structured records",
+        "press.html": "Twenty-one issue-specific V9 records",
+        "gina-gazvoda.html": 'data-site-version="9"',
+        "css/v3-1.css": ":focus-visible",
+        "css/v3-4.css": "prefers-reduced-motion: reduce",
+        "script.js": "restoreFocus",
     }
     for relative, needle in expectations.items():
         if needle not in read(relative):
             fail(f"{relative}: missing release marker: {needle}")
+
+    index_html = read("index.html")
+    if "Twenty-five classified claims" not in index_html:
+        fail("index.html: missing twenty-five claim count")
+    if "apparent § 20-230c-type disposition page" not in index_html:
+        fail("index.html: missing corrected statutory-form status")
+
     case_status = read("case-status.html").lower()
     if "presumed innocent" not in case_status:
         fail("case-status.html: missing presumption-of-innocence language")
@@ -143,6 +158,7 @@ def check_release_markers() -> None:
         fail("case-status.html: missing corrected statutory-form status")
     if "counts 5 through 7" not in case_status or "counts 1 through 4" not in case_status:
         fail("case-status.html: missing scoped funeral-home court status")
+
     cname = ROOT / "CNAME"
     if cname.exists() and cname.read_text(encoding="utf-8").strip() != "justiceforgina.org":
         fail("CNAME exists but does not contain justiceforgina.org")
@@ -322,6 +338,13 @@ def check_language_and_artifacts() -> None:
         r"obstructed justice": "unsupported obstruction attribution",
         r"form was entirely absent": "superseded total-absence wording",
         r"completed original is not in the controlled production": "superseded total-absence wording",
+        r"completed original § 20-230c form is not located": "superseded total-absence wording",
+        r"completed original (?:has not been|is not) located": "superseded total-absence wording",
+        r"\btwenty structured (?:public )?records\b": "stale record count",
+        r"\btwenty-four classified claims\b": "stale claim count",
+        r"\btwenty issue-specific v9 records\b": "stale record count",
+        r"\btwenty records with provenance\b": "stale record count",
+        r"\b20 controlled records\b": "stale record count",
     }
     for path in public_files:
         text = path.read_text(encoding="utf-8", errors="replace")
@@ -374,7 +397,7 @@ def main() -> int:
     print(f"- {EXPECTED_CLAIMS} classified public claims")
     print(f"- {EXPECTED_INTAKE_ENTRIES} controlled intake entries")
     print(f"- {html_count} HTML files checked recursively")
-    print("- JSON, routes, record IDs, intake classifications, HTML semantics, links, sitemap, publication language, secrets, and restricted artifacts passed")
+    print("- JSON, routes, record IDs, intake classifications, public counts, accessibility markers, HTML semantics, links, sitemap, publication language, secrets, and restricted artifacts passed")
     return 0
 
 
