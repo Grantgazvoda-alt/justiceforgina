@@ -25,6 +25,9 @@ jobs:
       - name: Run V9 privacy allowlist QA
         run: python3 scripts/v9_privacy_qa.py
 
+      - name: Run V9 agency communications catalog QA
+        run: python3 scripts/v9_agency_catalog_qa.py
+
       - name: Verify existing-site Pages workflow
         shell: bash
         run: |
