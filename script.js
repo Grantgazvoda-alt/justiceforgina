@@ -110,25 +110,59 @@
   }
 
   const menuButton = document.querySelector('.menu-button');
-  const closeMenu = () => {
+  const menuLabel = menuButton?.querySelector('.sr-only');
+  const setMenuLabel = (isOpen) => {
+    if (!menuButton) return;
+    const label = isOpen ? 'Close menu' : 'Open menu';
+    menuButton.setAttribute('aria-label', label);
+    if (menuLabel) menuLabel.textContent = label;
+  };
+  const closeMenu = ({ restoreFocus = false } = {}) => {
     if (!menuButton || !nav) return;
+    const wasOpen = nav.classList.contains('open');
     nav.classList.remove('open');
     menuButton.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
+    setMenuLabel(false);
+    if (restoreFocus && wasOpen) menuButton.focus();
+  };
+  const openMenu = () => {
+    if (!menuButton || !nav) return;
+    nav.classList.add('open');
+    menuButton.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open');
+    setMenuLabel(true);
+    window.requestAnimationFrame(() => links()[0]?.focus());
   };
 
   if (menuButton && nav) {
+    setMenuLabel(false);
     menuButton.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('open');
-      menuButton.setAttribute('aria-expanded', String(isOpen));
-      document.body.classList.toggle('menu-open', isOpen);
+      if (nav.classList.contains('open')) closeMenu({ restoreFocus: true });
+      else openMenu();
     });
-    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeMenu()));
     document.addEventListener('keydown', (event) => {
+      if (!nav.classList.contains('open')) return;
       if (event.key === 'Escape') {
-        closeMenu();
-        menuButton.focus();
+        event.preventDefault();
+        closeMenu({ restoreFocus: true });
+        return;
       }
+      if (event.key !== 'Tab') return;
+      const focusable = [menuButton, ...links()];
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
     });
   }
 
