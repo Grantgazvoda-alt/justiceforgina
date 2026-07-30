@@ -22,6 +22,9 @@ jobs:
       - name: Run V9 privacy allowlist QA
         run: python3 scripts/v9_privacy_qa.py
 
+      - name: Run V9 agency communications catalog QA
+        run: python3 scripts/v9_agency_catalog_qa.py
+
       - name: Validate JavaScript, identity, and Pages deployment controls
         shell: bash
         run: |
@@ -86,5 +89,5 @@ jobs:
                   raise SystemExit(f'{page}: missing JSON-LD')
               for payload in parser.buffers:
                   json.loads(payload)
-          print('Integrated JavaScript, identity, JSON-LD, manifest, sitemap, and Pages deployment checks passed.')
+          print('Integrated JavaScript, identity, JSON-LD, manifest, sitemap, Pages deployment, and agency catalog checks passed.')
           PY
