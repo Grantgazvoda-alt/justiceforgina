@@ -64,11 +64,22 @@ The same review source-locked a November 3, 2025 Superior Court order granting M
 
 ### Public-count and homepage reconciliation
 
-The evidence dataset expanded to 21 records and 25 claims, but the homepage and Press page retained 20/24 language. The visible pages, metadata, social descriptions, and route cards were corrected, and QA now rejects the stale counts.
+The evidence dataset expanded to 21 records and 25 claims, but Home, Press, Support, and Funding retained older 20/24 language. Visible pages, metadata, social descriptions, route cards, and milestones were corrected. QA rejects the stale count phrases.
 
 ### JSON-LD diagnostic
 
-After normalizing the Gina identity page to V9, the integration workflow identified malformed JSON-LD. The deterministic V9 branch checks passed, but the integration workflow correctly failed at the JSON-LD step. The graph closing structure was repaired and is subject to a fresh final-head run.
+After normalizing the Gina identity page to V9, integration run `30531763918` correctly failed at the JSON-LD parsing step while deterministic evidence QA passed. The graph closing structure was repaired.
+
+### Passing content snapshot
+
+Commit `28c614a3419e0ecb603f94a79701ba417d7ddf0e` passed both required workflows:
+
+- V9 Integration Release QA — run `30532144622` — **passed**.
+- V9 Branch QA — run `30532144634` — **passed**.
+
+The integration job confirms that the deterministic QA, public-contact privacy allowlist, JavaScript, identity controls, JSON-LD, manifest, and sitemap steps all passed.
+
+A documentation-only ledger commit follows this validated content snapshot and must receive its own final-head run before release review.
 
 ## Accessibility work completed in source
 
@@ -98,7 +109,7 @@ These controls do not constitute a claim of full WCAG conformance. Rendered desk
 
 ## Current release gates
 
-- [ ] Both required workflows pass on the exact final head after the JSON-LD repair and privacy-allowlist installation.
+- [ ] Both required workflows pass on the exact final documentation head.
 - [ ] Official criminal docket refreshed immediately before release.
 - [ ] Official civil docket checked for post-November 3, 2025 proceedings.
 - [ ] Production custom-domain and fallback behavior verified.
