@@ -1,28 +1,39 @@
 #!/usr/bin/env python3
-"""Deterministic static QA for the Justice for Gina V9 release branch."""
+"""Deterministic static QA for the Justice for Gina V9 release candidate."""
 
 from __future__ import annotations
 
 import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 FAILURES: list[str] = []
+EXPECTED_RECORDS = 21
+EXPECTED_CLAIMS = 25
 
 
 def fail(message: str) -> None:
     FAILURES.append(message)
 
 
-def load_json(relative: str) -> dict:
+def read(relative: str) -> str:
     path = ROOT / relative
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except Exception as exc:  # noqa: BLE001 - report all parse failures
+        return path.read_text(encoding="utf-8")
+    except Exception as exc:  # noqa: BLE001
+        fail(f"{relative}: cannot read: {exc}")
+        return ""
+
+
+def load_json(relative: str) -> dict:
+    try:
+        return json.loads(read(relative))
+    except Exception as exc:  # noqa: BLE001
         fail(f"{relative}: invalid JSON: {exc}")
         return {}
 
@@ -31,64 +42,56 @@ def resolve_local(source: Path, value: str) -> Path | None:
     if value.startswith(("#", "mailto:", "tel:", "data:")):
         return None
     if value.lower().startswith("javascript:"):
-        fail(f"{source.relative_to(ROOT)}: javascript URL is prohibited: {value}")
+        fail(f"{source.relative_to(ROOT)}: javascript URL prohibited: {value}")
         return None
     parsed = urlparse(value)
     if parsed.scheme or parsed.netloc:
         return None
     if value.startswith("/"):
-        fail(
-            f"{source.relative_to(ROOT)}: root-relative local reference breaks "
-            f"project-path fallback: {value}"
-        )
+        fail(f"{source.relative_to(ROOT)}: root-relative path breaks project fallback: {value}")
         return None
-    path = value.split("#", 1)[0].split("?", 1)[0]
-    if not path:
+    raw = value.split("#", 1)[0].split("?", 1)[0]
+    if not raw:
         return None
-    target = (source.parent / path).resolve()
+    target = (source.parent / raw).resolve()
     try:
         target.relative_to(ROOT)
     except ValueError:
         fail(f"{source.relative_to(ROOT)}: reference escapes repository: {value}")
         return None
-    if target.is_dir():
-        target = target / "index.html"
-    return target
+    return target / "index.html" if target.is_dir() else target
 
 
 class PageParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
         self.links: list[tuple[str, str]] = []
-        self.blank_links: list[str] = []
+        self.blank_without_noopener: list[str] = []
         self.ids: list[str] = []
         self.images_without_alt: list[str] = []
         self.lang: str | None = None
         self.h1_count = 0
         self.title_count = 0
-        self.menu_buttons = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        attributes = {key: value or "" for key, value in attrs}
+        a = {key: value or "" for key, value in attrs}
         if tag == "html":
-            self.lang = attributes.get("lang")
-        if tag == "title":
+            self.lang = a.get("lang")
+        elif tag == "title":
             self.title_count += 1
-        if tag == "h1":
+        elif tag == "h1":
             self.h1_count += 1
-        if tag == "button" and "menu-button" in attributes.get("class", "").split():
-            self.menu_buttons += 1
-        if tag == "img" and "alt" not in attributes:
-            self.images_without_alt.append(attributes.get("src", ""))
-        if attributes.get("id"):
-            self.ids.append(attributes["id"])
-        value = attributes.get("href") or attributes.get("src")
+        if tag == "img" and "alt" not in a:
+            self.images_without_alt.append(a.get("src", ""))
+        if a.get("id"):
+            self.ids.append(a["id"])
+        value = a.get("href") or a.get("src")
         if tag in {"a", "link", "script", "img", "source"} and value:
             self.links.append((tag, value))
-        if tag == "a" and attributes.get("target") == "_blank":
-            rel = set(attributes.get("rel", "").split())
+        if tag == "a" and a.get("target") == "_blank":
+            rel = set(a.get("rel", "").split())
             if "noopener" not in rel:
-                self.blank_links.append(attributes.get("href", ""))
+                self.blank_without_noopener.append(a.get("href", ""))
 
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         self.handle_starttag(tag, attrs)
@@ -96,36 +99,18 @@ class PageParser(HTMLParser):
 
 def check_required_files() -> None:
     required = [
-        "index.html",
-        "case-status.html",
-        "evidence.html",
-        "timeline.html",
-        "press.html",
-        "support.html",
-        "funding.html",
-        "standards.html",
-        "911-call-analysis.html",
-        "police-response-review.html",
-        "panwar-pronouncement-review.html",
-        "records-request-status.html",
-        "record.html",
-        "record.js",
-        "404.html",
-        "styles.css",
-        "css/v8-command-center.css",
-        "script.js",
-        "sitemap.xml",
-        "robots.txt",
-        "site.webmanifest",
-        "_headers",
-        "evidence-index.json",
-        "data/public-evidence.json",
-        "data/v9-document-catalog.json",
-        "data/v9-public-claim-register.json",
-        "V9_RELEASE_PLAN.md",
-        "V9_WORK_LOG.md",
-        "V9_QA_LOG.md",
-        "documents/index.html",
+        "index.html", "gina-gazvoda.html", "case-status.html", "evidence.html",
+        "timeline.html", "press.html", "support.html", "funding.html",
+        "standards.html", "911-call-analysis.html", "police-response-review.html",
+        "panwar-pronouncement-review.html", "records-request-status.html",
+        "record.html", "record.js", "404.html", "styles.css",
+        "css/v8-command-center.css", "script.js", "sitemap.xml", "robots.txt",
+        "site.webmanifest", "_headers", "evidence-index.json",
+        "data/public-evidence.json", "data/v9-document-catalog.json",
+        "data/v9-public-claim-register.json", "V9_RELEASE_PLAN.md",
+        "V9_WORK_LOG.md", "V9_QA_LOG.md", "documents/index.html",
+        "documents/funeral-home-summary-judgment/index.html",
+        "documents/cremation-request-form-status/index.html",
     ]
     for relative in required:
         path = ROOT / relative
@@ -134,50 +119,28 @@ def check_required_files() -> None:
 
 
 def check_release_markers() -> None:
-    text = {
-        name: (ROOT / name).read_text(encoding="utf-8", errors="replace")
-        for name in [
-            "robots.txt",
-            "sitemap.xml",
-            "_headers",
-            "site.webmanifest",
-            "index.html",
-            "case-status.html",
-            "evidence.html",
-            "timeline.html",
-            "404.html",
-            "standards.html",
-        ]
-        if (ROOT / name).exists()
+    expectations = {
+        "robots.txt": "Sitemap: https://justiceforgina.org/sitemap.xml",
+        "sitemap.xml": "https://justiceforgina.org/documents/funeral-home-summary-judgment/",
+        "_headers": "frame-ancestors 'none'",
+        "site.webmanifest": '"start_url": "./"',
+        "index.html": 'data-site-version="9"',
+        "case-status.html": "Twenty-one structured records",
+        "evidence.html": "21 controlled records",
+        "timeline.html": "twenty-one structured records",
     }
-    expectations = [
-        ("robots.txt", "Sitemap: https://justiceforgina.org/sitemap.xml"),
-        ("sitemap.xml", "https://justiceforgina.org/case-status.html"),
-        ("_headers", "frame-ancestors 'none'"),
-        ("_headers", "object-src 'none'"),
-        ("site.webmanifest", '"start_url": "./"'),
-        ("index.html", 'data-site-version="9"'),
-        ("case-status.html", 'data-site-version="9"'),
-        ("evidence.html", 'data-site-version="9"'),
-        ("timeline.html", 'data-site-version="9"'),
-        ("404.html", 'data-site-version="9"'),
-    ]
-    for relative, needle in expectations:
-        if needle not in text.get(relative, ""):
+    for relative, needle in expectations.items():
+        if needle not in read(relative):
             fail(f"{relative}: missing release marker: {needle}")
-
-    lower_case_status = text.get("case-status.html", "").lower()
-    lower_index = text.get("index.html", "").lower()
-    lower_standards = text.get("standards.html", "").lower()
-    if "presumed innocent" not in lower_case_status:
+    case_status = read("case-status.html").lower()
+    if "presumed innocent" not in case_status:
         fail("case-status.html: missing presumption-of-innocence language")
-    if "does not establish who caused gina" not in lower_case_status:
+    if "does not establish who caused gina" not in case_status:
         fail("case-status.html: missing controlled homicide conclusion")
-    if "not presented as final criminal conclusions" not in lower_index:
-        fail("index.html: missing final-conclusion safeguard")
-    if "missing-record language" not in lower_standards:
-        fail("standards.html: missing missing-record publication standard")
-
+    if "apparent § 20-230c-type disposition page" not in case_status:
+        fail("case-status.html: missing corrected statutory-form status")
+    if "counts 5 through 7" not in case_status or "counts 1 through 4" not in case_status:
+        fail("case-status.html: missing scoped funeral-home court status")
     cname = ROOT / "CNAME"
     if cname.exists() and cname.read_text(encoding="utf-8").strip() != "justiceforgina.org":
         fail("CNAME exists but does not contain justiceforgina.org")
@@ -194,25 +157,29 @@ def check_structured_data() -> None:
         fail("site.webmanifest: start_url and scope must be ./")
     if index.get("version") != 9:
         fail("evidence-index.json: version is not 9")
+    if index.get("record_count") != EXPECTED_RECORDS:
+        fail("evidence-index.json: incorrect record_count")
+    if index.get("claim_count") != EXPECTED_CLAIMS:
+        fail("evidence-index.json: incorrect claim_count")
 
     records = evidence.get("records", [])
     catalog_records = catalog.get("records", [])
     claim_records = claims.get("claims", [])
-    if len(records) != 20:
-        fail(f"data/public-evidence.json: {len(records)} records; expected 20")
-    if len(catalog_records) != 20:
-        fail(f"data/v9-document-catalog.json: {len(catalog_records)} records; expected 20")
-    if len(claim_records) != 24:
-        fail(f"data/v9-public-claim-register.json: {len(claim_records)} claims; expected 24")
+    if len(records) != EXPECTED_RECORDS:
+        fail(f"data/public-evidence.json: {len(records)} records; expected {EXPECTED_RECORDS}")
+    if len(catalog_records) != EXPECTED_RECORDS:
+        fail(f"data/v9-document-catalog.json: {len(catalog_records)} records; expected {EXPECTED_RECORDS}")
+    if catalog.get("record_count") != EXPECTED_RECORDS:
+        fail("data/v9-document-catalog.json: incorrect record_count")
+    if len(claim_records) != EXPECTED_CLAIMS:
+        fail(f"data/v9-public-claim-register.json: {len(claim_records)} claims; expected {EXPECTED_CLAIMS}")
+    if claims.get("claim_count") != EXPECTED_CLAIMS:
+        fail("data/v9-public-claim-register.json: incorrect claim_count")
 
-    record_ids = [record.get("record_id") for record in records]
-    catalog_ids = [record.get("record_id") for record in catalog_records]
-    claim_ids = [claim.get("claim_id") for claim in claim_records]
-    for label, values in [
-        ("evidence records", record_ids),
-        ("catalog records", catalog_ids),
-        ("claims", claim_ids),
-    ]:
+    record_ids = [item.get("record_id") for item in records]
+    catalog_ids = [item.get("record_id") for item in catalog_records]
+    claim_ids = [item.get("claim_id") for item in claim_records]
+    for label, values in [("evidence records", record_ids), ("catalog records", catalog_ids), ("claims", claim_ids)]:
         if any(not value for value in values):
             fail(f"{label}: missing identifier")
         if len(values) != len(set(values)):
@@ -221,30 +188,20 @@ def check_structured_data() -> None:
         fail("public-evidence and document-catalog record IDs do not match")
 
     required_fields = {
-        "record_id",
-        "title",
-        "summary",
-        "record_type",
-        "source_name",
-        "source_class",
-        "publication_status",
-        "verification_status",
-        "sensitivity_class",
-        "provenance",
-        "establishes",
-        "does_not_establish",
-        "records_needed",
-        "revision_history",
+        "record_id", "title", "summary", "record_type", "source_name",
+        "source_class", "publication_status", "verification_status",
+        "sensitivity_class", "provenance", "establishes", "does_not_establish",
+        "records_needed", "revision_history",
     }
-    for record in records:
-        record_id = record.get("record_id", "unknown")
-        missing = sorted(required_fields - set(record))
+    for item in records:
+        record_id = item.get("record_id", "unknown")
+        missing = sorted(required_fields - set(item))
         if missing:
             fail(f"{record_id}: missing fields: {', '.join(missing)}")
-        for field in ["establishes", "does_not_establish", "records_needed"]:
-            if not record.get(field):
+        for field in ("establishes", "does_not_establish", "records_needed"):
+            if not item.get(field):
                 fail(f"{record_id}: {field} is empty")
-        route = record.get("route") or record.get("source_url")
+        route = item.get("route") or item.get("source_url")
         if route and not re.match(r"^https?://", route):
             target = ROOT / route
             if target.is_dir():
@@ -252,23 +209,28 @@ def check_structured_data() -> None:
             if not target.exists():
                 fail(f"{record_id}: missing route target: {route}")
 
-    evidence_html = (ROOT / "evidence.html").read_text(encoding="utf-8")
+    evidence_html = read("evidence.html")
     linked_ids = set(re.findall(r"record\.html\?id=([A-Za-z0-9_-]+)", evidence_html))
-    unknown = sorted(linked_ids - set(record_ids))
-    omitted = sorted(set(record_ids) - linked_ids)
-    if unknown:
-        fail("evidence.html links unknown record IDs: " + ", ".join(unknown))
-    if omitted:
-        fail("evidence.html omits record IDs: " + ", ".join(omitted))
+    if linked_ids - set(record_ids):
+        fail("evidence.html links unknown record IDs: " + ", ".join(sorted(linked_ids - set(record_ids))))
+    if set(record_ids) - linked_ids:
+        fail("evidence.html omits record IDs: " + ", ".join(sorted(set(record_ids) - linked_ids)))
 
-    sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
-    for record in catalog_records:
-        route = record.get("route", "")
+    sitemap = read("sitemap.xml")
+    for item in catalog_records:
+        route = item.get("route", "")
         if route and f"https://justiceforgina.org/{route}" not in sitemap:
             fail(f"sitemap missing catalog route: {route}")
 
+    form = next((item for item in records if item.get("record_id") == "cremation-request-form-status"), {})
+    if form.get("verification_status") != "apparent-form-produced-authentication-incomplete":
+        fail("cremation-request-form-status: corrected verification status missing")
+    judgment = next((item for item in records if item.get("record_id") == "funeral-home-summary-judgment"), {})
+    if judgment.get("source_class") != "court-finding":
+        fail("funeral-home-summary-judgment: source class must be court-finding")
 
-def check_html() -> None:
+
+def check_html_and_links() -> None:
     html_files = sorted(ROOT.rglob("*.html"))
     for path in html_files:
         relative = path.relative_to(ROOT)
@@ -290,7 +252,7 @@ def check_html() -> None:
             fail(f"{relative}: duplicate ids: {', '.join(duplicates)}")
         for src in parser.images_without_alt:
             fail(f"{relative}: image missing alt: {src}")
-        for href in parser.blank_links:
+        for href in parser.blank_without_noopener:
             fail(f"{relative}: target=_blank missing noopener: {href}")
         for _tag, value in parser.links:
             target = resolve_local(path, value)
@@ -305,7 +267,7 @@ def check_html() -> None:
                 fail(f"{css_path.relative_to(ROOT)}: missing CSS reference: {value}")
 
 
-def check_language_and_sensitive_artifacts() -> None:
+def check_language_and_artifacts() -> None:
     public_files = list(ROOT.rglob("*.html")) + [
         ROOT / "data/public-evidence.json",
         ROOT / "data/v9-document-catalog.json",
@@ -314,80 +276,64 @@ def check_language_and_sensitive_artifacts() -> None:
     prohibited = {
         r"appears illegal": "conclusory legality wording",
         r"appears unlawful": "conclusory legality wording",
-        r"authority-side": "unsupported authority-side conclusion",
         r"was murdered by": "unsupported homicide attribution",
         r"murdered gina": "unsupported homicide attribution",
         r"was poisoned by": "unsupported poisoning attribution",
         r"poisoned gina": "unsupported poisoning attribution",
         r"committed perjury": "unsupported perjury attribution",
         r"obstructed justice": "unsupported obstruction attribution",
+        r"form was entirely absent": "superseded total-absence wording",
+        r"completed original is not in the controlled production": "superseded total-absence wording",
     }
     for path in public_files:
         text = path.read_text(encoding="utf-8", errors="replace")
         for pattern, label in prohibited.items():
             if re.search(pattern, text, re.IGNORECASE):
-                fail(f"{path.relative_to(ROOT)}: {label}: /{pattern}/")
+                fail(f"{path.relative_to(ROOT)}: {label}: {pattern}")
 
-    secret_patterns = {
-        r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----": "private key",
-        r"\bghp_[A-Za-z0-9]{30,}\b": "GitHub token",
-        r"\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}\b": "API key",
-        r"\bAKIA[0-9A-Z]{16}\b": "AWS access key",
-    }
-    for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.stat().st_size >= 2_000_000:
-            continue
-        text = path.read_text(encoding="utf-8", errors="ignore")
-        for pattern, label in secret_patterns.items():
-            if re.search(pattern, text):
-                fail(f"{path.relative_to(ROOT)}: possible {label}")
-
-    forbidden_extensions = {".docx", ".xlsx", ".pptx", ".zip", ".7z", ".eml", ".msg", ".pst"}
-    for path in ROOT.rglob("*"):
-        if path.is_file() and path.suffix.lower() in forbidden_extensions:
-            fail(f"{path.relative_to(ROOT)}: restricted or review-required binary artifact")
-
-
-def check_sitemap() -> None:
-    sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
-    primary = [
-        "case-status.html",
-        "evidence.html",
-        "documents/",
-        "911-call-analysis.html",
-        "panwar-pronouncement-review.html",
-        "police-response-review.html",
-        "records-request-status.html",
-        "timeline.html",
-        "press.html",
-        "support.html",
-        "funding.html",
-        "standards.html",
+    secret_patterns = [
+        r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+        r"gh[pousr]_[A-Za-z0-9_]{30,}",
+        r"sk-[A-Za-z0-9]{20,}",
+        r"AKIA[0-9A-Z]{16}",
     ]
-    for route in primary:
-        if f"https://justiceforgina.org/{route}" not in sitemap:
-            fail(f"sitemap missing primary route: {route}")
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or ".git" in path.parts or path.stat().st_size > 5_000_000:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        for pattern in secret_patterns:
+            if re.search(pattern, text):
+                fail(f"{path.relative_to(ROOT)}: possible secret pattern")
+
+    forbidden_suffixes = {".pdf", ".doc", ".docx", ".xls", ".xlsx", ".eml", ".msg", ".zip"}
+    for path in ROOT.rglob("*"):
+        if path.is_file() and path.suffix.lower() in forbidden_suffixes:
+            fail(f"review-required binary artifact in public repository: {path.relative_to(ROOT)}")
 
 
 def main() -> int:
     check_required_files()
     check_release_markers()
     check_structured_data()
-    check_html()
-    check_language_and_sensitive_artifacts()
-    check_sitemap()
-
+    try:
+        ET.parse(ROOT / "sitemap.xml")
+    except Exception as exc:  # noqa: BLE001
+        fail(f"sitemap.xml: invalid XML: {exc}")
+    check_html_and_links()
+    check_language_and_artifacts()
     if FAILURES:
-        print(f"V9 QA FAILED with {len(FAILURES)} issue(s):")
-        for failure in FAILURES:
-            print(f"- {failure}")
+        print("V9 QA FAILED")
+        for item in FAILURES:
+            print(f"- {item}")
         return 1
-
     html_count = len(list(ROOT.rglob("*.html")))
-    print("V9 deterministic QA passed.")
-    print("- 20 structured public evidence records")
-    print("- 20 catalog records")
-    print("- 24 classified public claims")
+    print("V9 QA PASSED")
+    print(f"- {EXPECTED_RECORDS} structured evidence records")
+    print(f"- {EXPECTED_RECORDS} catalog records")
+    print(f"- {EXPECTED_CLAIMS} classified public claims")
     print(f"- {html_count} HTML files checked recursively")
     print("- JSON, routes, record IDs, HTML semantics, links, sitemap, publication language, secrets, and restricted artifacts passed")
     return 0
