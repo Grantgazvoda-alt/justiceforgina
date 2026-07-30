@@ -2,7 +2,7 @@
   "version": 9,
   "catalog_date": "2026-07-30",
   "status": "controlled-draft",
-  "purpose": "Classify newly reconciled uploads by source role, duplicate status, evidentiary use, publication posture, and next action. Inclusion is not a finding that a record is authentic, complete, admissible, or proof of wrongdoing.",
+  "purpose": "Classify newly reconciled uploads and verification leads by source role, duplicate status, evidentiary use, publication posture, and next action. Inclusion is not a finding that a record is authentic, complete, admissible, or proof of wrongdoing.",
   "entries": [
     {
       "intake_id": "ocme-telephone-notice-certified-copy",
@@ -11,7 +11,7 @@
       "record_description": "Four-page certified OCME telephone notice and contact history; not an autopsy report.",
       "duplicate_status": "three matching Drive copies identified",
       "evidence_use": "Supports notification, incoming narrative, disposition, and declination chronology within the record's limited scope.",
-      "does_not_establish": ["Autopsy findings","Toxicology findings","Independent OCME trauma finding","Cause or manner of death"],
+      "does_not_establish": ["Autopsy findings", "Toxicology findings", "Independent OCME trauma finding", "Cause or manner of death"],
       "publication_posture": "public-safe summary already routed through documents/ocme-notice-declination/",
       "next_action": "Retain one controlling copy, preserve duplicate references, and obtain the complete OCME inquiry and approval trail."
     },
@@ -21,9 +21,9 @@
       "source_role": "civil-court-filing-or-assembled-exhibit",
       "record_description": "Assembled exhibit packet; not a stenographic deposition transcript.",
       "duplicate_status": "two matching Drive copies identified",
-      "source_hash": "sha256:c6f4cec9",
+      "source_hash": "sha256:c6f4cec9d97259975a88436478a255698127f93e3c61de657d5bc32a7094c7eb",
       "evidence_use": "May support filing, exhibit, or production-history analysis when tied to the complete docket and source note.",
-      "does_not_establish": ["Authorship of every component","Document alteration","Misconduct","Truth of every party allegation"],
+      "does_not_establish": ["Authorship of every component", "Document alteration", "Misconduct", "Truth of every party allegation"],
       "publication_posture": "restricted pending page-level provenance and privacy review",
       "next_action": "Preserve the source note, page map, docket context, and earliest-generation copy."
     },
@@ -34,7 +34,7 @@
       "record_description": "Duplicate scanned Forte Law production or exhibit packets; not the sworn stenographic deposition transcript.",
       "duplicate_status": "exact duplicate packets identified",
       "evidence_use": "Supports production-content, version, and custody review only when separated from sworn testimony.",
-      "does_not_establish": ["That packet statements were made under oath","Who created or altered a disputed document","Criminal intent"],
+      "does_not_establish": ["That packet statements were made under oath", "Who created or altered a disputed document", "Criminal intent"],
       "publication_posture": "restricted; public testimony summary remains tied to the actual deposition transcript",
       "next_action": "Keep the packets in the production lineage and maintain a separate identity for the March 11, 2025 sworn transcript."
     },
@@ -45,7 +45,7 @@
       "record_description": "Two-page Connecticut Superior Court order dated November 3, 2025, Order No. 442319, docket NNH-CV23-6138366-S.",
       "source_hash": "sha256:de76a94c6186a5a64f6bfb30f7562aa939d4c3e56911edb17af8007bd25b9bed",
       "evidence_use": "Establishes that Maiorano Funeral Home obtained summary judgment on counts 5 through 7 and that counts 1 through 4 remained pending as stated in the order.",
-      "does_not_establish": ["Gina's cause or manner of death","Authenticity of every disputed document","Criminal liability","Disposition of claims against other defendants"],
+      "does_not_establish": ["Gina's cause or manner of death", "Authenticity of every disputed document", "Criminal liability", "Disposition of claims against other defendants"],
       "publication_posture": "public-safe summary approved on documents/funeral-home-summary-judgment/",
       "next_action": "Refresh the official civil docket for later proceedings, appeals, reargument, amendments, or additional dispositive orders."
     },
@@ -53,11 +53,34 @@
       "intake_id": "motion-to-cite-forte",
       "display_title": "MOTION TO CITE FORTE PDF.PDF",
       "source_role": "party-pleading",
-      "record_description": "Motion or pleading seeking to cite an additional party; no controlling order granting the request was identified in the reconciled item.",
+      "record_description": "Counsel-signed motion seeking to cite Kate Cavanaugh Forte as an additional defendant. The controlled Drive folder does not contain the dispositive order.",
       "evidence_use": "Shows a litigation position and requested procedural action.",
-      "does_not_establish": ["That the motion was granted","That the proposed party was added","Truth of the allegations","Liability or misconduct"],
-      "publication_posture": "restricted pending full docket context and privacy review",
-      "next_action": "Locate the docket entry, return date, objection, and order or disposition."
+      "does_not_establish": ["That the motion was granted", "That the proposed party was added", "Truth of the allegations", "Liability or misconduct"],
+      "verification_note": "A secondary public docket mirror reports that motion 139.00 was granted on October 6, 2025, but that entry has not been verified against the official Connecticut docket or a signed order.",
+      "publication_posture": "restricted pending official docket confirmation and complete pleading context",
+      "next_action": "Obtain the official docket sheet, motion 139.10 order, operative amended complaint, summons or citation, return of service, objections, and later rulings."
+    },
+    {
+      "intake_id": "amended-complaint-july-2025",
+      "display_title": "amended complaint.docx and amended complaint (2).docx",
+      "source_role": "party-pleading-or-draft",
+      "record_description": "Duplicate or near-duplicate DOCX pleadings dated July 15, 2025 that name Nicholas Forte, Maiorano Funeral Home, Kate Cavanaugh Forte, and 828 Urgent Care LLC and contain allegations and proposed counts.",
+      "duplicate_status": "two Drive copies identified; byte identity and filing status require confirmation",
+      "evidence_use": "Shows proposed or asserted party allegations and a possible amended pleading structure.",
+      "does_not_establish": ["That the document was accepted as the operative complaint", "That every named party was served", "Truth of any allegation", "Liability, fraud, negligence, or statutory violation"],
+      "verification_note": "A secondary public docket mirror reports an amended complaint as served at entry 145.00 and a return of service at entry 146.00, but the official entries and filed copies have not been source-locked.",
+      "publication_posture": "restricted; do not quote or publish allegations as facts",
+      "next_action": "Obtain certified or clerk-sourced copies of the operative amended complaint, docket acceptance entry, citation or summons, return of service, responsive pleadings, and later disposition."
+    },
+    {
+      "intake_id": "civil-docket-mirror-lead-2026-07-30",
+      "display_title": "NNH-CV23-6138366-S secondary docket mirror lead",
+      "source_role": "secondary-public-index-lead",
+      "record_description": "A nonofficial public docket mirror reports activity after the records currently source-locked in Drive, including a motion-to-cite ruling, amended pleading and service entries, later pleadings, and a June 25, 2026 proceeding entry.",
+      "evidence_use": "Identifies specific official docket entries and documents to request or verify.",
+      "does_not_establish": ["Current official party status", "The exact content or legal effect of each entry", "The outcome of the June 2026 proceeding", "Truth of pleading allegations"],
+      "publication_posture": "internal verification lead only; not a public factual source",
+      "next_action": "Acquire the current official docket sheet and all post-November 3, 2025 orders, operative pleadings, service records, and proceeding results from the Connecticut Judicial Branch or clerk."
     },
     {
       "intake_id": "funeral-home-answer-special-defenses",
@@ -65,7 +88,7 @@
       "source_role": "party-pleading",
       "record_description": "Maiorano Funeral Home answer and special defenses.",
       "evidence_use": "Shows the funeral home's litigation positions before the later summary-judgment order.",
-      "does_not_establish": ["Truth of every defense","Court adoption of every argument","Cause of death","Liability of another party"],
+      "does_not_establish": ["Truth of every defense", "Court adoption of every argument", "Cause of death", "Liability of another party"],
       "publication_posture": "restricted pending complete pleading set and privacy review",
       "next_action": "Read with the operative complaint, motion papers, and November 3, 2025 order."
     },
@@ -75,7 +98,7 @@
       "source_role": "signed-record-production-status",
       "record_description": "The production includes an apparent statutory-type disposition page with the claimed custodian's signature and central statutory information; a funeral-director signature appears on a separate Stone authorization.",
       "evidence_use": "Defines the current completeness, execution, authentication, copy-delivery, retention, and record-relationship questions.",
-      "does_not_establish": ["That either page alone or both together are the complete authenticated original","That the form was never created, withheld, lost, destroyed, or unlawfully incomplete","Illegal cremation"],
+      "does_not_establish": ["That either page alone or both together are the complete authenticated original", "That the form was never created, withheld, lost, destroyed, or unlawfully incomplete", "Illegal cremation"],
       "publication_posture": "public-safe corrected summary approved on documents/cremation-request-form-status/",
       "next_action": "Obtain the highest-generation pages, every counterpart, proof of copy delivery and retention, scanner and intake metadata, and a custodian explanation linking the records."
     },
@@ -85,7 +108,7 @@
       "source_role": "derivative-operational-material",
       "record_description": "Project-management, automated-watch, legal-research, or generated operational text; not primary case evidence.",
       "evidence_use": "May document workflow history, task state, research leads, or drafting provenance.",
-      "does_not_establish": ["Underlying facts asserted in the notes","A court or agency finding","Expert opinion unless independently signed and qualified","Completion of an external request"],
+      "does_not_establish": ["Underlying facts asserted in the notes", "A court or agency finding", "Expert opinion unless independently signed and qualified", "Completion of an external request"],
       "publication_posture": "not public evidence; retain only as operational provenance where useful",
       "next_action": "Keep separate from the evidence corpus and verify every factual assertion against the underlying source."
     },
@@ -95,7 +118,7 @@
       "source_role": "internal-work-product",
       "record_description": "Internal checklist or litigation-work document.",
       "evidence_use": "May support task tracking or document-location work.",
-      "does_not_establish": ["Any underlying allegation","A court finding","Admissibility","Completion of listed work"],
+      "does_not_establish": ["Any underlying allegation", "A court finding", "Admissibility", "Completion of listed work"],
       "publication_posture": "restricted; do not publish broadly",
       "next_action": "Use as an internal index only and verify each referenced item against the controlling record."
     }
