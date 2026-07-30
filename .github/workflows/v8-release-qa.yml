@@ -19,6 +19,9 @@ jobs:
       - name: Run V9 deterministic QA
         run: python3 scripts/v9_qa.py
 
+      - name: Run V9 privacy allowlist QA
+        run: python3 scripts/v9_privacy_qa.py
+
       - name: Validate JavaScript and integrated identity controls
         shell: bash
         run: |
