@@ -2,21 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://justiceforgina.org/</loc><priority>1.0</priority></url>
   <url><loc>https://justiceforgina.org/case-status.html</loc><priority>0.95</priority></url>
-  <url><loc>https://justiceforgina.org/evidence.html</loc><priority>0.9</priority></url>
-  <url><loc>https://justiceforgina.org/documents/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/evidence.html</loc><priority>0.95</priority></url>
+  <url><loc>https://justiceforgina.org/documents/</loc><priority>0.95</priority></url>
   <url><loc>https://justiceforgina.org/documents/probate-decrees-april-2026/</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/documents/financial-tracing-review/</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/documents/ocme-notice-declination/</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/documents/death-certificate-source-audit/</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/documents/medical-cause-support-review/</loc><priority>0.9</priority></url>
-  <url><loc>https://justiceforgina.org/documents/kate-deposition-custody/</loc><priority>0.85</priority></url>
+  <url><loc>https://justiceforgina.org/documents/kate-forte-deposition/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/document-examiner-scope/</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/documents/disposition-authority-cremation/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/relationship-authority-labels/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/cremation-request-form-status/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/funeral-home-production-audit/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/crematory-timing-status/</loc><priority>0.85</priority></url>
   <url><loc>https://justiceforgina.org/documents/discovery-nonproduction/</loc><priority>0.85</priority></url>
   <url><loc>https://justiceforgina.org/documents/dispatch-response-timeline/</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/documents/official-response-comparison/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/witness-media-status/</loc><priority>0.85</priority></url>
+  <url><loc>https://justiceforgina.org/documents/agency-response-status/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/external-evidence-dependencies/</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/documents/criminal-docket-status/</loc><priority>0.85</priority></url>
+  <url><loc>https://justiceforgina.org/documents/will-witness-affidavit-status/</loc><priority>0.85</priority></url>
   <url><loc>https://justiceforgina.org/panwar-pronouncement-review.html</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/911-call-analysis.html</loc><priority>0.9</priority></url>
-  <url><loc>https://justiceforgina.org/police-response-review.html</loc><priority>0.9</priority></url>
+  <url><loc>https://justiceforgina.org/police-response-review.html</loc><priority>0.85</priority></url>
   <url><loc>https://justiceforgina.org/records-request-status.html</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/timeline.html</loc><priority>0.9</priority></url>
   <url><loc>https://justiceforgina.org/press.html</loc><priority>0.8</priority></url>
