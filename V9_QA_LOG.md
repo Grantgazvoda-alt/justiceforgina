@@ -1,96 +1,116 @@
 # Justice for Gina V9 — QA and Release Verification Ledger
 
 **Target release:** August 2, 2026  
-**Branch:** `release/v9-2026-08-02`  
-**Draft pull request:** #17  
+**Candidate branch:** `integration/v9-seo-dns-2026-07-30`  
+**Draft pull request:** #23  
 **Production state:** V8 remains on `main`; no V9 merge or deployment has occurred.
 
 ## Purpose
 
-This ledger records each deterministic, browser, privacy, security, docket, deployment, and approval gate. A failed tool or stale workflow run is recorded as such and is not misrepresented as a product failure or successful verification.
+This ledger records deterministic, browser, accessibility, privacy, security, docket, deployment, and approval gates. A failed run remains part of the audit trail and is never relabeled as a successful verification.
 
-## Repository comparison
+## Current V9 candidate
 
-- Base: `main` at `4fe1358a552bbd2c24579dcff54c3b2edcdc3141`
-- Head ref: `release/v9-2026-08-02`
-- Comparison at the time of this entry: **ahead by 59 commits, behind by 0**.
-- The comparison includes the V9 evidence dataset, claim register, document catalog, public evidence modules, core page rewrites, publication-standard rewrites, manifest, fallback page, security policy, and QA workflow.
+- 21 structured public evidence records.
+- 21 route-matched document-catalog records.
+- 25 classified public claims.
+- 11 controlled intake entries separating court findings, official records, sworn testimony, expert material, party pleadings, duplicates, drafts, secondary leads, and derivative operational material.
+- Public-safe modules include the November 3, 2025 funeral-home summary-judgment order and the corrected Connecticut § 20-230c production status.
 
-## Isolated-runtime clone attempt
+## Deterministic QA installed
 
-### Result
+### Evidence and route controls
 
-**Blocked by environment — not a repository failure.**
+1. Required V9 pages, datasets, catalogs, work logs, docket memo, accessibility ledger, and public modules.
+2. Exact 21-record, 21-catalog, 25-claim, and 11-intake-entry counts.
+3. Unique record, claim, catalog, and intake identifiers.
+4. Parity between the public evidence dataset and route catalog.
+5. Required provenance, source class, verification, publication, sensitivity, proof, limitation, records-needed, and revision fields.
+6. Real route targets and complete Evidence-page record-ID coverage.
+7. Sitemap coverage for every catalog route.
+8. A hard restriction keeping the secondary civil-docket mirror classified as an internal verification lead rather than a public factual source.
 
-The QA runtime attempted to clone the public branch using:
+### Publication-language controls
 
-```text
-git clone --depth 1 --branch release/v9-2026-08-02 --single-branch https://github.com/Grantgazvoda-alt/justiceforgina.git
-```
+1. Prohibited unsupported homicide, poisoning, perjury, obstruction, and conclusory legality wording.
+2. Prohibited superseded statements that the statutory cremation form was entirely absent or that the completed original was simply not located.
+3. Prohibited stale 20-record and 24-claim language on public pages.
+4. Required presumption-of-innocence language and controlled cause-of-death conclusion.
+5. Required scope language for the November 3, 2025 Superior Court order.
 
-The runtime returned `Could not resolve host: github.com`. This establishes that the isolated container lacked outbound DNS at that time. It does not establish a GitHub outage, branch defect, or site defect.
+### HTML, accessibility, security, and privacy controls
 
-### Response
+1. Recursive HTML parsing, one title, one H1, English language declaration, duplicate-ID review, image-alt review, and safe new-tab relationships.
+2. Local-link existence, path casing, project-path compatibility, repository-escape prevention, and sitemap XML validation.
+3. JavaScript syntax, JSON-LD parsing, manifest, canonical-domain identity, IndexNow, DNS runbook, and site-health workflow checks.
+4. Sitewide visible `:focus-visible` indicators.
+5. Reduced-motion rules.
+6. Mobile-menu accessible-label, focus-transfer, Escape, Tab-containment, and responsive-close behavior.
+7. Secret-pattern and review-required binary-artifact scans.
+8. Public contact allowlist: only the designated Garrison Gazvoda press email and telephone number may appear in public HTML or public datasets.
+9. Social Security number pattern scan.
 
-Deterministic checks were moved into GitHub Actions, where the repository contents and case-sensitive paths can be tested directly.
+## Material QA events
 
-## GitHub Actions V9 release gate
+### Early stale-head diagnostic
 
-### Workflow
+An early pull-request run failed because it tested a stale candidate before release plumbing was synchronized. The failure remains preserved and is not treated as product verification.
 
-`.github/workflows/v8-release-qa.yml` now contains the **V9 Release QA** workflow. The filename is retained to avoid a destructive rename; the workflow name and checks are V9-specific.
+### July 30 source reconciliation
 
-### Checks installed
+A new-upload review established that the earlier V9 statutory-form wording was too broad. The production contains an apparent § 20-230c-type disposition page and a separate Stone authorization. V9 was corrected to state the actual completeness, execution, authentication, copy-delivery, retention, and record-relationship questions.
 
-1. Required V9 files and datasets.
-2. Release markers, manifest path compatibility, security directives, presumption-of-innocence language, and controlled-conclusion safeguards.
-3. JSON parsing for manifest, evidence index, public evidence dataset, document catalog, and claim register.
-4. Exact counts: 20 public evidence records, 20 catalog records, and 24 public claims.
-5. Unique IDs and parity between the public dataset and document catalog.
-6. Required structured-record fields, nonempty proof statements, and real local route targets.
-7. Complete `record.html?id=` coverage for all twenty records.
-8. Sitemap coverage for every catalog route.
-9. Recursive HTML review for local links, path casing, repository escapes, project-path compatibility, language, title, single H1, duplicate IDs, image alt text, and `target=_blank` protections.
-10. Prohibited conclusory language scan.
-11. Secret-pattern and restricted-binary scan.
-12. Primary-page sitemap coverage.
+The same review source-locked a November 3, 2025 Superior Court order granting Maiorano Funeral Home summary judgment on counts 5–7 while stating counts 1–4 remained pending. V9 added a separately scoped court-record module.
 
-## Initial pull-request workflow run
+### Public-count and homepage reconciliation
 
-- Run ID: `30517286368`
-- Job ID: `90789863307`
-- Tested commit: `c24e5e8c00b02950b9e8deab722900dc017a4f96`
-- Result: failed during the release-marker safeguard step.
+The evidence dataset expanded to 21 records and 25 claims, but the homepage and Press page retained 20/24 language. The visible pages, metadata, social descriptions, and route cards were corrected, and QA now rejects the stale counts.
 
-### Classification
+### JSON-LD diagnostic
 
-**Stale-head diagnostic.** The run tested the pull-request head before the later homepage, Case Status, manifest, fallback, security, and other release-plumbing corrections were synchronized into the PR metadata snapshot. The failure is preserved and must not be called a passing QA run or the final V9 result.
+After normalizing the Gina identity page to V9, the integration workflow identified malformed JSON-LD. The deterministic V9 branch checks passed, but the integration workflow correctly failed at the JSON-LD step. The graph closing structure was repaired and is subject to a fresh final-head run.
 
-## Release-plumbing corrections completed after the initial run
+## Accessibility work completed in source
 
-- `site.webmanifest` uses `./` for `start_url`, `id`, and `scope`, supporting both custom-domain and GitHub Pages project-path hosting.
-- `404.html` identifies V9 and exposes only approved navigation, with a no-index directive.
-- `_headers` adds `object-src 'none'`, `frame-ancestors 'none'`, `Cross-Origin-Opener-Policy`, `X-Permitted-Cross-Domain-Policies`, and project-compatible source restrictions.
-- The optional `CNAME` check no longer treats an absent custom-domain file as a QA failure.
-- `index.html` and `case-status.html` now use the V9 structured-record counts, claim classifications, controlled homicide conclusion, docket-refresh safeguard, and external-evidence phase.
-- Shared navigation includes Documents, Funding, and Standards, and nested-route injection was corrected in `script.js`.
+- Sitewide focus-visible styling.
+- Mobile navigation focus transfer and containment.
+- Escape-to-close with focus restoration.
+- Responsive menu cleanup on desktop resize.
+- Existing reduced-motion and responsive layout rules preserved.
+- Detailed manual test matrix recorded in `V9_ACCESSIBILITY_AND_BROWSER_QA_2026-07-30.md`.
 
-## Current unresolved release gates
+These controls do not constitute a claim of full WCAG conformance. Rendered desktop, mobile, keyboard, screen-reader, zoom, contrast, forced-colors, and audio-equivalent review remain required.
 
-- [ ] Latest-head GitHub Actions V9 Release QA passes.
-- [ ] Any workflow failures are fixed and rerun.
-- [ ] Manual browser review of primary and nested routes is completed.
-- [ ] Mobile navigation, keyboard, focus, reduced-motion, contrast, and accessible-name checks are completed.
-- [ ] Official criminal docket is refreshed from a current official source immediately before release.
-- [ ] Actual production URL, custom-domain status, canonical behavior, and GitHub Pages fallback are verified.
-- [ ] Final privacy and sensitive-artifact review is completed.
-- [ ] Final PR diff and known limitations are reviewed.
-- [ ] Founder approval is recorded immediately before merge and deployment.
+## Docket verification posture
+
+- The November 3, 2025 civil order is source-locked.
+- Later civil entries found through a secondary mirror remain verification leads only.
+- Current official civil post-order status must be obtained before expanding public case-status claims.
+- The pending criminal docket must be refreshed from the official source immediately before release.
+- The official Connecticut lookup endpoints were not reliably accessible through the connected browser during this pass; that is a tool-access limitation, not proof of unchanged status.
+
+## Deployment posture
+
+- The custom domain returned HTTP 404 during the July 30 check.
+- The GitHub Pages fallback was not independently verified as live through the connected browser.
+- `CNAME`, DNS recovery instructions, IndexNow controls, and scheduled site-health monitoring are present in the candidate.
+- No DNS change or deployment action has been taken in this pass.
+
+## Current release gates
+
+- [ ] Both required workflows pass on the exact final head after the JSON-LD repair and privacy-allowlist installation.
+- [ ] Official criminal docket refreshed immediately before release.
+- [ ] Official civil docket checked for post-November 3, 2025 proceedings.
+- [ ] Production custom-domain and fallback behavior verified.
+- [ ] Manual desktop and mobile browser review completed.
+- [ ] Keyboard, focus, zoom, contrast, reduced-motion, forced-colors, accessible-name, and screen-reader review completed.
+- [ ] Final human privacy and sensitive-information review completed.
+- [ ] Final diff and known limitations reviewed.
+- [ ] Explicit founder approval recorded immediately before merge and deployment.
 
 ## Approval and rollback posture
 
-- Draft PR #17 does not authorize merge or deployment.
-- No DNS action is included.
-- No paid service, witness contact, filing, external submission, or destructive source-record action is included.
+- Draft PR #23 does not authorize merge or deployment.
+- No DNS modification, spending, filing, witness contact, agency contact, external submission, or destructive source-record action is authorized by this ledger.
 - V8 remains the production baseline.
 - Previously documented rollback point: `9b012aed87a7d576aa052d33a5f4ae541cb17a63`.
