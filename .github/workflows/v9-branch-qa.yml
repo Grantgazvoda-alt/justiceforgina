@@ -24,3 +24,15 @@ jobs:
 
       - name: Run V9 privacy allowlist QA
         run: python3 scripts/v9_privacy_qa.py
+
+      - name: Verify existing-site Pages workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s .github/workflows/deploy-pages.yml
+          grep -q 'actions/upload-pages-artifact@v3' .github/workflows/deploy-pages.yml
+          grep -q 'actions/deploy-pages@v4' .github/workflows/deploy-pages.yml
+          if grep -q 'enablement:[[:space:]]*true' .github/workflows/deploy-pages.yml; then
+            echo 'deploy-pages.yml must not attempt Pages enablement'
+            exit 1
+          fi
