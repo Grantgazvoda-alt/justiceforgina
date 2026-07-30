@@ -1,9 +1,20 @@
 {
-  "version": 4,
-  "published": "2026-07-19",
-  "status": "active",
+  "version": 9,
+  "target_release": "2026-08-02",
+  "status": "controlled-draft",
   "canonical_dataset": "data/public-evidence.json",
+  "document_catalog": "data/v9-document-catalog.json",
+  "claim_register": "data/v8-public-claim-register.json",
   "schema": "data/evidence-record.schema.json",
   "record_viewer": "record.html?id={record_id}",
-  "publication_note": "Use the canonical V4 dataset for structured evidence metadata, provenance, verification, sensitivity, authority, relationships, and revision history."
+  "document_library": "documents/",
+  "publication_note": "V9 indexes source-classified public summaries and controlled metadata. Inclusion does not establish authenticity, guilt, causation, wrongdoing, or a final legal conclusion. Restricted originals remain outside the public repository.",
+  "release_controls": [
+    "Every record must state what it establishes and what it does not establish.",
+    "Missing records and discrepancies are not proof of intent, concealment, destruction, or crime.",
+    "Pending charges are allegations, not convictions, and remain separate from cause-of-death analysis.",
+    "Court findings are limited to the issues actually adjudicated.",
+    "Sworn testimony, expert opinion, attributed family statements, and official-record narratives retain their source classifications.",
+    "Medical, financial, device, account, private-contact, privileged, and unredacted discovery material remains restricted unless separately approved and redacted."
+  ]
 }
