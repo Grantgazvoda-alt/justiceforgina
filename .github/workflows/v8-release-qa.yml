@@ -1,4 +1,4 @@
-name: V8 Release QA
+name: V9 Release QA
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Verify required public files
+      - name: Verify required V9 files
         shell: bash
         run: |
           set -euo pipefail
@@ -33,39 +33,149 @@ jobs:
             panwar-pronouncement-review.html
             records-request-status.html
             record.html
+            record.js
             404.html
             styles.css
             css/v8-command-center.css
             script.js
             sitemap.xml
             robots.txt
-            CNAME
+            site.webmanifest
             _headers
-            V8_RELEASE_PLAN.md
+            evidence-index.json
+            data/public-evidence.json
+            data/v9-document-catalog.json
+            data/v9-public-claim-register.json
+            V9_RELEASE_PLAN.md
+            V9_WORK_LOG.md
+            documents/index.html
           )
           for file in "${required[@]}"; do
             test -s "$file" || { echo "Missing or empty: $file"; exit 1; }
           done
 
-      - name: Verify domain, sitemap, headers, and V8 safeguards
+      - name: Validate V9 release markers and safeguards
         shell: bash
         run: |
           set -euo pipefail
-          grep -q '^justiceforgina.org$' CNAME
           grep -q 'Sitemap: https://justiceforgina.org/sitemap.xml' robots.txt
           grep -q 'https://justiceforgina.org/case-status.html' sitemap.xml
           grep -q "frame-ancestors 'none'" _headers
-          grep -q "media-src 'self' https://drive.google.com" _headers
-          grep -q 'data-site-version="8"' index.html
-          grep -q 'data-site-version="8"' case-status.html
-          grep -q 'data-site-version="8"' 404.html
-          grep -qi 'presumed innocent' index.html
+          grep -q "object-src 'none'" _headers
+          grep -q '"start_url": "./"' site.webmanifest
+          grep -q 'data-site-version="9"' index.html
+          grep -q 'data-site-version="9"' case-status.html
+          grep -q 'data-site-version="9"' evidence.html
+          grep -q 'data-site-version="9"' timeline.html
+          grep -q 'data-site-version="9"' 404.html
           grep -qi 'presumed innocent' case-status.html
-          grep -qi 'does not mean every desired external record has been obtained' case-status.html
+          grep -qi 'does not establish who caused Gina' case-status.html
+          grep -qi 'missing records.*not.*proof' standards.html
           grep -qi 'not presented as final criminal conclusions' index.html
           grep -qi 'restricted records, private information, and unreviewed allegations are not exposed' 404.html
+          if test -e CNAME; then
+            grep -q '^justiceforgina.org$' CNAME
+          fi
 
-      - name: Check local references and external-link protections
+      - name: Validate JSON, record counts, IDs, and routes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import re
+          import sys
+          from pathlib import Path
+
+          failures = []
+          paths = [
+              Path('site.webmanifest'),
+              Path('evidence-index.json'),
+              Path('data/public-evidence.json'),
+              Path('data/v9-document-catalog.json'),
+              Path('data/v9-public-claim-register.json'),
+          ]
+          data = {}
+          for path in paths:
+              try:
+                  data[str(path)] = json.loads(path.read_text(encoding='utf-8'))
+              except Exception as exc:
+                  failures.append(f'{path}: invalid JSON: {exc}')
+
+          if failures:
+              print('\n'.join(failures))
+              sys.exit(1)
+
+          evidence = data['data/public-evidence.json']
+          catalog = data['data/v9-document-catalog.json']
+          claims = data['data/v9-public-claim-register.json']
+          index = data['evidence-index.json']
+
+          records = evidence.get('records', [])
+          catalog_records = catalog.get('records', [])
+          claim_records = claims.get('claims', [])
+          if len(records) != 20:
+              failures.append(f'public-evidence record count is {len(records)}, expected 20')
+          if len(catalog_records) != 20:
+              failures.append(f'document-catalog record count is {len(catalog_records)}, expected 20')
+          if len(claim_records) != 24:
+              failures.append(f'claim-register count is {len(claim_records)}, expected 24')
+          if index.get('version') != 9:
+              failures.append('evidence-index version is not 9')
+
+          record_ids = [record.get('record_id') for record in records]
+          catalog_ids = [record.get('record_id') for record in catalog_records]
+          claim_ids = [claim.get('claim_id') for claim in claim_records]
+          for label, values in [('evidence records', record_ids), ('catalog records', catalog_ids), ('claims', claim_ids)]:
+              if None in values or '' in values:
+                  failures.append(f'{label}: missing identifier')
+              if len(values) != len(set(values)):
+                  failures.append(f'{label}: duplicate identifier')
+          if set(record_ids) != set(catalog_ids):
+              failures.append('public-evidence and document-catalog record IDs do not match')
+
+          required_fields = {
+              'record_id', 'title', 'summary', 'record_type', 'source_name', 'source_class',
+              'publication_status', 'verification_status', 'sensitivity_class', 'provenance',
+              'establishes', 'does_not_establish', 'records_needed', 'revision_history'
+          }
+          for record in records:
+              missing = sorted(required_fields - set(record))
+              if missing:
+                  failures.append(f"{record.get('record_id')}: missing fields: {', '.join(missing)}")
+              route = record.get('route') or record.get('source_url')
+              if route and not re.match(r'^https?://', route):
+                  target = Path(route)
+                  if target.is_dir():
+                      target = target / 'index.html'
+                  if not target.exists():
+                      failures.append(f"{record.get('record_id')}: missing route target: {route}")
+              if not record.get('establishes'):
+                  failures.append(f"{record.get('record_id')}: empty establishes list")
+              if not record.get('does_not_establish'):
+                  failures.append(f"{record.get('record_id')}: empty does_not_establish list")
+
+          evidence_html = Path('evidence.html').read_text(encoding='utf-8')
+          linked_ids = set(re.findall(r'record\.html\?id=([A-Za-z0-9_-]+)', evidence_html))
+          unknown = sorted(linked_ids - set(record_ids))
+          if unknown:
+              failures.append('evidence.html links unknown record IDs: ' + ', '.join(unknown))
+          missing_links = sorted(set(record_ids) - linked_ids)
+          if missing_links:
+              failures.append('evidence.html omits record IDs: ' + ', '.join(missing_links))
+
+          sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
+          for record in catalog_records:
+              route = record.get('route', '')
+              if route and f'https://justiceforgina.org/{route}' not in sitemap:
+                  failures.append(f"sitemap missing catalog route: {route}")
+
+          if failures:
+              print('\n'.join(failures))
+              sys.exit(1)
+          print('V9 JSON, counts, identifiers, record links, and catalog routes are consistent.')
+          PY
+
+      - name: Check all HTML references and external-link protections
         shell: bash
         run: |
           python3 - <<'PY'
@@ -76,15 +186,28 @@ jobs:
 
           root = Path('.').resolve()
           failures = []
-          html_files = sorted(Path('.').glob('*.html'))
+          html_files = sorted(Path('.').rglob('*.html'))
 
           class Parser(HTMLParser):
               def __init__(self):
                   super().__init__()
                   self.links = []
                   self.blank_links = []
+                  self.ids = []
+                  self.images_without_alt = []
+                  self.lang = None
+                  self.title_count = 0
+                  self.h1_count = 0
               def handle_starttag(self, tag, attrs):
                   attrs = dict(attrs)
+                  if tag == 'html':
+                      self.lang = attrs.get('lang')
+                  if tag == 'h1':
+                      self.h1_count += 1
+                  if tag == 'img' and 'alt' not in attrs:
+                      self.images_without_alt.append(attrs.get('src', ''))
+                  if attrs.get('id'):
+                      self.ids.append(attrs['id'])
                   value = attrs.get('href') or attrs.get('src')
                   if tag in {'a', 'link', 'script', 'img', 'source'} and value:
                       self.links.append((tag, value))
@@ -92,17 +215,43 @@ jobs:
                       rel = set((attrs.get('rel') or '').split())
                       if 'noopener' not in rel:
                           self.blank_links.append(attrs.get('href', ''))
+              def handle_startendtag(self, tag, attrs):
+                  self.handle_starttag(tag, attrs)
+              def handle_data(self, data):
+                  pass
 
           for html_file in html_files:
+              text = html_file.read_text(encoding='utf-8')
               parser = Parser()
-              parser.feed(html_file.read_text(encoding='utf-8'))
+              try:
+                  parser.feed(text)
+              except Exception as exc:
+                  failures.append(f'{html_file}: HTML parse error: {exc}')
+                  continue
+              if '<title' not in text.lower():
+                  failures.append(f'{html_file}: missing title')
+              if parser.lang != 'en':
+                  failures.append(f'{html_file}: html lang is not en')
+              if parser.h1_count != 1:
+                  failures.append(f'{html_file}: expected one h1, found {parser.h1_count}')
+              duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
+              if duplicates:
+                  failures.append(f"{html_file}: duplicate ids: {', '.join(duplicates)}")
+              for src in parser.images_without_alt:
+                  failures.append(f'{html_file}: image missing alt: {src}')
               for href in parser.blank_links:
                   failures.append(f'{html_file}: target=_blank missing noopener: {href}')
               for tag, value in parser.links:
-                  if value.startswith(('#', 'mailto:', 'tel:', 'data:', 'javascript:')):
+                  if value.startswith(('#', 'mailto:', 'tel:', 'data:')):
+                      continue
+                  if value.lower().startswith('javascript:'):
+                      failures.append(f'{html_file}: javascript URL is prohibited: {value}')
                       continue
                   parsed = urlparse(value)
                   if parsed.scheme or parsed.netloc:
+                      continue
+                  if value.startswith('/'):
+                      failures.append(f'{html_file}: root-relative local reference breaks project-path fallback: {value}')
                       continue
                   path = value.split('#', 1)[0].split('?', 1)[0]
                   if not path:
@@ -113,13 +262,70 @@ jobs:
                   except ValueError:
                       failures.append(f'{html_file}: reference escapes repository: {value}')
                       continue
+                  if target.is_dir():
+                      target = target / 'index.html'
                   if not target.exists():
                       failures.append(f'{html_file}: missing local reference: {value}')
 
           if failures:
               print('\n'.join(failures))
               sys.exit(1)
-          print(f'Checked {len(html_files)} HTML files with no broken local references or unsafe blank-target links.')
+          print(f'Checked {len(html_files)} HTML files: references, route casing, language, h1, IDs, alt text, and blank-target safety passed.')
+          PY
+
+      - name: Check publication language and sensitive artifacts
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          failures = []
+          public_files = list(Path('.').rglob('*.html')) + [
+              Path('data/public-evidence.json'),
+              Path('data/v9-document-catalog.json'),
+              Path('data/v9-public-claim-register.json'),
+          ]
+          prohibited = {
+              r'appears illegal': 'conclusory legality wording',
+              r'appears unlawful': 'conclusory legality wording',
+              r'authority-side': 'unsupported authority-side conclusion',
+              r'was murdered by': 'unsupported homicide attribution',
+              r'murdered gina': 'unsupported homicide attribution',
+              r'was poisoned by': 'unsupported poisoning attribution',
+              r'poisoned gina': 'unsupported poisoning attribution',
+              r'committed perjury': 'unsupported perjury attribution',
+              r'obstructed justice': 'unsupported obstruction attribution',
+          }
+          for path in public_files:
+              text = path.read_text(encoding='utf-8', errors='replace')
+              for pattern, label in prohibited.items():
+                  if re.search(pattern, text, re.IGNORECASE):
+                      failures.append(f'{path}: {label}: /{pattern}/')
+
+          secret_patterns = {
+              r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----': 'private key',
+              r'\bghp_[A-Za-z0-9]{30,}\b': 'GitHub token',
+              r'\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}\b': 'API key',
+              r'\bAKIA[0-9A-Z]{16}\b': 'AWS access key',
+          }
+          text_files = [p for p in Path('.').rglob('*') if p.is_file() and '.git' not in p.parts and p.stat().st_size < 2_000_000]
+          for path in text_files:
+              text = path.read_text(encoding='utf-8', errors='ignore')
+              for pattern, label in secret_patterns.items():
+                  if re.search(pattern, text):
+                      failures.append(f'{path}: possible {label}')
+
+          forbidden_extensions = {'.docx', '.xlsx', '.pptx', '.zip', '.7z', '.eml', '.msg', '.pst'}
+          for path in Path('.').rglob('*'):
+              if path.is_file() and path.suffix.lower() in forbidden_extensions:
+                  failures.append(f'{path}: restricted or review-required binary artifact in public repository')
+
+          if failures:
+              print('\n'.join(failures))
+              sys.exit(1)
+          print('Publication-language, secret, and restricted-artifact checks passed.')
           PY
 
       - name: Check sitemap coverage
@@ -131,21 +337,14 @@ jobs:
 
           sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
           pages = [
-              'case-status.html',
-              'evidence.html',
-              '911-call-analysis.html',
-              'panwar-pronouncement-review.html',
-              'police-response-review.html',
-              'records-request-status.html',
-              'timeline.html',
-              'press.html',
-              'support.html',
-              'funding.html',
-              'standards.html',
+              'case-status.html', 'evidence.html', 'documents/', '911-call-analysis.html',
+              'panwar-pronouncement-review.html', 'police-response-review.html',
+              'records-request-status.html', 'timeline.html', 'press.html', 'support.html',
+              'funding.html', 'standards.html'
           ]
           missing = [p for p in pages if f'https://justiceforgina.org/{p}' not in sitemap]
           if missing:
               print('Missing sitemap entries:', ', '.join(missing))
               sys.exit(1)
-          print('V8 primary public pages are represented in the sitemap.')
+          print('V9 primary public pages are represented in the sitemap.')
           PY
