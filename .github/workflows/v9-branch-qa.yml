@@ -28,10 +28,13 @@ jobs:
       - name: Run V9 agency communications catalog QA
         run: python3 scripts/v9_agency_catalog_qa.py
 
-      - name: Verify existing-site Pages workflow
+      - name: Verify JavaScript navigation and existing-site Pages workflow
         shell: bash
         run: |
           set -euo pipefail
+          node --check script.js
+          grep -q 'if (!menuButton && nav' script.js
+          grep -q 'restoreFocus' script.js
           test -s .github/workflows/deploy-pages.yml
           grep -q 'actions/configure-pages@v5' .github/workflows/deploy-pages.yml
           grep -q 'actions/upload-pages-artifact@v3' .github/workflows/deploy-pages.yml
