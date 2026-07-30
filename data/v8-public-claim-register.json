@@ -1,8 +1,11 @@
 {
   "version": 8,
   "published_at": "2026-07-29T21:00:00Z",
-  "status": "controlled-draft",
-  "publication_note": "Each entry states what the controlled source supports and what it does not establish. Missing records and discrepancies are not proof of criminal responsibility.",
+  "status": "superseded-archive",
+  "superseded_at": "2026-07-30T09:50:00Z",
+  "superseded_by": "data/v9-public-claim-register.json",
+  "do_not_use_as_current": true,
+  "publication_note": "Historical V8 claim-register snapshot preserved for revision history. It is not the current public claim register, may contain superseded routes or classifications, and must not be used as current case status. Use data/v9-public-claim-register.json and evidence-index.json.",
   "claims": [
     {"claim_id":"probate-will-invalidated","classification":"court-finding","status":"verified","statement":"The Waterbury Probate Court invalidated the July 28, 2019 will based on fraud after the parties stipulated that the will was fraudulent.","limits":"The decrees do not establish who caused Gina's death or adjudicate every disputed document.","public_route":"documents/probate-decrees-april-2026/"},
     {"claim_id":"executor-removed","classification":"court-finding","status":"verified","statement":"Nicholas Forte was removed as executor and Edward Duffy was appointed administrator.","limits":"The removal decree does not decide homicide, document authorship, or criminal intent.","public_route":"documents/probate-decrees-april-2026/"},
@@ -20,6 +23,6 @@
     {"claim_id":"whereabouts-conflict","classification":"official-record-comparison-plus-family-account","status":"verified-discrepancy","statement":"Police recorded a work account, EMS recorded fishing, the family reports a father-and-son fishing account, and OCME later used charter-boat wording.","limits":"Different wording may reflect paraphrase or overlapping activity; identity and opportunity remain unresolved.","public_route":"documents/official-response-comparison/"},
     {"claim_id":"response-time-conflict","classification":"official-record-comparison","status":"verified-discrepancy","statement":"Dispatch, arrival, patient-contact, pronouncement, and certificate time entries are materially inconsistent across records.","limits":"A discrepancy does not itself prove fabrication or intent.","public_route":"documents/dispatch-response-timeline/"},
     {"claim_id":"toxic-exposure-hypothesis","classification":"family-investigative-hypothesis","status":"unproven","statement":"The family asks investigators to examine whether toxic exposure, medication, or another harmful agent contributed to Gina's decline or death.","limits":"No controlled toxicology, identified substance, route, dose, timing, or responsible person is established.","public_route":"evidence.html"},
-    {"claim_id":"homicide-not-established","classification":"controlled-conclusion","status":"current","statement":"The present controlled record does not establish who caused Gina's death or prove homicide through competent forensic evidence.","limits":"Traumatic, toxic, accidental, and other non-natural causes were not competently excluded before cremation.","public_route":"case-status.html"}
+    {"claim_id":"homicide-not-established","classification":"controlled-conclusion","status":"current-at-v8-snapshot","statement":"The present controlled record does not establish who caused Gina's death or prove homicide through competent forensic evidence.","limits":"Traumatic, toxic, accidental, and other non-natural causes were not competently excluded before cremation.","public_route":"case-status.html"}
   ]
 }
