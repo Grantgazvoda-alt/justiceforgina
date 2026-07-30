@@ -1,0 +1,23 @@
+name: V9 Branch QA
+
+on:
+  push:
+    branches:
+      - release/v9-2026-08-02
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run V9 deterministic QA
+        run: python3 scripts/v9_qa.py
