@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FAILURES: list[str] = []
 EXPECTED_RECORDS = 21
 EXPECTED_CLAIMS = 25
+EXPECTED_INTAKE_ENTRIES = 11
 
 
 def fail(message: str) -> None:
@@ -107,8 +108,9 @@ def check_required_files() -> None:
         "css/v8-command-center.css", "script.js", "sitemap.xml", "robots.txt",
         "site.webmanifest", "_headers", "evidence-index.json",
         "data/public-evidence.json", "data/v9-document-catalog.json",
-        "data/v9-public-claim-register.json", "V9_RELEASE_PLAN.md",
-        "V9_WORK_LOG.md", "V9_QA_LOG.md", "documents/index.html",
+        "data/v9-public-claim-register.json", "data/v9-intake-catalog-2026-07-30.json",
+        "V9_RELEASE_PLAN.md", "V9_WORK_LOG.md", "V9_QA_LOG.md",
+        "V9_EVIDENCE_COMPLETION_ADDENDUM_2026-07-30.md", "documents/index.html",
         "documents/funeral-home-summary-judgment/index.html",
         "documents/cremation-request-form-status/index.html",
     ]
@@ -152,6 +154,7 @@ def check_structured_data() -> None:
     evidence = load_json("data/public-evidence.json")
     catalog = load_json("data/v9-document-catalog.json")
     claims = load_json("data/v9-public-claim-register.json")
+    intake = load_json("data/v9-intake-catalog-2026-07-30.json")
 
     if manifest.get("start_url") != "./" or manifest.get("scope") != "./":
         fail("site.webmanifest: start_url and scope must be ./")
@@ -165,6 +168,7 @@ def check_structured_data() -> None:
     records = evidence.get("records", [])
     catalog_records = catalog.get("records", [])
     claim_records = claims.get("claims", [])
+    intake_entries = intake.get("entries", [])
     if len(records) != EXPECTED_RECORDS:
         fail(f"data/public-evidence.json: {len(records)} records; expected {EXPECTED_RECORDS}")
     if len(catalog_records) != EXPECTED_RECORDS:
@@ -175,11 +179,24 @@ def check_structured_data() -> None:
         fail(f"data/v9-public-claim-register.json: {len(claim_records)} claims; expected {EXPECTED_CLAIMS}")
     if claims.get("claim_count") != EXPECTED_CLAIMS:
         fail("data/v9-public-claim-register.json: incorrect claim_count")
+    if intake.get("version") != 9:
+        fail("data/v9-intake-catalog-2026-07-30.json: version is not 9")
+    if len(intake_entries) != EXPECTED_INTAKE_ENTRIES:
+        fail(
+            "data/v9-intake-catalog-2026-07-30.json: "
+            f"{len(intake_entries)} entries; expected {EXPECTED_INTAKE_ENTRIES}"
+        )
 
     record_ids = [item.get("record_id") for item in records]
     catalog_ids = [item.get("record_id") for item in catalog_records]
     claim_ids = [item.get("claim_id") for item in claim_records]
-    for label, values in [("evidence records", record_ids), ("catalog records", catalog_ids), ("claims", claim_ids)]:
+    intake_ids = [item.get("intake_id") for item in intake_entries]
+    for label, values in [
+        ("evidence records", record_ids),
+        ("catalog records", catalog_ids),
+        ("claims", claim_ids),
+        ("intake entries", intake_ids),
+    ]:
         if any(not value for value in values):
             fail(f"{label}: missing identifier")
         if len(values) != len(set(values)):
@@ -208,6 +225,27 @@ def check_structured_data() -> None:
                 target = target / "index.html"
             if not target.exists():
                 fail(f"{record_id}: missing route target: {route}")
+
+    intake_required_fields = {
+        "intake_id", "display_title", "source_role", "record_description",
+        "evidence_use", "does_not_establish", "publication_posture", "next_action",
+    }
+    for item in intake_entries:
+        intake_id = item.get("intake_id", "unknown")
+        missing = sorted(intake_required_fields - set(item))
+        if missing:
+            fail(f"{intake_id}: missing intake fields: {', '.join(missing)}")
+        if not item.get("does_not_establish"):
+            fail(f"{intake_id}: does_not_establish is empty")
+
+    mirror_lead = next(
+        (item for item in intake_entries if item.get("intake_id") == "civil-docket-mirror-lead-2026-07-30"),
+        {},
+    )
+    if mirror_lead.get("source_role") != "secondary-public-index-lead":
+        fail("civil-docket-mirror-lead-2026-07-30: must remain a secondary-public-index-lead")
+    if "not a public factual source" not in mirror_lead.get("publication_posture", ""):
+        fail("civil-docket-mirror-lead-2026-07-30: publication restriction missing")
 
     evidence_html = read("evidence.html")
     linked_ids = set(re.findall(r"record\.html\?id=([A-Za-z0-9_-]+)", evidence_html))
@@ -334,8 +372,9 @@ def main() -> int:
     print(f"- {EXPECTED_RECORDS} structured evidence records")
     print(f"- {EXPECTED_RECORDS} catalog records")
     print(f"- {EXPECTED_CLAIMS} classified public claims")
+    print(f"- {EXPECTED_INTAKE_ENTRIES} controlled intake entries")
     print(f"- {html_count} HTML files checked recursively")
-    print("- JSON, routes, record IDs, HTML semantics, links, sitemap, publication language, secrets, and restricted artifacts passed")
+    print("- JSON, routes, record IDs, intake classifications, HTML semantics, links, sitemap, publication language, secrets, and restricted artifacts passed")
     return 0
 
 
