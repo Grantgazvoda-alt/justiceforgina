@@ -1,0 +1,100 @@
+name: Canonical Site Health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-canonical-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Install DNS tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq dnsutils
+
+      - name: Verify DNS and HTTPS endpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          domain='justiceforgina.org'
+          pages_host='grantgazvoda-alt.github.io.'
+          expected_a=(
+            '185.199.108.153'
+            '185.199.109.153'
+            '185.199.110.153'
+            '185.199.111.153'
+          )
+
+          mapfile -t nameservers < <(dig +short NS "$domain" | sort -u)
+          mapfile -t actual_a < <(dig +short A "$domain" | sort -u)
+          actual_www_cname="$(dig +short CNAME "www.$domain" | head -n 1)"
+
+          {
+            echo '## Canonical site health'
+            echo
+            echo "- Checked: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "- Domain: \`$domain\`"
+            echo "- Nameservers: ${nameservers[*]:-none}"
+            echo "- Apex A records: ${actual_a[*]:-none}"
+            echo "- www CNAME: ${actual_www_cname:-none}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if ((${#nameservers[@]} == 0)); then
+            echo 'No authoritative nameserver response was found.' >&2
+            exit 1
+          fi
+
+          if ((${#actual_a[@]} == 0)); then
+            echo 'The apex domain has no A-record response.' >&2
+            exit 1
+          fi
+
+          for expected in "${expected_a[@]}"; do
+            if ! printf '%s\n' "${actual_a[@]}" | grep -Fxq "$expected"; then
+              echo "Missing GitHub Pages apex A record: $expected" >&2
+              exit 1
+            fi
+          done
+
+          if [[ "$actual_www_cname" != "$pages_host" ]]; then
+            echo "www CNAME must resolve directly to $pages_host; found: ${actual_www_cname:-none}" >&2
+            exit 1
+          fi
+
+          urls=(
+            "https://$domain/"
+            "https://$domain/gina-gazvoda.html"
+            "https://$domain/sitemap.xml"
+            "https://$domain/robots.txt"
+            "https://$domain/8f6c2eaf70bd4d9fa3940aaab0d428c7.txt"
+          )
+
+          for url in "${urls[@]}"; do
+            code="$(curl --silent --show-error --location --max-redirs 5 --output /dev/null --write-out '%{http_code}' --max-time 20 "$url")"
+            echo "- $url -> HTTP $code" >> "$GITHUB_STEP_SUMMARY"
+            if [[ "$code" != '200' ]]; then
+              echo "Expected HTTP 200 from $url; received $code" >&2
+              exit 1
+            fi
+          done
+
+          homepage="$(curl --fail --silent --show-error --location --max-redirs 5 --max-time 20 "https://$domain/")"
+          if ! grep -Fq '<link href="https://justiceforgina.org/" rel="canonical"' <<< "$homepage"; then
+            echo 'Homepage canonical tag is missing or incorrect.' >&2
+            exit 1
+          fi
+
+          key_value="$(curl --fail --silent --show-error --location --max-redirs 5 --max-time 20 "https://$domain/8f6c2eaf70bd4d9fa3940aaab0d428c7.txt" | tr -d '\r\n')"
+          if [[ "$key_value" != '8f6c2eaf70bd4d9fa3940aaab0d428c7' ]]; then
+            echo 'IndexNow ownership key content is incorrect.' >&2
+            exit 1
+          fi
+
+          echo '- Result: DNS, HTTPS, canonicals, and IndexNow ownership passed.' >> "$GITHUB_STEP_SUMMARY"
