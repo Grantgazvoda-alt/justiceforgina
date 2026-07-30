@@ -3,6 +3,7 @@
   document.body.classList.add('v9-active');
 
   const nav = document.querySelector('.primary-nav');
+  if (nav && !nav.id) nav.id = 'primary-nav';
   const links = () => (nav ? Array.from(nav.querySelectorAll('a')) : []);
   const hasRoute = (route) => links().some((link) => {
     const href = link.getAttribute('href') || '';
@@ -109,7 +110,16 @@
     document.head.append(identitySchema);
   }
 
-  const menuButton = document.querySelector('.menu-button');
+  let menuButton = document.querySelector('.menu-button');
+  if (!menuButton && nav && nav.parentElement) {
+    menuButton = document.createElement('button');
+    menuButton.className = 'menu-button';
+    menuButton.type = 'button';
+    menuButton.setAttribute('aria-controls', nav.id || 'primary-nav');
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.innerHTML = '<span></span><span></span><span></span><span class="sr-only">Open menu</span>';
+    nav.parentElement.insertBefore(menuButton, nav);
+  }
   const menuLabel = menuButton?.querySelector('.sr-only');
   const setMenuLabel = (isOpen) => {
     if (!menuButton) return;
