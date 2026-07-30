@@ -7,7 +7,7 @@
 
 ## Purpose
 
-This ledger records deterministic, browser, accessibility, privacy, security, docket, deployment, and approval gates. A failed run remains part of the audit trail and is never relabeled as a successful verification.
+This ledger records deterministic, browser, accessibility, privacy, security, evidence-catalog, docket, deployment, and approval gates. A failed run remains part of the audit trail and is never relabeled as a successful verification.
 
 ## Current V9 candidate
 
@@ -15,7 +15,8 @@ This ledger records deterministic, browser, accessibility, privacy, security, do
 - 21 route-matched document-catalog records.
 - 25 classified public claims.
 - 11 controlled intake entries separating court findings, official records, sworn testimony, expert material, party pleadings, duplicates, drafts, secondary leads, and derivative operational material.
-- Public-safe modules include the November 3, 2025 funeral-home summary-judgment order and the corrected Connecticut § 20-230c production status.
+- 3 separately controlled official agency communications: OVA docket guidance, OVS compensation screening, and DCJ routing.
+- Public-safe modules include the November 3, 2025 funeral-home summary-judgment order, corrected Connecticut § 20-230c production status, dated criminal-docket snapshot, and source-scoped agency-response status.
 
 ## Deterministic QA installed
 
@@ -30,6 +31,15 @@ This ledger records deterministic, browser, accessibility, privacy, security, do
 7. Sitemap coverage for every catalog route.
 8. A hard restriction keeping the secondary civil-docket mirror classified as an internal verification lead rather than a public factual source.
 
+### Agency communications controls
+
+1. Exact three-message agency catalog.
+2. Unique Gmail source identifiers and received timestamps.
+3. Required sender, subject, source-class, attachment, proof, limitation, publication, route, and next-action fields.
+4. OVA docket snapshot must preserve the July 22, 2026 at 5:13 a.m. source accuracy timestamp.
+5. OVS attachment inventory must contain the six supplied program files.
+6. DCJ correspondence must remain classified as routing rather than a merits decision.
+
 ### Publication-language controls
 
 1. Prohibited unsupported homicide, poisoning, perjury, obstruction, and conclusory legality wording.
@@ -37,6 +47,7 @@ This ledger records deterministic, browser, accessibility, privacy, security, do
 3. Prohibited stale 20-record and 24-claim language on public pages.
 4. Required presumption-of-innocence language and controlled cause-of-death conclusion.
 5. Required scope language for the November 3, 2025 Superior Court order.
+6. Criminal-docket language is limited to the dated July 22 agency reproduction unless a fresh official lookup is obtained.
 
 ### HTML, accessibility, security, and privacy controls
 
@@ -46,9 +57,19 @@ This ledger records deterministic, browser, accessibility, privacy, security, do
 4. Sitewide visible `:focus-visible` indicators.
 5. Reduced-motion rules.
 6. Mobile-menu accessible-label, focus-transfer, Escape, Tab-containment, and responsive-close behavior.
-7. Secret-pattern and review-required binary-artifact scans.
-8. Public contact allowlist: only the designated Garrison Gazvoda press email and telephone number may appear in public HTML or public datasets.
-9. Social Security number pattern scan.
+7. Shared runtime creates the menu control on nested document routes that do not contain a static menu button.
+8. Secret-pattern and review-required binary-artifact scans.
+9. Public contact allowlist: only the designated Garrison Gazvoda press email and telephone number may appear in public HTML or public datasets.
+10. Social Security number pattern scan.
+
+### GitHub Pages deployment controls
+
+1. Deployment remains triggered only by `main` or manual dispatch.
+2. Workflow permissions remain `contents: read`, `pages: write`, and `id-token: write`.
+3. `actions/configure-pages@v5` configures the existing Pages site without `enablement: true`.
+4. `actions/upload-pages-artifact@v3` uploads the static site.
+5. `actions/deploy-pages@v4` targets the `github-pages` environment.
+6. Both QA workflows fail if administrative enablement returns or required deployment steps disappear.
 
 ## Material QA events
 
@@ -70,16 +91,34 @@ The evidence dataset expanded to 21 records and 25 claims, but Home, Press, Supp
 
 After normalizing the Gina identity page to V9, integration run `30531763918` correctly failed at the JSON-LD parsing step while deterministic evidence QA passed. The graph closing structure was repaired.
 
-### Passing content snapshot
+### Dated criminal-docket source control
 
-Commit `28c614a3419e0ecb603f94a79701ba417d7ddf0e` passed both required workflows:
+Gmail message `19f8b6a3caa396b6` source-locks an OVA email received July 22, 2026. The reproduced Judicial Branch case detail states that it was accurate as of July 22, 2026 at 5:13 a.m. V9 now reports the charges, pleas, pre-trial activity, bond, release status, and August 24 date only as historical snapshot fields. No newer matching docket notice was located in the connected mailbox search. A same-day official lookup remains mandatory.
 
-- V9 Integration Release QA — run `30532144622` — **passed**.
-- V9 Branch QA — run `30532144634` — **passed**.
+### Official agency communications catalog
 
-The integration job confirms that the deterministic QA, public-contact privacy allowlist, JavaScript, identity controls, JSON-LD, manifest, and sitemap steps all passed.
+V9 separately catalogs:
 
-A documentation-only ledger commit follows this validated content snapshot and must receive its own final-head run before release review.
+- OVA victim-rights guidance and dated pending-case reproduction;
+- OVS compensation screening based on police information, with six program attachments; and
+- DCJ routing of the family's request to the Waterbury State's Attorney.
+
+The public agency-status module states that guidance, program screening, and routing do not constitute an independent cause-of-death finding, investigation confirmation, suspect designation, or merits decision.
+
+### Pages workflow correction
+
+The production workflow had used `configure-pages@v5` with administrative enablement. V9 retains the official setup, upload, and deploy pattern but removes only `enablement: true`, avoiding the unsafe administration-permission proposal. Superseded deployment PRs #15 and #16 were closed without merge. The standalone V9 snapshot PR #19 was also closed without merge so PR #23 remains the only integration candidate.
+
+## Passing expanded candidate snapshot
+
+Commit `8c8f0783e7c765f62337c758c84f50ecea2c1d5e` passed both required workflows:
+
+- V9 Integration Release QA — run `30533269512` — **passed**.
+- V9 Branch QA — run `30533269692` — **passed**.
+
+The expanded checks covered the evidence system, intake catalog, three-message agency catalog, privacy allowlist, JavaScript syntax, nested-route mobile navigation, JSON-LD, manifest, sitemap, and existing-site Pages workflow.
+
+This ledger update creates a documentation-only head that must receive its own exact-head workflow result before release review.
 
 ## Accessibility work completed in source
 
@@ -87,6 +126,7 @@ A documentation-only ledger commit follows this validated content snapshot and m
 - Mobile navigation focus transfer and containment.
 - Escape-to-close with focus restoration.
 - Responsive menu cleanup on desktop resize.
+- Automatic mobile-menu creation for nested document modules.
 - Existing reduced-motion and responsive layout rules preserved.
 - Detailed manual test matrix recorded in `V9_ACCESSIBILITY_AND_BROWSER_QA_2026-07-30.md`.
 
@@ -96,7 +136,9 @@ These controls do not constitute a claim of full WCAG conformance. Rendered desk
 
 - The November 3, 2025 civil order is source-locked.
 - Later civil entries found through a secondary mirror remain verification leads only.
+- No matching motion-to-cite or amended-complaint email was found in the connected inbox search.
 - Current official civil post-order status must be obtained before expanding public case-status claims.
+- The criminal page is limited to the July 22, 2026 time-stamped agency reproduction.
 - The pending criminal docket must be refreshed from the official source immediately before release.
 - The official Connecticut lookup endpoints were not reliably accessible through the connected browser during this pass; that is a tool-access limitation, not proof of unchanged status.
 
@@ -104,7 +146,7 @@ These controls do not constitute a claim of full WCAG conformance. Rendered desk
 
 - The custom domain returned HTTP 404 during the July 30 check.
 - The GitHub Pages fallback was not independently verified as live through the connected browser.
-- `CNAME`, DNS recovery instructions, IndexNow controls, and scheduled site-health monitoring are present in the candidate.
+- `CNAME`, DNS recovery instructions, IndexNow controls, scheduled site-health monitoring, and the corrected Pages workflow are present in the candidate.
 - No DNS change or deployment action has been taken in this pass.
 
 ## Current release gates
