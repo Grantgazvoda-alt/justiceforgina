@@ -1,0 +1,59 @@
+name: Submit Justice for Gina URLs to IndexNow
+
+on:
+  workflow_run:
+    workflows: ["Deploy Justice for Gina"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submit-indexnow:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify live IndexNow key
+        run: |
+          set -euo pipefail
+          expected="8f6c2eaf70bd4d9fa3940aaab0d428c7"
+          actual="$(curl --fail --silent --show-error --retry 5 --retry-delay 10 --connect-timeout 10 https://justiceforgina.org/8f6c2eaf70bd4d9fa3940aaab0d428c7.txt)"
+          test "$actual" = "$expected"
+
+      - name: Build IndexNow payload from sitemap
+        run: |
+          python3 - <<'PY'
+          import json
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse("sitemap.xml").getroot()
+          ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          urls = [node.text.strip() for node in root.findall("sm:url/sm:loc", ns) if node.text]
+          payload = {
+              "host": "justiceforgina.org",
+              "key": "8f6c2eaf70bd4d9fa3940aaab0d428c7",
+              "keyLocation": "https://justiceforgina.org/8f6c2eaf70bd4d9fa3940aaab0d428c7.txt",
+              "urlList": urls,
+          }
+          with open("indexnow-payload.json", "w", encoding="utf-8") as handle:
+              json.dump(payload, handle, ensure_ascii=False, indent=2)
+          print(f"Prepared {len(urls)} canonical URLs for IndexNow submission.")
+          PY
+
+      - name: Submit canonical URLs
+        run: |
+          set -euo pipefail
+          status="$(curl --silent --show-error --output indexnow-response.txt --write-out '%{http_code}' \
+            --request POST https://api.indexnow.org/indexnow \
+            --header 'Content-Type: application/json; charset=utf-8' \
+            --data-binary @indexnow-payload.json)"
+          cat indexnow-response.txt || true
+          if [ "$status" != "200" ] && [ "$status" != "202" ]; then
+            echo "IndexNow submission failed with HTTP $status" >&2
+            exit 1
+          fi
+          echo "IndexNow accepted the URL submission with HTTP $status."

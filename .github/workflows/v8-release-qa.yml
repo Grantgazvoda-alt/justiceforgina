@@ -21,6 +21,7 @@ jobs:
           set -euo pipefail
           required=(
             index.html
+            gina-gazvoda.html
             case-status.html
             evidence.html
             timeline.html
@@ -39,31 +40,84 @@ jobs:
             script.js
             sitemap.xml
             robots.txt
+            site.webmanifest
             CNAME
             _headers
             V8_RELEASE_PLAN.md
+            SEO_EXPOSURE_RUNBOOK.md
+            8f6c2eaf70bd4d9fa3940aaab0d428c7.txt
+            .github/workflows/indexnow-submit.yml
           )
           for file in "${required[@]}"; do
             test -s "$file" || { echo "Missing or empty: $file"; exit 1; }
           done
 
-      - name: Verify domain, sitemap, headers, and V8 safeguards
+      - name: Verify domain, sitemap, identity, and V8 safeguards
         shell: bash
         run: |
           set -euo pipefail
           grep -q '^justiceforgina.org$' CNAME
+          grep -q '^8f6c2eaf70bd4d9fa3940aaab0d428c7$' 8f6c2eaf70bd4d9fa3940aaab0d428c7.txt
           grep -q 'Sitemap: https://justiceforgina.org/sitemap.xml' robots.txt
+          grep -q 'https://justiceforgina.org/gina-gazvoda.html' sitemap.xml
           grep -q 'https://justiceforgina.org/case-status.html' sitemap.xml
           grep -q "frame-ancestors 'none'" _headers
           grep -q "media-src 'self' https://drive.google.com" _headers
           grep -q 'data-site-version="8"' index.html
+          grep -q 'data-site-version="8"' gina-gazvoda.html
           grep -q 'data-site-version="8"' case-status.html
           grep -q 'data-site-version="8"' 404.html
+          grep -qi 'Grant Gazvoda' index.html
+          grep -qi 'Grant Gazvoda' gina-gazvoda.html
+          grep -qi '#JusticeForGina' index.html
+          grep -qi '#JusticeForGina' gina-gazvoda.html
+          grep -qi 'TikTok @c5corvetteguy' press.html
           grep -qi 'presumed innocent' index.html
           grep -qi 'presumed innocent' case-status.html
           grep -qi 'does not mean every desired external record has been obtained' case-status.html
           grep -qi 'not presented as final criminal conclusions' index.html
           grep -qi 'restricted records, private information, and unreviewed allegations are not exposed' 404.html
+
+      - name: Validate JavaScript, JSON, XML, and JSON-LD
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check script.js
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import json
+          import xml.etree.ElementTree as ET
+
+          json.loads(Path('site.webmanifest').read_text(encoding='utf-8'))
+          ET.parse('sitemap.xml')
+
+          class JsonLdParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.in_json_ld = False
+                  self.buffers = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  if tag == 'script' and attrs.get('type') == 'application/ld+json':
+                      self.in_json_ld = True
+                      self.buffers.append('')
+              def handle_data(self, data):
+                  if self.in_json_ld:
+                      self.buffers[-1] += data
+              def handle_endtag(self, tag):
+                  if tag == 'script' and self.in_json_ld:
+                      self.in_json_ld = False
+
+          for page in ('index.html', 'gina-gazvoda.html', 'press.html'):
+              parser = JsonLdParser()
+              parser.feed(Path(page).read_text(encoding='utf-8'))
+              if not parser.buffers:
+                  raise SystemExit(f'{page}: missing JSON-LD')
+              for payload in parser.buffers:
+                  json.loads(payload)
+          print('JavaScript, JSON, XML, and JSON-LD validation passed.')
+          PY
 
       - name: Check local references and external-link protections
         shell: bash
@@ -131,6 +185,7 @@ jobs:
 
           sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
           pages = [
+              'gina-gazvoda.html',
               'case-status.html',
               'evidence.html',
               '911-call-analysis.html',
