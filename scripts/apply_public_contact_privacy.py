@@ -37,8 +37,7 @@ for path in sorted(ROOT.rglob("*.html")):
     for pattern in PHONE_TEXT_PATTERNS:
         updated = pattern.sub("", updated)
 
-    updated = re.sub(r"\b(?:Phone|Telephone):\s*(?=<|$)", "", updated, flags=re.IGNORECASE)
-    updated = re.sub(r"\s{2,}", " ", updated)
+    updated = re.sub(r"\b(?:Phone|Telephone):[ \t]*(?=<|\r?$)", "", updated, flags=re.IGNORECASE | re.MULTILINE)
 
     if updated != text:
         path.write_text(updated, encoding="utf-8")
