@@ -2,6 +2,45 @@
   document.documentElement.dataset.siteVersion = '9';
   document.body.classList.add('v9-active');
 
+  const publicEmail = 'info@justiceforgina.org';
+  const personalEmailPattern = /garrisongazvoda3@gmail\.com/gi;
+  const personalPhonePatterns = [
+    /\(203\)\s*695[-\s]?1721/g,
+    /203[-\s]?695[-\s]?1721/g,
+    /\+1\s*203[-\s]?695[-\s]?1721/g
+  ];
+
+  document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    if (personalEmailPattern.test(href)) {
+      link.setAttribute('href', href.replace(personalEmailPattern, publicEmail));
+      personalEmailPattern.lastIndex = 0;
+    }
+    if (personalEmailPattern.test(link.textContent || '')) {
+      link.textContent = (link.textContent || '').replace(personalEmailPattern, publicEmail);
+      personalEmailPattern.lastIndex = 0;
+    }
+  });
+
+  document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    const text = link.textContent || '';
+    const isPersonalPhone = href.includes('12036951721') || href.includes('2036951721') || personalPhonePatterns.some((pattern) => pattern.test(text));
+    personalPhonePatterns.forEach((pattern) => { pattern.lastIndex = 0; });
+    if (isPersonalPhone) link.remove();
+  });
+
+  document.querySelectorAll('body *:not(script):not(style)').forEach((node) => {
+    if (node.children.length || !node.textContent) return;
+    let text = node.textContent.replace(personalEmailPattern, publicEmail);
+    personalEmailPattern.lastIndex = 0;
+    personalPhonePatterns.forEach((pattern) => {
+      text = text.replace(pattern, '');
+      pattern.lastIndex = 0;
+    });
+    node.textContent = text.replace(/\b(?:Phone|Telephone):\s*$/i, '').trim();
+  });
+
   const nav = document.querySelector('.primary-nav');
   if (nav && !nav.id) nav.id = 'primary-nav';
 
