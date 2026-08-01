@@ -1,0 +1,46 @@
+name: V9 Branch QA
+
+on:
+  push:
+    branches:
+      - release/v9-2026-08-02
+      - redesign/v9-high-profile-2026-08-01
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run V9 public experience QA
+        run: python3 scripts/v9_public_experience_qa.py
+
+      - name: Run V9 privacy allowlist QA
+        run: python3 scripts/v9_privacy_qa.py
+
+      - name: Run V9 agency communications catalog QA
+        run: python3 scripts/v9_agency_catalog_qa.py
+
+      - name: Verify JavaScript navigation and existing-site Pages workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check script.js
+          grep -q 'if (!menuButton && nav' script.js
+          grep -q 'restoreFocus' script.js
+          test -s .github/workflows/deploy-pages.yml
+          grep -q 'actions/configure-pages@v5' .github/workflows/deploy-pages.yml
+          grep -q 'actions/upload-pages-artifact@v3' .github/workflows/deploy-pages.yml
+          grep -q 'actions/deploy-pages@v4' .github/workflows/deploy-pages.yml
+          if grep -q 'enablement:[[:space:]]*true' .github/workflows/deploy-pages.yml; then
+            echo 'deploy-pages.yml must configure the existing Pages site without enablement: true'
+            exit 1
+          fi

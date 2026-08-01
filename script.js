@@ -1,148 +1,169 @@
 (() => {
-  document.documentElement.dataset.siteVersion = '8';
-  document.body.classList.add('v8-active');
+  document.documentElement.dataset.siteVersion = '9';
+  document.body.classList.add('v9-active');
 
-  // Upgrade shared navigation without rewriting every preserved public page.
+  const publicEmail = 'info@justiceforgina.org';
+  const personalEmailPattern = /garrisongazvoda3@gmail\.com/gi;
+  const personalPhonePatterns = [
+    /\(203\)\s*695[-\s]?1721/g,
+    /203[-\s]?695[-\s]?1721/g,
+    /\+1\s*203[-\s]?695[-\s]?1721/g
+  ];
+
+  document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    if (personalEmailPattern.test(href)) {
+      link.setAttribute('href', href.replace(personalEmailPattern, publicEmail));
+      personalEmailPattern.lastIndex = 0;
+    }
+    if (personalEmailPattern.test(link.textContent || '')) {
+      link.textContent = (link.textContent || '').replace(personalEmailPattern, publicEmail);
+      personalEmailPattern.lastIndex = 0;
+    }
+  });
+
+  document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    const text = link.textContent || '';
+    const isPersonalPhone = href.includes('12036951721') || href.includes('2036951721') || personalPhonePatterns.some((pattern) => pattern.test(text));
+    personalPhonePatterns.forEach((pattern) => { pattern.lastIndex = 0; });
+    if (isPersonalPhone) link.remove();
+  });
+
+  document.querySelectorAll('body *:not(script):not(style)').forEach((node) => {
+    if (node.children.length || !node.textContent) return;
+    let text = node.textContent.replace(personalEmailPattern, publicEmail);
+    personalEmailPattern.lastIndex = 0;
+    personalPhonePatterns.forEach((pattern) => {
+      text = text.replace(pattern, '');
+      pattern.lastIndex = 0;
+    });
+    node.textContent = text.replace(/\b(?:Phone|Telephone):\s*$/i, '').trim();
+  });
+
   const nav = document.querySelector('.primary-nav');
-  if (nav && !nav.querySelector('a[href="case-status.html"]')) {
-    const home = nav.querySelector('a[href="index.html"]');
-    const caseLink = document.createElement('a');
-    caseLink.href = 'case-status.html';
-    caseLink.textContent = 'Case Status';
-    if (document.body.dataset.page === 'case-status') {
-      caseLink.classList.add('active');
-      caseLink.setAttribute('aria-current', 'page');
-    }
-    if (home?.nextSibling) nav.insertBefore(caseLink, home.nextSibling);
-    else nav.prepend(caseLink);
-  }
+  if (nav && !nav.id) nav.id = 'primary-nav';
 
-  if (nav && !nav.querySelector('a[href="gina-gazvoda.html"]')) {
-    const home = nav.querySelector('a[href="index.html"]');
-    const ginaLink = document.createElement('a');
-    ginaLink.href = 'gina-gazvoda.html';
-    ginaLink.textContent = 'Gina';
-    if (document.body.dataset.page === 'gina') {
-      ginaLink.classList.add('active');
-      ginaLink.setAttribute('aria-current', 'page');
-    }
-    if (home?.nextSibling) nav.insertBefore(ginaLink, home.nextSibling);
-    else nav.prepend(ginaLink);
+  const existingLinks = nav ? Array.from(nav.querySelectorAll('a')) : [];
+  const homeLink = existingLinks.find((link) => /index\.html(?:$|[?#])/.test(link.getAttribute('href') || ''));
+  const homeHref = homeLink?.getAttribute('href') || 'index.html';
+  const prefix = homeHref.slice(0, Math.max(0, homeHref.length - 'index.html'.length));
+  const currentPage = document.body.dataset.page || '';
+
+  const routes = [
+    ['index.html', 'Home', 'home'],
+    ['case-status.html', 'Case Status', 'case-status'],
+    ['evidence.html', 'Evidence', 'evidence'],
+    ['timeline.html', 'Timeline', 'timeline'],
+    ['gina-gazvoda.html', 'Gina', 'gina'],
+    ['press.html', 'Press', 'press'],
+    ['funding.html', 'Funding', 'funding']
+  ];
+
+  if (nav) {
+    nav.replaceChildren();
+    routes.forEach(([route, label, page]) => {
+      const link = document.createElement('a');
+      link.href = `${prefix}${route}`;
+      link.textContent = label;
+      if (currentPage === page || (!currentPage && route === 'index.html')) {
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+      }
+      nav.append(link);
+    });
+    const support = document.createElement('a');
+    support.className = 'nav-support';
+    support.href = 'https://www.gofundme.com/f/justice-for-gina-exposing-murder-fraud-coverup';
+    support.target = '_blank';
+    support.rel = 'noopener noreferrer';
+    support.textContent = 'Help Fund the Work';
+    nav.append(support);
   }
 
   document.querySelectorAll('.brand-copy small').forEach((node) => {
-    if (/seeking truth through evidence/i.test(node.textContent || '')) node.textContent = 'Follow the record';
-  });
-  document.querySelectorAll('.footer-bottom span').forEach((node) => {
-    if (/V4|V5|V6|V7/.test(node.textContent || '')) node.textContent = (node.textContent || '').replace(/V[4-7]/g, 'V8');
-  });
-  document.querySelectorAll('.eyebrow').forEach((node) => {
-    if (/EVIDENCE INTELLIGENCE\s*·\s*V4/i.test(node.textContent || '')) node.textContent = 'EVIDENCE INTELLIGENCE · V8';
+    node.textContent = 'Follow the verified record';
   });
 
-  // Keep publisher and official social identity visible across preserved legacy pages.
-  const footerGrid = document.querySelector('.footer-grid');
-  if (footerGrid) {
-    const identityColumn = footerGrid.firstElementChild;
-    if (identityColumn && !/Publisher:\s*Grant Gazvoda/i.test(identityColumn.textContent || '')) {
-      const publisher = document.createElement('p');
-      publisher.className = 'publisher-credit';
-      publisher.innerHTML = '<strong>Publisher:</strong> Grant Gazvoda';
-      identityColumn.append(publisher);
-    }
-
-    const socialColumn = footerGrid.lastElementChild;
-    if (socialColumn && !socialColumn.querySelector('a[href="https://www.tiktok.com/tag/justiceforgina"]')) {
-      const social = document.createElement('p');
-      social.className = 'publisher-social';
-      social.innerHTML = '<a href="https://www.tiktok.com/@c5corvetteguy" rel="noopener noreferrer" target="_blank">TikTok @c5corvetteguy</a><br/><a href="https://www.tiktok.com/tag/justiceforgina" rel="noopener noreferrer" target="_blank">#JusticeForGina</a>';
-      socialColumn.append(social);
-    }
+  let menuButton = document.querySelector('.menu-button');
+  if (!menuButton && nav?.parentElement) {
+    menuButton = document.createElement('button');
+    menuButton.className = 'menu-button';
+    menuButton.type = 'button';
+    menuButton.setAttribute('aria-controls', nav.id);
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.innerHTML = '<span></span><span></span><span></span><span class="sr-only">Open menu</span>';
+    nav.parentElement.insertBefore(menuButton, nav);
   }
 
-  const footerBottom = document.querySelector('.footer-bottom');
-  if (footerBottom && !/Published by Grant Gazvoda/i.test(footerBottom.textContent || '')) {
-    const publisherLine = document.createElement('span');
-    publisherLine.textContent = 'Published by Grant Gazvoda · #JusticeForGina';
-    footerBottom.append(publisherLine);
-  }
-
-  // Add a shared identity graph to legacy pages that do not already define it.
-  const schemaScripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-  const hasPublisherSchema = schemaScripts.some((node) => /#grant-gazvoda/.test(node.textContent || ''));
-  if (!hasPublisherSchema) {
-    const identitySchema = document.createElement('script');
-    identitySchema.type = 'application/ld+json';
-    identitySchema.dataset.siteIdentitySchema = 'true';
-    identitySchema.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'WebSite',
-          '@id': 'https://justiceforgina.org/#website',
-          name: 'Justice for Gina',
-          alternateName: ['#JusticeForGina', 'Gina Marie Gazvoda public record project'],
-          url: 'https://justiceforgina.org/',
-          publisher: { '@id': 'https://justiceforgina.org/#grant-gazvoda' },
-          about: { '@id': 'https://justiceforgina.org/#gina-gazvoda' },
-          sameAs: ['https://www.tiktok.com/@c5corvetteguy', 'https://www.tiktok.com/tag/justiceforgina']
-        },
-        {
-          '@type': 'Person',
-          '@id': 'https://justiceforgina.org/#grant-gazvoda',
-          name: 'Grant Gazvoda',
-          jobTitle: 'Publisher',
-          sameAs: ['https://www.tiktok.com/@c5corvetteguy']
-        },
-        {
-          '@type': 'Person',
-          '@id': 'https://justiceforgina.org/#gina-gazvoda',
-          name: 'Gina Marie Gazvoda',
-          alternateName: 'Gina Gazvoda',
-          url: 'https://justiceforgina.org/gina-gazvoda.html'
-        }
-      ]
-    });
-    document.head.append(identitySchema);
-  }
-
-  const menuButton = document.querySelector('.menu-button');
-  const closeMenu = () => {
+  const menuLabel = menuButton?.querySelector('.sr-only');
+  const navLinks = () => nav ? Array.from(nav.querySelectorAll('a')) : [];
+  const setMenuLabel = (open) => {
+    if (!menuButton) return;
+    const label = open ? 'Close menu' : 'Open menu';
+    menuButton.setAttribute('aria-label', label);
+    if (menuLabel) menuLabel.textContent = label;
+  };
+  const closeMenu = (restoreFocus = false) => {
     if (!menuButton || !nav) return;
+    const wasOpen = nav.classList.contains('open');
     nav.classList.remove('open');
     menuButton.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
+    setMenuLabel(false);
+    if (restoreFocus && wasOpen) menuButton.focus();
+  };
+  const openMenu = () => {
+    if (!menuButton || !nav) return;
+    nav.classList.add('open');
+    menuButton.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open');
+    setMenuLabel(true);
+    requestAnimationFrame(() => navLinks()[0]?.focus());
   };
 
   if (menuButton && nav) {
-    menuButton.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('open');
-      menuButton.setAttribute('aria-expanded', String(isOpen));
-      document.body.classList.toggle('menu-open', isOpen);
+    setMenuLabel(false);
+    menuButton.addEventListener('click', () => nav.classList.contains('open') ? closeMenu(true) : openMenu());
+    nav.addEventListener('click', (event) => {
+      if (event.target.closest('a')) closeMenu(false);
     });
-
-    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
     document.addEventListener('keydown', (event) => {
+      if (!nav.classList.contains('open')) return;
       if (event.key === 'Escape') {
-        closeMenu();
-        menuButton.focus();
+        event.preventDefault();
+        closeMenu(true);
+        return;
       }
+      if (event.key !== 'Tab') return;
+      const focusable = [menuButton, ...navLinks()];
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu(false);
     });
   }
 
-  const revealItems = document.querySelectorAll('.reveal');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealItems = document.querySelectorAll('.reveal');
   if (reducedMotion || !('IntersectionObserver' in window)) {
     revealItems.forEach((item) => item.classList.add('visible'));
   } else {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
     revealItems.forEach((item) => observer.observe(item));
   }
 
@@ -155,29 +176,24 @@
   const archiveItems = Array.from(document.querySelectorAll('.archive-item'));
   const resultCount = document.getElementById('archive-count');
   const noResults = document.getElementById('archive-no-results');
-
-  const normalize = (value) => value.trim().toLowerCase();
+  const normalize = (value) => String(value || '').trim().toLowerCase();
   const filterArchive = () => {
     if (!archiveItems.length) return;
-    const query = normalize(searchInput?.value || '');
+    const query = normalize(searchInput?.value);
     const category = categorySelect?.value || 'all';
     const status = statusSelect?.value || 'all';
     let visible = 0;
-
     archiveItems.forEach((item) => {
-      const haystack = normalize(item.textContent || '');
       const categoryMatch = category === 'all' || item.dataset.category === category;
       const statusMatch = status === 'all' || item.dataset.status === status;
-      const queryMatch = !query || haystack.includes(query);
+      const queryMatch = !query || normalize(item.textContent).includes(query);
       const show = categoryMatch && statusMatch && queryMatch;
       item.hidden = !show;
       if (show) visible += 1;
     });
-
     if (resultCount) resultCount.textContent = `${visible} ${visible === 1 ? 'record' : 'records'} shown`;
     if (noResults) noResults.classList.toggle('visible', visible === 0);
   };
-
   [searchInput, categorySelect, statusSelect].forEach((control) => {
     if (!control) return;
     control.addEventListener(control.tagName === 'INPUT' ? 'input' : 'change', filterArchive);
