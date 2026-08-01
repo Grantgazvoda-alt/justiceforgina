@@ -8,8 +8,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ALLOWED_EMAILS = {"garrisongazvoda3@gmail.com"}
-ALLOWED_PHONE_DIGITS = {"2036951721", "12036951721"}
+ALLOWED_EMAILS = {"info@justiceforgina.org"}
+ALLOWED_PHONE_DIGITS: set[str] = set()
+BLOCKED_PERSONAL_EMAILS = {"garrisongazvoda3@gmail.com", "grantgazvoda@gmail.com"}
+BLOCKED_PERSONAL_PHONE_DIGITS = {"2036951721", "12036951721"}
 EMAIL_RE = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE)
 TEL_RE = re.compile(r"tel:([^\"'<>\s]+)", re.IGNORECASE)
 VISIBLE_PHONE_RE = re.compile(
@@ -51,20 +53,26 @@ def main() -> int:
         for match in EMAIL_RE.findall(text):
             email = match.lower()
             observed_emails.add(email)
-            if email not in ALLOWED_EMAILS:
+            if email in BLOCKED_PERSONAL_EMAILS:
+                fail(f"{relative}: blocked personal email exposed: {match}")
+            elif email not in ALLOWED_EMAILS:
                 fail(f"{relative}: non-allowlisted public email: {match}")
 
         for match in TEL_RE.findall(text):
             digits = normalize_digits(match)
             observed_phones.add(digits)
-            if digits not in ALLOWED_PHONE_DIGITS:
-                fail(f"{relative}: non-allowlisted tel link: {match}")
+            if digits in BLOCKED_PERSONAL_PHONE_DIGITS:
+                fail(f"{relative}: blocked personal tel link exposed: {match}")
+            else:
+                fail(f"{relative}: public telephone links are not permitted: {match}")
 
         for match in VISIBLE_PHONE_RE.findall(text):
             digits = normalize_digits(match)
             observed_phones.add(digits)
-            if digits not in ALLOWED_PHONE_DIGITS:
-                fail(f"{relative}: non-allowlisted visible phone: {match}")
+            if digits in BLOCKED_PERSONAL_PHONE_DIGITS:
+                fail(f"{relative}: blocked personal phone exposed: {match}")
+            else:
+                fail(f"{relative}: public telephone numbers are not permitted: {match}")
 
         if SSN_RE.search(text):
             fail(f"{relative}: Social Security number pattern in public layer")
@@ -73,12 +81,12 @@ def main() -> int:
         missing = sorted(ALLOWED_EMAILS - observed_emails)
         extra = sorted(observed_emails - ALLOWED_EMAILS)
         if missing:
-            fail("designated public press email is missing: " + ", ".join(missing))
+            fail("project public email is missing: " + ", ".join(missing))
         if extra:
             fail("unexpected public emails observed: " + ", ".join(extra))
 
-    if not observed_phones.intersection(ALLOWED_PHONE_DIGITS):
-        fail("designated public press phone is missing")
+    if observed_phones:
+        fail("public telephone data remains exposed: " + ", ".join(sorted(observed_phones)))
 
     if FAILURES:
         print("V9 PRIVACY QA FAILED")
@@ -88,7 +96,8 @@ def main() -> int:
 
     print("V9 PRIVACY QA PASSED")
     print(f"- public email allowlist: {', '.join(sorted(ALLOWED_EMAILS))}")
-    print("- public phone allowlist: designated press number only")
+    print("- no public telephone numbers permitted")
+    print("- no blocked personal contact data detected")
     print("- no Social Security number pattern detected")
     return 0
 
